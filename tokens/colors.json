@@ -1,0 +1,1006 @@
+{
+    "tokenSet": "Waya Colors",
+    "version": "1.0.0",
+    "brand": {
+        "primary": "#4B5DFB",
+        "_note": "Exact brand hex, independent of light/dark role mapping. Use for logo, marketing site accents."
+    },
+    "keyColors": {
+        "primary": "#4B5DFB",
+        "secondary": "#0EA4A4",
+        "tertiary": "#9A6BFF",
+        "neutral": "#787987",
+        "neutralVariant": "#70738F",
+        "error": "#EF4343",
+        "warning": "#FCA103",
+        "success": "#21C45D",
+        "xpProgress": "#82CB15",
+        "dailyStreak": "#FB6F84",
+        "milestoneBadge": "#BF27D3",
+        "mathematics": "#895AF6",
+        "scienceTech": "#07B6D5",
+        "historyCulture": "#D97959",
+        "creativeArts": "#EC4699",
+        "info": "#3C83F6"
+    },
+    "palettes": {
+        "primary": {
+            "0": "#000000",
+            "10": "#000866",
+            "20": "#00159E",
+            "30": "#1128D4",
+            "40": "#3648E7",
+            "50": "#5263FF",
+            "60": "#7A88FF",
+            "70": "#99A3FF",
+            "80": "#BDC2FF",
+            "87": "#D6D8FF",
+            "90": "#E0E1FF",
+            "92": "#E5E5FF",
+            "94": "#ECEBFF",
+            "95": "#F2F0FF",
+            "96": "#F2F0FF",
+            "98": "#FCFAFF",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "secondary": {
+            "0": "#000000",
+            "10": "#001F1F",
+            "20": "#003838",
+            "30": "#005052",
+            "40": "#006B6B",
+            "50": "#008585",
+            "60": "#02A2A2",
+            "70": "#3DBDBD",
+            "80": "#5FD8D8",
+            "87": "#74ECEC",
+            "90": "#7FF5F3",
+            "92": "#83FBF9",
+            "94": "#99FFFD",
+            "95": "#ADFFFE",
+            "96": "#C2FFFE",
+            "98": "#E0FFFE",
+            "99": "#F0FFFE",
+            "100": "#FFFFFF"
+        },
+        "tertiary": {
+            "0": "#000000",
+            "10": "#25005C",
+            "20": "#3E008F",
+            "30": "#561AB7",
+            "40": "#713DD1",
+            "50": "#895BEC",
+            "60": "#A175FF",
+            "70": "#B899FF",
+            "80": "#D2BDFF",
+            "87": "#E0D1FF",
+            "90": "#E9DBFF",
+            "92": "#F1E5FF",
+            "94": "#F4EBFF",
+            "95": "#F5EBFF",
+            "96": "#F8F0FF",
+            "98": "#FEF5FF",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "neutral": {
+            "0": "#000000",
+            "10": "#181A25",
+            "20": "#2F313D",
+            "30": "#454754",
+            "40": "#5B5D6B",
+            "50": "#757684",
+            "60": "#8F909E",
+            "70": "#ABABBA",
+            "80": "#C4C4D4",
+            "87": "#D8D8E9",
+            "90": "#E0E0F0",
+            "92": "#E8E8F7",
+            "94": "#EEEDFD",
+            "95": "#F1F0FF",
+            "96": "#F1F0FF",
+            "98": "#FCFAFF",
+            "99": "#FEFAFF",
+            "100": "#FFFFFF",
+            "4": "#090A0B",
+            "6": "#0D0E11",
+            "12": "#191B24",
+            "17": "#252732",
+            "22": "#31333F",
+            "24": "#363845"
+        },
+        "neutralVariant": {
+            "0": "#000000",
+            "10": "#161A31",
+            "20": "#2A2E46",
+            "30": "#434660",
+            "40": "#595D78",
+            "50": "#737691",
+            "60": "#8C8FAB",
+            "70": "#A8AAC7",
+            "80": "#C3C5E5",
+            "87": "#D8DAF8",
+            "90": "#E0E1FF",
+            "92": "#E5E5FF",
+            "94": "#ECEBFF",
+            "95": "#F1F0FF",
+            "96": "#F2F0FF",
+            "98": "#FCFAFF",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "error": {
+            "0": "#000000",
+            "10": "#420004",
+            "20": "#66000A",
+            "30": "#940014",
+            "40": "#B81924",
+            "50": "#DE3538",
+            "60": "#FF5452",
+            "70": "#FF8680",
+            "80": "#FFB3AD",
+            "87": "#FFD1CC",
+            "90": "#FFD9D6",
+            "92": "#FFE3E0",
+            "94": "#FFE8E5",
+            "95": "#FFEDEB",
+            "96": "#FFF1F0",
+            "98": "#FFF6F5",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "warning": {
+            "0": "#000000",
+            "10": "#291600",
+            "20": "#472A00",
+            "30": "#663F00",
+            "40": "#855200",
+            "50": "#A86B00",
+            "60": "#CC8100",
+            "70": "#F09800",
+            "80": "#FFBA61",
+            "87": "#FFD29E",
+            "90": "#FFDCB8",
+            "92": "#FFE4C7",
+            "94": "#FFE9D6",
+            "95": "#FFEFE0",
+            "96": "#FFF1E5",
+            "98": "#FFF9F5",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "success": {
+            "0": "#000000",
+            "10": "#001F08",
+            "20": "#003815",
+            "30": "#005221",
+            "40": "#007031",
+            "50": "#008A3C",
+            "60": "#00A84C",
+            "70": "#22C35D",
+            "80": "#4CE176",
+            "87": "#60F685",
+            "90": "#6CFE90",
+            "92": "#94FFA6",
+            "94": "#B8FFBF",
+            "95": "#C7FFCB",
+            "96": "#D1FFD2",
+            "98": "#E9FFE5",
+            "99": "#F4FFF0",
+            "100": "#FFFFFF"
+        },
+        "xpProgress": {
+            "0": "#000000",
+            "10": "#0F1F00",
+            "20": "#203800",
+            "30": "#2E4C00",
+            "40": "#426B00",
+            "50": "#528500",
+            "60": "#65A300",
+            "70": "#78BD00",
+            "80": "#91DB29",
+            "87": "#A2EF3E",
+            "90": "#ACF849",
+            "92": "#B2FE4D",
+            "94": "#C6FF80",
+            "95": "#D1FF99",
+            "96": "#DEFFB2",
+            "98": "#EFFFD6",
+            "99": "#F8FFE5",
+            "100": "#FFFFFF"
+        },
+        "dailyStreak": {
+            "0": "#000000",
+            "10": "#420011",
+            "20": "#66001F",
+            "30": "#8B1833",
+            "40": "#AA3147",
+            "50": "#CA495F",
+            "60": "#EC6579",
+            "70": "#FF8593",
+            "80": "#FFB2B9",
+            "87": "#FFCCD0",
+            "90": "#FFDBDD",
+            "92": "#FFE0E2",
+            "94": "#FFEBEB",
+            "95": "#FFEBEC",
+            "96": "#FFF0F0",
+            "98": "#FFF6F5",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "milestoneBadge": {
+            "0": "#000000",
+            "10": "#35003D",
+            "20": "#5A0066",
+            "30": "#7C008A",
+            "40": "#A200B8",
+            "50": "#C32DD7",
+            "60": "#E04EF4",
+            "70": "#F47AFF",
+            "80": "#FEA8FF",
+            "87": "#FFC7FD",
+            "90": "#FFD6FC",
+            "92": "#FFE0FB",
+            "94": "#FFE5FB",
+            "95": "#FFEBFA",
+            "96": "#FFF0FA",
+            "98": "#FFF5F9",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "mathematics": {
+            "0": "#000000",
+            "10": "#23005C",
+            "20": "#39008F",
+            "30": "#5415C1",
+            "40": "#6D3BD8",
+            "50": "#8758F3",
+            "60": "#A07AFF",
+            "70": "#B699FF",
+            "80": "#D1BDFF",
+            "87": "#E0D1FF",
+            "90": "#E8DBFF",
+            "92": "#EFE5FF",
+            "94": "#F3EBFF",
+            "95": "#F5EBFF",
+            "96": "#F7F0FF",
+            "98": "#FEF5FF",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "scienceTech": {
+            "0": "#000000",
+            "10": "#001D24",
+            "20": "#003842",
+            "30": "#004C5C",
+            "40": "#00687A",
+            "50": "#008299",
+            "60": "#009CB8",
+            "70": "#1ABBDB",
+            "80": "#4BD7F7",
+            "87": "#8FE7FF",
+            "90": "#ADECFF",
+            "92": "#BDF0FF",
+            "94": "#D1F4FF",
+            "95": "#DBF7FF",
+            "96": "#E0F7FF",
+            "98": "#F0FBFF",
+            "99": "#FAFEFF",
+            "100": "#FFFFFF"
+        },
+        "historyCulture": {
+            "0": "#000000",
+            "10": "#380B00",
+            "20": "#5A1902",
+            "30": "#793016",
+            "40": "#98452A",
+            "50": "#B55D40",
+            "60": "#D67757",
+            "70": "#F6916F",
+            "80": "#FFB69E",
+            "87": "#FFD1C2",
+            "90": "#FFDCD1",
+            "92": "#FFE3DB",
+            "94": "#FFEBE5",
+            "95": "#FFEBE5",
+            "96": "#FFEFEB",
+            "98": "#FFF7F5",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "creativeArts": {
+            "0": "#000000",
+            "10": "#3D0022",
+            "20": "#66003C",
+            "30": "#8A0053",
+            "40": "#B7106F",
+            "50": "#D73387",
+            "60": "#F750A3",
+            "70": "#FF80B7",
+            "80": "#FFB2D0",
+            "87": "#FFCCDD",
+            "90": "#FFDBE7",
+            "92": "#FFE0E9",
+            "94": "#FFE5EC",
+            "95": "#FFEBF0",
+            "96": "#FFF0F3",
+            "98": "#FFFAFA",
+            "99": "#FFFAFF",
+            "100": "#FFFFFF"
+        },
+        "info": {
+            "0": "#000000",
+            "10": "#001B42",
+            "20": "#002E6B",
+            "30": "#004594",
+            "40": "#005AC2",
+            "50": "#2471E5",
+            "60": "#4D8EFF",
+            "70": "#80AAFF",
+            "80": "#ADC6FF",
+            "87": "#CCDAFF",
+            "90": "#D6E0FF",
+            "92": "#E0E8FF",
+            "94": "#EBEEFF",
+            "95": "#EBEEFF",
+            "96": "#F0F2FF",
+            "98": "#FAFAFF",
+            "99": "#FEFAFF",
+            "100": "#FFFFFF"
+        }
+    },
+    "roles": {
+        "core": {
+            "light": {
+                "primary": {
+                    "ref": "{color.palette.primary.40}",
+                    "hex": "#3648E7"
+                },
+                "onPrimary": {
+                    "ref": "{color.palette.primary.100}",
+                    "hex": "#FFFFFF"
+                },
+                "primaryContainer": {
+                    "ref": "{color.palette.primary.80}",
+                    "hex": "#BDC2FF"
+                },
+                "onPrimaryContainer": {
+                    "ref": "{color.palette.primary.30}",
+                    "hex": "#1128D4"
+                },
+                "secondary": {
+                    "ref": "{color.palette.secondary.40}",
+                    "hex": "#006B6B"
+                },
+                "onSecondary": {
+                    "ref": "{color.palette.secondary.100}",
+                    "hex": "#FFFFFF"
+                },
+                "secondaryContainer": {
+                    "ref": "{color.palette.secondary.80}",
+                    "hex": "#5FD8D8"
+                },
+                "onSecondaryContainer": {
+                    "ref": "{color.palette.secondary.30}",
+                    "hex": "#005052"
+                },
+                "tertiary": {
+                    "ref": "{color.palette.tertiary.40}",
+                    "hex": "#713DD1"
+                },
+                "onTertiary": {
+                    "ref": "{color.palette.tertiary.100}",
+                    "hex": "#FFFFFF"
+                },
+                "tertiaryContainer": {
+                    "ref": "{color.palette.tertiary.80}",
+                    "hex": "#D2BDFF"
+                },
+                "onTertiaryContainer": {
+                    "ref": "{color.palette.tertiary.30}",
+                    "hex": "#561AB7"
+                },
+                "error": {
+                    "ref": "{color.palette.Error.40}",
+                    "hex": "#B81924"
+                },
+                "onError": {
+                    "ref": "{color.palette.Error.100}",
+                    "hex": "#FFFFFF"
+                },
+                "errorContainer": {
+                    "ref": "{color.palette.Error.80}",
+                    "hex": "#FFB3AD"
+                },
+                "onErrorContainer": {
+                    "ref": "{color.palette.Error.30}",
+                    "hex": "#940014"
+                },
+                "background": {
+                    "ref": "{color.palette.neutral.98}",
+                    "hex": "#FCFAFF"
+                },
+                "onBackground": {
+                    "ref": "{color.palette.neutral.10}",
+                    "hex": "#181A25"
+                },
+                "surface": {
+                    "ref": "{color.palette.neutral.98}",
+                    "hex": "#FCFAFF"
+                },
+                "onSurface": {
+                    "ref": "{color.palette.neutral.10}",
+                    "hex": "#181A25"
+                },
+                "surfaceVariant": {
+                    "ref": "{color.palette.neutralVariant.90}",
+                    "hex": "#E0E1FF"
+                },
+                "onSurfaceVariant": {
+                    "ref": "{color.palette.neutralVariant.30}",
+                    "hex": "#434660"
+                },
+                "outline": {
+                    "ref": "{color.palette.neutralVariant.50}",
+                    "hex": "#737691"
+                },
+                "outlineVariant": {
+                    "ref": "{color.palette.neutralVariant.80}",
+                    "hex": "#C3C5E5"
+                },
+                "inverseSurface": {
+                    "ref": "{color.palette.neutral.20}",
+                    "hex": "#2F313D"
+                },
+                "inverseOnSurface": {
+                    "ref": "{color.palette.neutral.95}",
+                    "hex": "#F1F0FF"
+                },
+                "inversePrimary": {
+                    "ref": "{color.palette.primary.80}",
+                    "hex": "#BDC2FF"
+                },
+                "surfaceDim": {
+                    "ref": "{color.palette.neutral.87}",
+                    "hex": "#D8D8E9"
+                },
+                "surfaceBright": {
+                    "ref": "{color.palette.neutral.98}",
+                    "hex": "#FCFAFF"
+                },
+                "surfaceContainerLowest": {
+                    "ref": "{color.palette.neutral.100}",
+                    "hex": "#FFFFFF"
+                },
+                "surfaceContainerLow": {
+                    "ref": "{color.palette.neutral.96}",
+                    "hex": "#F1F0FF"
+                },
+                "surfaceContainer": {
+                    "ref": "{color.palette.neutral.94}",
+                    "hex": "#EEEDFD"
+                },
+                "surfaceContainerHigh": {
+                    "ref": "{color.palette.neutral.92}",
+                    "hex": "#E8E8F7"
+                },
+                "surfaceContainerHighest": {
+                    "ref": "{color.palette.neutral.94}",
+                    "hex": "#EEEDFD"
+                }
+            },
+            "dark": {
+                "primary": {
+                    "ref": "{color.palette.primary.80}",
+                    "hex": "#BDC2FF"
+                },
+                "onPrimary": {
+                    "ref": "{color.palette.primary.20}",
+                    "hex": "#00159E"
+                },
+                "primaryContainer": {
+                    "ref": "{color.palette.primary.30}",
+                    "hex": "#1128D4"
+                },
+                "onPrimaryContainer": {
+                    "ref": "{color.palette.primary.90}",
+                    "hex": "#E0E1FF"
+                },
+                "secondary": {
+                    "ref": "{color.palette.secondary.80}",
+                    "hex": "#5FD8D8"
+                },
+                "onSecondary": {
+                    "ref": "{color.palette.secondary.20}",
+                    "hex": "#003838"
+                },
+                "secondaryContainer": {
+                    "ref": "{color.palette.secondary.30}",
+                    "hex": "#005052"
+                },
+                "onSecondaryContainer": {
+                    "ref": "{color.palette.secondary.90}",
+                    "hex": "#7FF5F3"
+                },
+                "tertiary": {
+                    "ref": "{color.palette.tertiary.80}",
+                    "hex": "#D2BDFF"
+                },
+                "onTertiary": {
+                    "ref": "{color.palette.tertiary.20}",
+                    "hex": "#3E008F"
+                },
+                "tertiaryContainer": {
+                    "ref": "{color.palette.tertiary.30}",
+                    "hex": "#561AB7"
+                },
+                "onTertiaryContainer": {
+                    "ref": "{color.palette.tertiary.90}",
+                    "hex": "#E9DBFF"
+                },
+                "error": {
+                    "ref": "{color.palette.Error.80}",
+                    "hex": "#FFB3AD"
+                },
+                "onError": {
+                    "ref": "{color.palette.Error.20}",
+                    "hex": "#66000A"
+                },
+                "errorContainer": {
+                    "ref": "{color.palette.Error.30}",
+                    "hex": "#940014"
+                },
+                "onErrorContainer": {
+                    "ref": "{color.palette.Error.90}",
+                    "hex": "#FFD9D6"
+                },
+                "background": {
+                    "ref": "{color.palette.neutral.6}",
+                    "hex": "#0D0E11"
+                },
+                "onBackground": {
+                    "ref": "{color.palette.neutral.90}",
+                    "hex": "#E0E0F0"
+                },
+                "surface": {
+                    "ref": "{color.palette.neutral.6}",
+                    "hex": "#0D0E11"
+                },
+                "onSurface": {
+                    "ref": "{color.palette.neutral.90}",
+                    "hex": "#E0E0F0"
+                },
+                "surfaceVariant": {
+                    "ref": "{color.palette.neutralVariant.30}",
+                    "hex": "#434660"
+                },
+                "onSurfaceVariant": {
+                    "ref": "{color.palette.neutralVariant.80}",
+                    "hex": "#C3C5E5"
+                },
+                "outline": {
+                    "ref": "{color.palette.neutralVariant.60}",
+                    "hex": "#8C8FAB"
+                },
+                "outlineVariant": {
+                    "ref": "{color.palette.neutralVariant.30}",
+                    "hex": "#434660"
+                },
+                "inverseSurface": {
+                    "ref": "{color.palette.neutral.90}",
+                    "hex": "#E0E0F0"
+                },
+                "inverseOnSurface": {
+                    "ref": "{color.palette.neutral.20}",
+                    "hex": "#2F313D"
+                },
+                "inversePrimary": {
+                    "ref": "{color.palette.primary.40}",
+                    "hex": "#3648E7"
+                },
+                "surfaceDim": {
+                    "ref": "{color.palette.neutral.6}",
+                    "hex": "#0D0E11"
+                },
+                "surfaceBright": {
+                    "ref": "{color.palette.neutral.24}",
+                    "hex": "#363845"
+                },
+                "surfaceContainerLowest": {
+                    "ref": "{color.palette.neutral.4}",
+                    "hex": "#090A0B"
+                },
+                "surfaceContainerLow": {
+                    "ref": "{color.palette.neutral.10}",
+                    "hex": "#181A25"
+                },
+                "surfaceContainer": {
+                    "ref": "{color.palette.neutral.12}",
+                    "hex": "#191B24"
+                },
+                "surfaceContainerHigh": {
+                    "ref": "{color.palette.neutral.17}",
+                    "hex": "#252732"
+                },
+                "surfaceContainerHighest": {
+                    "ref": "{color.palette.neutral.22}",
+                    "hex": "#31333F"
+                }
+            }
+        },
+        "custom": {
+            "light": {
+                "success": {
+                    "default": {
+                        "ref": "{color.key.Success}",
+                        "hex": "#21C45D"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Success.10}",
+                        "hex": "#001F08"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Success.90}",
+                        "hex": "#6CFE90"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Success.10}",
+                        "hex": "#001F08"
+                    }
+                },
+                "warning": {
+                    "default": {
+                        "ref": "{color.key.Warning}",
+                        "hex": "#FCA103"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Warning.10}",
+                        "hex": "#291600"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Warning.90}",
+                        "hex": "#FFDCB8"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Warning.10}",
+                        "hex": "#291600"
+                    }
+                },
+                "info": {
+                    "default": {
+                        "ref": "{color.key.Info}",
+                        "hex": "#3C83F6"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Info.10}",
+                        "hex": "#001B42"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Info.90}",
+                        "hex": "#D6E0FF"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Info.10}",
+                        "hex": "#001B42"
+                    }
+                },
+                "xpProgress": {
+                    "default": {
+                        "ref": "{color.key.XP Progress}",
+                        "hex": "#82CB15"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.XP Progress.10}",
+                        "hex": "#0F1F00"
+                    },
+                    "container": {
+                        "ref": "{color.palette.XP Progress.90}",
+                        "hex": "#ACF849"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.XP Progress.10}",
+                        "hex": "#0F1F00"
+                    }
+                },
+                "dailyStreak": {
+                    "default": {
+                        "ref": "{color.key.Daily Streak}",
+                        "hex": "#FB6F84"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Daily Streak.10}",
+                        "hex": "#420011"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Daily Streak.90}",
+                        "hex": "#FFDBDD"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Daily Streak.10}",
+                        "hex": "#420011"
+                    }
+                },
+                "milestoneBadge": {
+                    "default": {
+                        "ref": "{color.key.Milestone Badge}",
+                        "hex": "#BF27D3"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Milestone Badge.100}",
+                        "hex": "#FFFFFF"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Milestone Badge.90}",
+                        "hex": "#FFD6FC"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Milestone Badge.10}",
+                        "hex": "#35003D"
+                    }
+                },
+                "mathematics": {
+                    "default": {
+                        "ref": "{color.key.Mathematics}",
+                        "hex": "#895AF6"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Mathematics.100}",
+                        "hex": "#FFFFFF"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Mathematics.90}",
+                        "hex": "#E8DBFF"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Mathematics.10}",
+                        "hex": "#23005C"
+                    }
+                },
+                "scienceTech": {
+                    "default": {
+                        "ref": "{color.key.Science & Tech}",
+                        "hex": "#07B6D5"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Science & Tech.10}",
+                        "hex": "#001D24"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Science & Tech.90}",
+                        "hex": "#ADECFF"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Science & Tech.10}",
+                        "hex": "#001D24"
+                    }
+                },
+                "historyCulture": {
+                    "default": {
+                        "ref": "{color.key.History & Culture}",
+                        "hex": "#D97959"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.History & Culture.10}",
+                        "hex": "#380B00"
+                    },
+                    "container": {
+                        "ref": "{color.palette.History & Culture.90}",
+                        "hex": "#FFDCD1"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.History & Culture.10}",
+                        "hex": "#380B00"
+                    }
+                },
+                "creativeArts": {
+                    "default": {
+                        "ref": "{color.key.Creative Arts}",
+                        "hex": "#EC4699"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Creative Arts.10}",
+                        "hex": "#3D0022"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Creative Arts.90}",
+                        "hex": "#FFDBE7"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Creative Arts.10}",
+                        "hex": "#3D0022"
+                    }
+                }
+            },
+            "dark": {
+                "success": {
+                    "default": {
+                        "ref": "{color.palette.Success.80}",
+                        "hex": "#4CE176"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Success.20}",
+                        "hex": "#003815"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Success.30}",
+                        "hex": "#005221"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Success.90}",
+                        "hex": "#6CFE90"
+                    }
+                },
+                "warning": {
+                    "default": {
+                        "ref": "{color.palette.Warning.80}",
+                        "hex": "#FFBA61"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Warning.20}",
+                        "hex": "#472A00"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Warning.30}",
+                        "hex": "#663F00"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Warning.90}",
+                        "hex": "#FFDCB8"
+                    }
+                },
+                "info": {
+                    "default": {
+                        "ref": "{color.palette.Info.80}",
+                        "hex": "#ADC6FF"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Info.20}",
+                        "hex": "#002E6B"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Info.30}",
+                        "hex": "#004594"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Info.90}",
+                        "hex": "#D6E0FF"
+                    }
+                },
+                "xpProgress": {
+                    "default": {
+                        "ref": "{color.palette.XP Progress.80}",
+                        "hex": "#91DB29"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.XP Progress.20}",
+                        "hex": "#203800"
+                    },
+                    "container": {
+                        "ref": "{color.palette.XP Progress.30}",
+                        "hex": "#2E4C00"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.XP Progress.90}",
+                        "hex": "#ACF849"
+                    }
+                },
+                "dailyStreak": {
+                    "default": {
+                        "ref": "{color.palette.Daily Streak.80}",
+                        "hex": "#FFB2B9"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Daily Streak.20}",
+                        "hex": "#66001F"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Daily Streak.30}",
+                        "hex": "#8B1833"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Daily Streak.90}",
+                        "hex": "#FFDBDD"
+                    }
+                },
+                "milestoneBadge": {
+                    "default": {
+                        "ref": "{color.palette.Milestone Badge.80}",
+                        "hex": "#FEA8FF"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Milestone Badge.20}",
+                        "hex": "#5A0066"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Milestone Badge.30}",
+                        "hex": "#7C008A"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Milestone Badge.90}",
+                        "hex": "#FFD6FC"
+                    }
+                },
+                "mathematics": {
+                    "default": {
+                        "ref": "{color.palette.Mathematics.80}",
+                        "hex": "#D1BDFF"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Mathematics.20}",
+                        "hex": "#39008F"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Mathematics.30}",
+                        "hex": "#5415C1"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Mathematics.90}",
+                        "hex": "#E8DBFF"
+                    }
+                },
+                "scienceTech": {
+                    "default": {
+                        "ref": "{color.palette.Science & Tech.80}",
+                        "hex": "#4BD7F7"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Science & Tech.20}",
+                        "hex": "#003842"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Science & Tech.30}",
+                        "hex": "#004C5C"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Science & Tech.90}",
+                        "hex": "#ADECFF"
+                    }
+                },
+                "historyCulture": {
+                    "default": {
+                        "ref": "{color.palette.History & Culture.80}",
+                        "hex": "#FFB69E"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.History & Culture.20}",
+                        "hex": "#5A1902"
+                    },
+                    "container": {
+                        "ref": "{color.palette.History & Culture.30}",
+                        "hex": "#793016"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.History & Culture.90}",
+                        "hex": "#FFDCD1"
+                    }
+                },
+                "creativeArts": {
+                    "default": {
+                        "ref": "{color.palette.Creative Arts.80}",
+                        "hex": "#FFB2D0"
+                    },
+                    "onDefault": {
+                        "ref": "{color.palette.Creative Arts.20}",
+                        "hex": "#66003C"
+                    },
+                    "container": {
+                        "ref": "{color.palette.Creative Arts.30}",
+                        "hex": "#8A0053"
+                    },
+                    "onContainer": {
+                        "ref": "{color.palette.Creative Arts.90}",
+                        "hex": "#FFDBE7"
+                    }
+                }
+            }
+        }
+    },
+    "notes": [
+        "Mathematics onDefault contrast (4.32:1) is below the 4.5:1 AA threshold for normal text. Suitable for large/bold text, icons, and badges (3:1 threshold) but avoid using the Mathematics key color as a fill behind small body text.",
+        "role.light.primary and role.dark.primary were changed from a fixed {color.key.primary} reference to {color.palette.primary.40} / {color.palette.primary.80}, matching the secondary/tertiary pattern. The exact brand hex (#4D5DFB) is preserved separately as brand.primary.",
+        "Neutral tones 4, 6, 12, 17, 22, 24 were missing from the Matisse export but referenced by dark-mode surface roles. These were generated by interpolation, preserving the 231 deg hue and matching the saturation/lightness curve of the surrounding tones.",
+        "role.dark.error/onError/errorContainer/onErrorContainer referenced 'color.palette.error' (lowercase) but the palette key is 'Error' (capitalized) -- fixed to resolve correctly."
+    ]
+}

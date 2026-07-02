@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand */
+  --color-brand-primary: #0EA4A4;
+  --color-on-brand-primary: #FFFFFF;
+  --color-brand-secondary: #4B5DFB;
+  --color-brand-hover: #0C8E8E;
+  --color-brand-dark: #0A6E6E;
+
+  /* Backgrounds */
+  --color-bg-primary: #F9FAFB;
+  --color-bg-secondary: #F3F4F6;
+  --color-bg-card: #FFFFFF;
+
+  /* Borders */
+  --color-border-default: #D4D6EC;
+  --color-border-strong: #8A8DA3;
+
+  /* Text */
+  --color-text-primary: #181A25;
+  --color-text-secondary: #5C5F7A;
+  --color-text-muted: #A5A7B8;
+  --color-text-inverse: #FFFFFF;
+
+  /* Subject colours */
+  --color-subject-math: #895AF6;
+  --color-subject-science: #07B6D5;
+  --color-subject-history: #D97959;
+  --color-subject-arts: #EC4699;
+  --color-subject-math-container: #E8DBFF;
+  --color-subject-science-container: #ADECFF;
+  --color-subject-history-container: #FFDCD1;
+  --color-subject-arts-container: #FFDBE7;
+  --color-subject-math-text: #23005C;
+  --color-subject-science-text: #001D24;
+  --color-subject-history-text: #380B00;
+  --color-subject-arts-text: #3D0022;
+
+  /* Gamification */
+  --color-xp: #82CB15;
+  --color-xp-container: #ACF849;
+  --color-streak: #FB6F84;
+  --color-streak-container: #FFDBDD;
+  --color-milestone: #BF27D3;
+  --color-milestone-container: #FFD6FC;
+
+  /* Semantic */
+  --color-success: #21C45D;
+  --color-success-container: #6CFE90;
+  --color-error: #B81924;
+  --color-error-container: #FFB3AD;
+  --color-warning: #FCA103;
+  --color-warning-container: #FFDCB8;
+  --color-info: #3C83F6;
+  --color-info-container: #D6E0FF;
+
+  --color-ask-card-bg: #E6F8F8;
+
+  /* Motion */
+  --transition-default: 400ms ease;
+  --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+[data-theme="dark"] {
+  --color-brand-primary: #0EA4A4;
+  --color-on-brand-primary: #FFFFFF;
+  --color-brand-secondary: #5FD8D8;
+  --color-brand-hover: #0C8E8E;
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1E1E1E;
+  --color-bg-card: #1A1A1A;
+  --color-border-default: rgba(30, 41, 59, 0.6);
+  --color-border-strong: rgba(71, 85, 105, 0.6);
+  --color-text-primary: #E2E8F0;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-text-inverse: #121212;
+  --color-subject-math: #D1BDFF;
+  --color-subject-science: #4BD7F7;
+  --color-subject-history: #FFB69E;
+  --color-subject-arts: #FFB2D0;
+  --color-subject-math-container: #5415C1;
+  --color-subject-science-container: #004C5C;
+  --color-subject-history-container: #793016;
+  --color-subject-arts-container: #8A0053;
+  --color-subject-math-text: #E8DBFF;
+  --color-subject-science-text: #ADECFF;
+  --color-subject-history-text: #FFDCD1;
+  --color-subject-arts-text: #FFDBE7;
+  --color-xp: #91DB29;
+  --color-xp-container: #2E4C00;
+  --color-streak: #FFB2B9;
+  --color-streak-container: #8B1833;
+  --color-success: #4CE176;
+  --color-success-container: #005221;
+  --color-error: #FFB3AD;
+  --color-error-container: #940014;
+  --color-warning: #FFBA61;
+  --color-warning-container: #663F00;
+  --color-info: #ADC6FF;
+  --color-info-container: #004594;
+  --color-milestone: #FEA8FF;
+  --color-milestone-container: #7C008A;
+}
+
+/* Shimmer for skeleton loaders */
+@layer utilities {
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-secondary) 25%,
+      var(--color-border-default) 50%,
+      var(--color-bg-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ReactFlow overrides — keep within design system */
+.react-flow__attribution {
+  display: none;
+}
+.react-flow__controls {
+  box-shadow: none !important;
+  border: 1px solid var(--color-border-default) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+}
+.react-flow__controls-button {
+  background: var(--color-bg-card) !important;
+  border-color: var(--color-border-default) !important;
+  color: var(--color-text-primary) !important;
+}
+.react-flow__controls-button:hover {
+  background: var(--color-bg-secondary) !important;
+}
+.react-flow__minimap {
+  border: 1px solid var(--color-border-default) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: none !important;
+}
+.react-flow__background {
+  background-color: var(--color-bg-primary) !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+[data-theme] * {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme] *:hover,
+[data-theme] *:focus,
+[data-theme] *:active {
+  transition-duration: 0.08s;
+}
+
+/* Kill yellow browser autofill background globally */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
+  caret-color: var(--color-text-primary);
+  background-color: var(--color-bg-card) !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Hide scrollbar utility for horizontal scroll containers */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Prevent autofill background override on any input type */

@@ -1,0 +1,50 @@
+{
+  "name": "waya",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@prisma/client": "^5.14.0",
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.108.2",
+    "@tabler/icons-react": "^3.44.0",
+    "@types/dagre": "^0.7.54",
+    "canvas-confetti": "^1.9.4",
+    "dagre": "^0.8.5",
+    "framer-motion": "^11.2.10",
+    "lucide-react": "^0.395.0",
+    "next": "14.2.4",
+    "nodemailer": "^9.0.0",
+    "openai": "^6.42.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "reactflow": "^11.11.4",
+    "remark-gfm": "^4.0.1",
+    "sharp": "^0.35.2",
+    "tone": "^15.1.22",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^20.14.2",
+    "@types/nodemailer": "^8.0.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.4",
+    "postcss": "^8.4.38",
+    "prisma": "^5.14.0",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5"
+  }
+}

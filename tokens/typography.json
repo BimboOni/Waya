@@ -1,0 +1,715 @@
+{
+    "tokenSet": "Waya Typography",
+    "version": "1.0.0",
+    "baseFontSize": {
+        "px": 16,
+        "description": "Root font size used for all rem conversions"
+    },
+    "fontFamilies": {
+        "display": {
+            "family": "Poppins",
+            "googleFontsImport": "https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap",
+            "fallback": [
+                "system-ui",
+                "sans-serif"
+            ],
+            "weightsUsed": {
+                "medium": 500,
+                "semibold": 600,
+                "bold": 700
+            },
+            "usedFor": [
+                "display",
+                "headline",
+                "title"
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "googleFontsImport": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap",
+            "fallback": [
+                "system-ui",
+                "sans-serif"
+            ],
+            "weightsUsed": {
+                "regular": 400,
+                "medium": 500
+            },
+            "usedFor": [
+                "body",
+                "label"
+            ]
+        }
+    },
+    "breakpoints": {
+        "mobile": {
+            "minWidth": 0,
+            "description": "Default / mobile-first"
+        },
+        "tablet": {
+            "minWidth": 768,
+            "description": "Tablet and small desktop"
+        },
+        "desktop": {
+            "minWidth": 1280,
+            "description": "Large desktop / landing page hero"
+        }
+    },
+    "contexts": {
+        "app": {
+            "description": "In-app UI: study workspace, dashboard, onboarding, modals, knowledge map. Display styles are fixed-size (non-responsive) and use Poppins SemiBold for a calm, consistent feel inside fixed-width containers.",
+            "styles": {
+                "displayLarge": {
+                    "name": "Display large",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 40,
+                        "rem": 2.5
+                    },
+                    "lineHeight": {
+                        "px": 48,
+                        "ratio": 1.2
+                    },
+                    "letterSpacing": {
+                        "px": -0.5,
+                        "em": -0.0125
+                    },
+                    "usage": "Level-up celebration headline, streak milestone overlays"
+                },
+                "displayMedium": {
+                    "name": "Display medium",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 34,
+                        "rem": 2.125
+                    },
+                    "lineHeight": {
+                        "px": 42,
+                        "ratio": 1.235
+                    },
+                    "letterSpacing": {
+                        "px": -0.25,
+                        "em": -0.0074
+                    },
+                    "usage": "Streak milestone numbers, large stat callouts"
+                },
+                "displaySmall": {
+                    "name": "Display small",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 28,
+                        "rem": 1.75
+                    },
+                    "lineHeight": {
+                        "px": 36,
+                        "ratio": 1.286
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Onboarding hero text within the app shell"
+                },
+                "headlineLarge": {
+                    "name": "Headline large",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 24,
+                        "rem": 1.5
+                    },
+                    "lineHeight": {
+                        "px": 32,
+                        "ratio": 1.333
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Page titles: Study workspace, Knowledge map, Profile (app) / section headers (marketing)"
+                },
+                "headlineMedium": {
+                    "name": "Headline medium",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 20,
+                        "rem": 1.25
+                    },
+                    "lineHeight": {
+                        "px": 28,
+                        "ratio": 1.4
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Section headers: Today's session, Recent badges (app) / subsection intros (marketing)"
+                },
+                "headlineSmall": {
+                    "name": "Headline small",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 18,
+                        "rem": 1.125
+                    },
+                    "lineHeight": {
+                        "px": 24,
+                        "ratio": 1.333
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Modal titles, subsection headers (app) / feature card titles (marketing)"
+                },
+                "titleLarge": {
+                    "name": "Title large",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 16,
+                        "rem": 1.0
+                    },
+                    "lineHeight": {
+                        "px": 24,
+                        "ratio": 1.5
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Card titles, badge names (app) / pricing or feature names (marketing)"
+                },
+                "titleMedium": {
+                    "name": "Title medium",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 14,
+                        "rem": 0.875
+                    },
+                    "lineHeight": {
+                        "px": 20,
+                        "ratio": 1.429
+                    },
+                    "letterSpacing": {
+                        "px": 0.15,
+                        "em": 0.0107
+                    },
+                    "usage": "Session history list item titles (app) / testimonial names (marketing)"
+                },
+                "titleSmall": {
+                    "name": "Title small",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 13,
+                        "rem": 0.8125
+                    },
+                    "lineHeight": {
+                        "px": 18,
+                        "ratio": 1.385
+                    },
+                    "letterSpacing": {
+                        "px": 0.1,
+                        "em": 0.0077
+                    },
+                    "usage": "Compact tab labels (app) / footer column headers (marketing)"
+                },
+                "bodyLarge": {
+                    "name": "Body large",
+                    "fontFamily": "Inter",
+                    "fontWeight": 400,
+                    "fontSize": {
+                        "px": 16,
+                        "rem": 1.0
+                    },
+                    "lineHeight": {
+                        "px": 26,
+                        "ratio": 1.625
+                    },
+                    "letterSpacing": {
+                        "px": 0.15,
+                        "em": 0.0094
+                    },
+                    "usage": "Synthesis explanation text, primary reading content (app) / lead paragraphs (marketing)"
+                },
+                "bodyMedium": {
+                    "name": "Body medium",
+                    "fontFamily": "Inter",
+                    "fontWeight": 400,
+                    "fontSize": {
+                        "px": 14,
+                        "rem": 0.875
+                    },
+                    "lineHeight": {
+                        "px": 22,
+                        "ratio": 1.571
+                    },
+                    "letterSpacing": {
+                        "px": 0.25,
+                        "em": 0.0179
+                    },
+                    "usage": "Standard UI copy, descriptions (app) / feature descriptions (marketing)"
+                },
+                "bodySmall": {
+                    "name": "Body small",
+                    "fontFamily": "Inter",
+                    "fontWeight": 400,
+                    "fontSize": {
+                        "px": 12,
+                        "rem": 0.75
+                    },
+                    "lineHeight": {
+                        "px": 18,
+                        "ratio": 1.5
+                    },
+                    "letterSpacing": {
+                        "px": 0.3,
+                        "em": 0.025
+                    },
+                    "usage": "Captions, timestamps, metadata (app) / fine print, footer text (marketing)"
+                },
+                "labelLarge": {
+                    "name": "Label large",
+                    "fontFamily": "Inter",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 14,
+                        "rem": 0.875
+                    },
+                    "lineHeight": {
+                        "px": 20,
+                        "ratio": 1.429
+                    },
+                    "letterSpacing": {
+                        "px": 0.1,
+                        "em": 0.0071
+                    },
+                    "usage": "Button text, primary CTAs (app and marketing)"
+                },
+                "labelMedium": {
+                    "name": "Label medium",
+                    "fontFamily": "Inter",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 12,
+                        "rem": 0.75
+                    },
+                    "lineHeight": {
+                        "px": 16,
+                        "ratio": 1.333
+                    },
+                    "letterSpacing": {
+                        "px": 0.4,
+                        "em": 0.0333
+                    },
+                    "usage": "Chips, subject tags, form labels (app) / nav links (marketing)"
+                },
+                "labelSmall": {
+                    "name": "Label small",
+                    "fontFamily": "Inter",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 11,
+                        "rem": 0.6875
+                    },
+                    "lineHeight": {
+                        "px": 14,
+                        "ratio": 1.273
+                    },
+                    "letterSpacing": {
+                        "px": 0.5,
+                        "em": 0.0455
+                    },
+                    "usage": "XP toast text, micro badges (app) / legal links (marketing)"
+                }
+            }
+        },
+        "marketing": {
+            "description": "Public-facing landing/marketing pages. Display styles are responsive and use Poppins Bold for a more energetic, full-viewport hero presence. Headline, title, body, and label styles are shared with the app context for brand consistency.",
+            "styles": {
+                "displayLarge": {
+                    "name": "Display large",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 700,
+                    "responsive": {
+                        "mobile": {
+                            "minWidth": 0,
+                            "fontSize": {
+                                "px": 40,
+                                "rem": 2.5
+                            },
+                            "lineHeight": {
+                                "px": 48,
+                                "ratio": 1.2
+                            },
+                            "letterSpacing": {
+                                "px": -0.5,
+                                "em": -0.0125
+                            }
+                        },
+                        "tablet": {
+                            "minWidth": 768,
+                            "fontSize": {
+                                "px": 56,
+                                "rem": 3.5
+                            },
+                            "lineHeight": {
+                                "px": 64,
+                                "ratio": 1.143
+                            },
+                            "letterSpacing": {
+                                "px": -1.0,
+                                "em": -0.0179
+                            }
+                        },
+                        "desktop": {
+                            "minWidth": 1280,
+                            "fontSize": {
+                                "px": 72,
+                                "rem": 4.5
+                            },
+                            "lineHeight": {
+                                "px": 80,
+                                "ratio": 1.111
+                            },
+                            "letterSpacing": {
+                                "px": -1.5,
+                                "em": -0.0208
+                            }
+                        }
+                    },
+                    "usage": "Landing page hero headline"
+                },
+                "displayMedium": {
+                    "name": "Display medium",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 700,
+                    "responsive": {
+                        "mobile": {
+                            "minWidth": 0,
+                            "fontSize": {
+                                "px": 32,
+                                "rem": 2.0
+                            },
+                            "lineHeight": {
+                                "px": 40,
+                                "ratio": 1.25
+                            },
+                            "letterSpacing": {
+                                "px": -0.25,
+                                "em": -0.0078
+                            }
+                        },
+                        "tablet": {
+                            "minWidth": 768,
+                            "fontSize": {
+                                "px": 44,
+                                "rem": 2.75
+                            },
+                            "lineHeight": {
+                                "px": 52,
+                                "ratio": 1.182
+                            },
+                            "letterSpacing": {
+                                "px": -0.5,
+                                "em": -0.0114
+                            }
+                        },
+                        "desktop": {
+                            "minWidth": 1280,
+                            "fontSize": {
+                                "px": 56,
+                                "rem": 3.5
+                            },
+                            "lineHeight": {
+                                "px": 64,
+                                "ratio": 1.143
+                            },
+                            "letterSpacing": {
+                                "px": -1.0,
+                                "em": -0.0179
+                            }
+                        }
+                    },
+                    "usage": "Landing page secondary hero text, section intros"
+                },
+                "displaySmall": {
+                    "name": "Display small",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 700,
+                    "responsive": {
+                        "mobile": {
+                            "minWidth": 0,
+                            "fontSize": {
+                                "px": 28,
+                                "rem": 1.75
+                            },
+                            "lineHeight": {
+                                "px": 36,
+                                "ratio": 1.286
+                            },
+                            "letterSpacing": {
+                                "px": 0,
+                                "em": 0.0
+                            }
+                        },
+                        "tablet": {
+                            "minWidth": 768,
+                            "fontSize": {
+                                "px": 36,
+                                "rem": 2.25
+                            },
+                            "lineHeight": {
+                                "px": 44,
+                                "ratio": 1.222
+                            },
+                            "letterSpacing": {
+                                "px": -0.25,
+                                "em": -0.0069
+                            }
+                        },
+                        "desktop": {
+                            "minWidth": 1280,
+                            "fontSize": {
+                                "px": 44,
+                                "rem": 2.75
+                            },
+                            "lineHeight": {
+                                "px": 52,
+                                "ratio": 1.182
+                            },
+                            "letterSpacing": {
+                                "px": -0.5,
+                                "em": -0.0114
+                            }
+                        }
+                    },
+                    "usage": "Landing page feature section callouts"
+                },
+                "headlineLarge": {
+                    "name": "Headline large",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 24,
+                        "rem": 1.5
+                    },
+                    "lineHeight": {
+                        "px": 32,
+                        "ratio": 1.333
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Page titles: Study workspace, Knowledge map, Profile (app) / section headers (marketing)"
+                },
+                "headlineMedium": {
+                    "name": "Headline medium",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 600,
+                    "fontSize": {
+                        "px": 20,
+                        "rem": 1.25
+                    },
+                    "lineHeight": {
+                        "px": 28,
+                        "ratio": 1.4
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Section headers: Today's session, Recent badges (app) / subsection intros (marketing)"
+                },
+                "headlineSmall": {
+                    "name": "Headline small",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 18,
+                        "rem": 1.125
+                    },
+                    "lineHeight": {
+                        "px": 24,
+                        "ratio": 1.333
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Modal titles, subsection headers (app) / feature card titles (marketing)"
+                },
+                "titleLarge": {
+                    "name": "Title large",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 16,
+                        "rem": 1.0
+                    },
+                    "lineHeight": {
+                        "px": 24,
+                        "ratio": 1.5
+                    },
+                    "letterSpacing": {
+                        "px": 0,
+                        "em": 0.0
+                    },
+                    "usage": "Card titles, badge names (app) / pricing or feature names (marketing)"
+                },
+                "titleMedium": {
+                    "name": "Title medium",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 14,
+                        "rem": 0.875
+                    },
+                    "lineHeight": {
+                        "px": 20,
+                        "ratio": 1.429
+                    },
+                    "letterSpacing": {
+                        "px": 0.15,
+                        "em": 0.0107
+                    },
+                    "usage": "Session history list item titles (app) / testimonial names (marketing)"
+                },
+                "titleSmall": {
+                    "name": "Title small",
+                    "fontFamily": "Poppins",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 13,
+                        "rem": 0.8125
+                    },
+                    "lineHeight": {
+                        "px": 18,
+                        "ratio": 1.385
+                    },
+                    "letterSpacing": {
+                        "px": 0.1,
+                        "em": 0.0077
+                    },
+                    "usage": "Compact tab labels (app) / footer column headers (marketing)"
+                },
+                "bodyLarge": {
+                    "name": "Body large",
+                    "fontFamily": "Inter",
+                    "fontWeight": 400,
+                    "fontSize": {
+                        "px": 16,
+                        "rem": 1.0
+                    },
+                    "lineHeight": {
+                        "px": 26,
+                        "ratio": 1.625
+                    },
+                    "letterSpacing": {
+                        "px": 0.15,
+                        "em": 0.0094
+                    },
+                    "usage": "Synthesis explanation text, primary reading content (app) / lead paragraphs (marketing)"
+                },
+                "bodyMedium": {
+                    "name": "Body medium",
+                    "fontFamily": "Inter",
+                    "fontWeight": 400,
+                    "fontSize": {
+                        "px": 14,
+                        "rem": 0.875
+                    },
+                    "lineHeight": {
+                        "px": 22,
+                        "ratio": 1.571
+                    },
+                    "letterSpacing": {
+                        "px": 0.25,
+                        "em": 0.0179
+                    },
+                    "usage": "Standard UI copy, descriptions (app) / feature descriptions (marketing)"
+                },
+                "bodySmall": {
+                    "name": "Body small",
+                    "fontFamily": "Inter",
+                    "fontWeight": 400,
+                    "fontSize": {
+                        "px": 12,
+                        "rem": 0.75
+                    },
+                    "lineHeight": {
+                        "px": 18,
+                        "ratio": 1.5
+                    },
+                    "letterSpacing": {
+                        "px": 0.3,
+                        "em": 0.025
+                    },
+                    "usage": "Captions, timestamps, metadata (app) / fine print, footer text (marketing)"
+                },
+                "labelLarge": {
+                    "name": "Label large",
+                    "fontFamily": "Inter",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 14,
+                        "rem": 0.875
+                    },
+                    "lineHeight": {
+                        "px": 20,
+                        "ratio": 1.429
+                    },
+                    "letterSpacing": {
+                        "px": 0.1,
+                        "em": 0.0071
+                    },
+                    "usage": "Button text, primary CTAs (app and marketing)"
+                },
+                "labelMedium": {
+                    "name": "Label medium",
+                    "fontFamily": "Inter",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 12,
+                        "rem": 0.75
+                    },
+                    "lineHeight": {
+                        "px": 16,
+                        "ratio": 1.333
+                    },
+                    "letterSpacing": {
+                        "px": 0.4,
+                        "em": 0.0333
+                    },
+                    "usage": "Chips, subject tags, form labels (app) / nav links (marketing)"
+                },
+                "labelSmall": {
+                    "name": "Label small",
+                    "fontFamily": "Inter",
+                    "fontWeight": 500,
+                    "fontSize": {
+                        "px": 11,
+                        "rem": 0.6875
+                    },
+                    "lineHeight": {
+                        "px": 14,
+                        "ratio": 1.273
+                    },
+                    "letterSpacing": {
+                        "px": 0.5,
+                        "em": 0.0455
+                    },
+                    "usage": "XP toast text, micro badges (app) / legal links (marketing)"
+                }
+            }
+        }
+    }
+}

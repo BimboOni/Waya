@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  name       String?
+  interests  String[]
+  preferredSubject String?
+  xp         Int       @default(0)
+  level      Int       @default(1)
+  streak        Int       @default(0)
+  lastActive    DateTime?
+  lastLocalDate String?
+  createdAt     DateTime  @default(now())
+
+  sessions       Session[]
+  badges         Badge[]
+  feedbacks      AIFeedback[]
+  knowledgeNodes KnowledgeNode[]
+  knowledgeEdges KnowledgeEdge[]
+}
+
+model Session {
+  id              String   @id @default(uuid())
+  userId          String
+  topic           String
+  subject         String
+  aiResponse          String   @db.Text
+  synthesisQuestion   String?  @db.Text
+  userAnswer          String?  @db.Text
+  xpEarned            Int      @default(0)
+  completed           Boolean  @default(false)
+  createdAt           DateTime @default(now())
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  knowledgeNode KnowledgeNode?
+
+  @@index([userId])
+}
+
+model Badge {
+  id        String   @id @default(uuid())
+  userId    String
+  badgeType String
+  imageUrl  String
+  earnedAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, badgeType])
+}
+
+model AIFeedback {
+  id          String   @id @default(uuid())
+  userId      String
+  feedbackKey String
+  feedbackTag String
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model KnowledgeNode {
+  id        String   @id @default(uuid())
+  userId    String
+  sessionId String   @unique
+  topic     String
+  subject   String
+  positionX Float    @default(0)
+  positionY Float    @default(0)
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  sourceEdges KnowledgeEdge[] @relation("SourceEdge")
+  targetEdges KnowledgeEdge[] @relation("TargetEdge")
+
+  @@index([userId])
+}
+
+model KnowledgeEdge {
+  id           String @id @default(uuid())
+  userId       String
+  sourceNodeId String
+  targetNodeId String
+
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sourceNode KnowledgeNode @relation("SourceEdge", fields: [sourceNodeId], references: [id], onDelete: Cascade)
+  targetNode KnowledgeNode @relation("TargetEdge", fields: [targetNodeId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sourceNodeId])
+  @@index([targetNodeId])
+}

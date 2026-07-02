@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#F4F3FF" rx="16"/>
+  <circle cx="200" cy="120" r="50" fill="#0EA4A4" opacity="0.15"/>
+  <circle cx="200" cy="120" r="30" fill="#0EA4A4" opacity="0.3"/>
+  <text x="200" y="130" text-anchor="middle" font-size="48" font-family="Inter,sans-serif" fill="#0EA4A4" font-weight="900">3</text>
+  <text x="200" y="200" text-anchor="middle" font-size="16" font-family="Inter,sans-serif" fill="#5C5F7A">Step 3</text>
+</svg>
