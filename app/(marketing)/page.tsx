@@ -110,40 +110,30 @@ export default function MarketingPage() {
     <div className="min-h-screen bg-white">
 
       {/* Floating Capsule Navigation */}
-      <div className="w-full max-w-6xl mx-auto px-4 pt-6">
-        <nav className="w-full bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-100 px-6 py-4 flex flex-row justify-between items-center">
-          <span className="text-2xl font-black text-[#03a696] tracking-tight">waya</span>
+      <div className="w-full max-w-6xl mx-auto px-6 pt-6">
+        <nav className="w-full bg-white rounded-2xl shadow-sm border border-slate-100/80 px-6 py-4 flex flex-row justify-between items-center">
+          <span className="font-nunito font-bold tracking-tight text-3xl text-[#03a696]">waya</span>
           <div className="flex flex-row items-center gap-6">
-            <a
-              href="/auth/login"
-              className="text-sm font-semibold text-slate-600 hover:text-slate-900"
-            >
-              Sign In
-            </a>
-            <a
-              href="/auth/signup"
-              className="bg-[#03a696] hover:bg-[#028b7e] text-white text-sm font-bold rounded-xl px-5 py-2.5 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all"
-            >
-              Get Started
-            </a>
+            <a href="/auth?view=login" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">Sign In</a>
+            <a href="/auth?view=get-started" className="bg-[#03a696] hover:bg-[#028b7e] text-white text-sm font-bold rounded-xl px-6 min-h-12 py-4 flex items-center border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all">Get Started</a>
           </div>
         </nav>
       </div>
 
       {/* Hero Section */}
-      <section className="w-full max-w-6xl mx-auto px-6 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="w-full max-w-5xl mx-auto px-6 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="flex flex-col justify-center">
-          <h1 className="text-5xl sm:text-6xl font-black text-slate-900 leading-[1.1] tracking-tight">
+          <h1 className="text-5xl sm:text-6xl font-black text-slate-900 tracking-tighter leading-[1.05]">
             Learn any subject through{' '}
             <span className="text-[#f25c74]">what you love.</span>
           </h1>
-          <p className="mt-6 text-lg text-slate-600 font-medium max-w-xl leading-relaxed">
+          <p className="mt-6 text-lg text-slate-600 font-medium max-w-xl leading-relaxed tracking-tight">
             Waya is your AI study partner. We break down complex school topics using
             the things you actually care about, like gaming, music, and sports.
           </p>
           <a
-            href="/auth/signup"
-            className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-extrabold rounded-xl px-8 py-3.5 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all w-fit mt-8 flex items-center justify-center"
+            href="/auth?view=get-started"
+            className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-bold rounded-xl min-h-12 py-4 px-6 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all w-fit mt-8 flex items-center justify-center"
           >
             Start Learning for Free
           </a>
@@ -154,7 +144,7 @@ export default function MarketingPage() {
             alt="Student learning with Waya"
             width={800}
             height={600}
-            className="rounded-3xl shadow-lg border border-slate-100 max-w-xl w-full object-cover"
+            className="rounded-[32px] w-full max-w-xl object-cover border border-slate-100"
             priority
           />
         </div>
@@ -305,8 +295,8 @@ export default function MarketingPage() {
               you already love.
             </p>
             <a
-              href="/auth/signup"
-              className="inline-block bg-[#03a696] hover:bg-[#028b7e] text-white font-bold rounded-xl border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all px-8 py-3.5 mt-8"
+              href="/auth?view=get-started"
+              className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-bold rounded-xl min-h-12 py-4 px-6 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all flex items-center justify-center mt-8"
             >
               Get Started Free
             </a>
@@ -343,8 +333,8 @@ export default function MarketingPage() {
               Join thousands of students who learn through what they love.
             </p>
             <a
-              href="/auth/signup"
-              className="inline-block bg-[#03a696] hover:bg-[#028b7e] text-white font-bold rounded-xl border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all px-8 py-3.5 mt-8"
+              href="/auth?view=get-started"
+              className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-bold rounded-xl min-h-12 py-4 px-6 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all flex items-center justify-center mt-8"
             >
               Start Learning for Free
             </a>

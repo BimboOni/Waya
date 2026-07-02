@@ -84,6 +84,7 @@ const config: Config = {
         heading: ['var(--font-heading)', 'sans-serif'],
         body: ['var(--font-body)', 'sans-serif'],
         logo: ['var(--font-logo)', 'sans-serif'],
+        nunito: ['var(--font-logo)', 'sans-serif'],
       },
       borderRadius: {
         sm: 'var(--radius-sm)',
