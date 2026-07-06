@@ -98,9 +98,19 @@ const config: Config = {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0px) rotate(1deg)' },
+          '50%': { transform: 'translateY(-8px) rotate(-0.5deg)' },
+        },
       },
       animation: {
         shimmer: 'shimmer 1.5s ease-in-out infinite',
+        'fade-in-up': 'fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
+        'float-slow': 'float-slow 5s ease-in-out infinite',
       },
     },
   },

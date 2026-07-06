@@ -130,7 +130,7 @@ export default function SessionDetailPage() {
           <p className="text-label-lg font-bold mb-4" style={{ color: 'var(--color-success)' }}>XP earned: +{session.xpEarned} XP</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="px-8 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-4 border-brand-dark transition-all duration-100 hover:brightness-105 active:translate-y-1 active:border-b-0"
+            className="px-8 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-dark transition-all duration-100 hover:brightness-105 active:translate-y-1 active:border-b-0"
           >
             Study this topic again →
           </button>

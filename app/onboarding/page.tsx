@@ -127,7 +127,7 @@ export default function OnboardingPage() {
         <div className="sticky bottom-0 bg-bg-primary border-t border-border-default px-5 sm:px-8 py-4">
           <div className="max-w-3xl mx-auto flex justify-center">
             <button type="button" onClick={goNext} disabled={!isStepComplete()}
-              className="w-full sm:w-64 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-4 border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-4 disabled:translate-y-0 flex items-center justify-center">
+              className="w-full sm:w-64 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
               Continue
             </button>
           </div>
@@ -392,7 +392,7 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
             </button>
           </div>
           <button type="submit" disabled={isSaving || !email.trim() || password.length < 8}
-            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-4 border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-4 disabled:translate-y-0 flex items-center justify-center">
+            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
             {isSaving ? (
               <div className="w-5 h-5 mx-auto rounded-full border-2 border-brand-on-primary/30 border-t-brand-on-primary animate-spin" style={{ animationDuration: '0.65s' }} aria-label="Processing…" />
             ) : mode === 'create' ? 'Create free account' : 'Sign in'}
