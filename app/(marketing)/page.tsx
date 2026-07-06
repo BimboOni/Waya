@@ -1,29 +1,30 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const subjects = [
   {
     subject: 'Mathematics',
     topics: ['Algebra', 'Geometry', 'Calculus', 'Statistics'],
     icon: '📐',
-    chip: 'bg-violet-50 text-violet-700',
+    chip: 'bg-subject-math-container text-subject-math-text',
   },
   {
     subject: 'Science & Tech',
     topics: ['Physics', 'Chemistry', 'Biology', 'Computer Science'],
     icon: '🔬',
-    chip: 'bg-amber-50 text-amber-700',
+    chip: 'bg-subject-science-container text-subject-science-text',
   },
   {
     subject: 'History & Culture',
     topics: ['World History', 'African Heritage', 'Government', 'Philosophy'],
     icon: '📜',
-    chip: 'bg-rose-50 text-rose-700',
+    chip: 'bg-subject-history-container text-subject-history-text',
   },
   {
     subject: 'Creative Arts',
     topics: ['Music', 'Art & Design', 'Literature', 'Fashion'],
     icon: '🎨',
-    chip: 'bg-indigo-50 text-indigo-700',
+    chip: 'bg-subject-arts-container text-subject-arts-text',
   },
 ];
 
@@ -65,7 +66,7 @@ const metrics = [
     title: 'XP & Levels',
     description:
       'Earn XP for every session and synthesis. Level up from Curious to Polymath as you grow.',
-    containerClass: 'bg-[#effaf3] border-[#d1f2dc]',
+    containerClass: 'bg-[#effaf3]',
     iconBg: 'bg-emerald-100',
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -77,7 +78,7 @@ const metrics = [
     title: 'Streaks',
     description:
       'Stay consistent. Complete sessions daily to build your streak and unlock exclusive bonuses.',
-    containerClass: 'bg-[#fff0f3] border-[#ffe0e6]',
+    containerClass: 'bg-[#fff0f3]',
     iconBg: 'bg-rose-100',
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -92,7 +93,7 @@ const metrics = [
     title: 'Badges',
     description:
       'Unlock achievements for milestones — first session, subject mastery, streak records, and more.',
-    containerClass: 'bg-[#f5f3ff] border-[#e8e4fe]',
+    containerClass: 'bg-[#f5f3ff]',
     iconBg: 'bg-purple-100',
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -111,17 +112,17 @@ export default function MarketingPage() {
 
       {/* Floating Capsule Navigation */}
       <div className="w-full max-w-6xl mx-auto px-6 pt-6">
-        <nav className="w-full bg-white rounded-2xl shadow-sm border border-slate-100/80 px-6 py-4 flex flex-row justify-between items-center">
-          <span className="font-nunito font-bold tracking-tight text-3xl text-[#03a696]">waya</span>
-          <div className="flex flex-row items-center gap-6">
-            <a href="/auth?view=login" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">Sign In</a>
-            <a href="/auth?view=get-started" className="bg-[#03a696] hover:bg-[#028b7e] text-white text-sm font-bold rounded-xl px-6 min-h-12 py-4 flex items-center border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all">Get Started</a>
+        <nav className="w-full bg-white rounded-[32px] shadow-sm border border-slate-100 px-8 py-4 flex flex-row justify-between items-center">
+          <Link href="/" className="font-nunito font-bold tracking-tighter text-3xl text-[#03a696]">waya</Link>
+          <div className="flex flex-row items-center gap-4">
+            <Link href="/auth?view=login" className="bg-white border-2 border-slate-200 border-b-4 border-b-slate-300 text-slate-700 font-bold rounded-xl h-12 px-6 flex items-center active:translate-y-[2px] active:border-b-2 transition-all">Sign In</Link>
+            <Link href="/auth?view=get-started" className="bg-[#03a696] hover:bg-[#028b7e] text-white font-bold rounded-xl h-12 px-6 border-b-4 border-[#016f64] flex items-center active:translate-y-[2px] active:border-b-2 transition-all">Get Started</Link>
           </div>
         </nav>
       </div>
 
       {/* Hero Section */}
-      <section className="w-full max-w-5xl mx-auto px-6 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <section className="w-full max-w-6xl mx-auto px-6 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div className="flex flex-col justify-center">
           <h1 className="text-5xl sm:text-6xl font-black text-slate-900 tracking-tighter leading-[1.05]">
             Learn any subject through{' '}
@@ -131,20 +132,20 @@ export default function MarketingPage() {
             Waya is your AI study partner. We break down complex school topics using
             the things you actually care about, like gaming, music, and sports.
           </p>
-          <a
+          <Link
             href="/auth?view=get-started"
-            className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-bold rounded-xl min-h-12 py-4 px-6 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all w-fit mt-8 flex items-center justify-center"
+            className="bg-[#03a696] hover:bg-[#028b7e] text-white font-bold rounded-xl h-12 px-8 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all w-fit mt-8 flex items-center justify-center"
           >
             Start Learning for Free
-          </a>
+          </Link>
         </div>
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-end">
           <Image
             src="/images/hero-section-image.webp"
             alt="Student learning with Waya"
             width={800}
             height={600}
-            className="rounded-[32px] w-full max-w-xl object-cover border border-slate-100"
+            className="rounded-[32px] w-full max-w-xl object-cover"
             priority
           />
         </div>
@@ -153,7 +154,7 @@ export default function MarketingPage() {
       {/* 3-Step Flow Section */}
       <section className="py-16 bg-white border-t border-b border-slate-100">
         <div className="max-w-3xl mx-auto text-center mb-12 px-6">
-          <h2 className="text-4xl font-black text-slate-900">
+          <h2 className="text-4xl font-black text-slate-900 tracking-tighter">
             Your world. <span className="text-[#03a696]">Your lessons.</span>
           </h2>
           <p className="text-slate-500 font-medium mt-2">
@@ -165,7 +166,7 @@ export default function MarketingPage() {
         {steps.map((step) => (
           <div
             key={step.number}
-            className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center my-12"
+            className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center my-16"
           >
             {step.imageFirst ? (
               <>
@@ -174,15 +175,15 @@ export default function MarketingPage() {
                   alt={step.alt}
                   width={400}
                   height={400}
-                  className="rounded-3xl shadow-md max-w-sm w-full mx-auto object-cover"
+                  className="rounded-[32px] max-w-md w-full mx-auto object-cover"
                 />
-                <div>
+                <div className="max-w-md">
                   <span
                     className={`text-xs font-bold ${step.color} uppercase tracking-wider`}
                   >
                     {step.number}
                   </span>
-                  <h3 className="text-2xl font-black text-slate-900 mt-1">
+                  <h3 className="text-2xl font-black text-slate-900 mt-1 tracking-tight">
                     {step.title}
                   </h3>
                   <p className="text-slate-600 mt-2 font-medium">
@@ -192,13 +193,13 @@ export default function MarketingPage() {
               </>
             ) : (
               <>
-                <div>
+                <div className="max-w-md mx-auto md:ml-auto md:mr-0">
                   <span
                     className={`text-xs font-bold ${step.color} uppercase tracking-wider`}
                   >
                     {step.number}
                   </span>
-                  <h3 className="text-2xl font-black text-slate-900 mt-1">
+                  <h3 className="text-2xl font-black text-slate-900 mt-1 tracking-tight">
                     {step.title}
                   </h3>
                   <p className="text-slate-600 mt-2 font-medium">
@@ -210,7 +211,7 @@ export default function MarketingPage() {
                   alt={step.alt}
                   width={400}
                   height={400}
-                  className="rounded-3xl shadow-md max-w-sm w-full mx-auto object-cover"
+                  className="rounded-[32px] max-w-md w-full mx-auto object-cover"
                 />
               </>
             )}
@@ -219,27 +220,27 @@ export default function MarketingPage() {
       </section>
 
       {/* Subject Grid — Deep Teal Background */}
-      <section className="bg-[#027368] py-20 text-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-center text-white">
+      <section className="bg-[#027368] py-16 text-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-black tracking-tighter text-center text-white">
             Any subject, explained your way.
           </h2>
           <p className="text-center mt-2 text-emerald-100 font-medium">
             We take the standard school curriculum and break it down through the
             filter of what you love.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
             {subjects.map(({ subject, topics, chip }) => (
               <div
                 key={subject}
-                className="bg-white rounded-3xl p-8 shadow-md text-slate-900"
+                className="bg-white rounded-[32px] p-8 text-slate-900"
               >
                 <h3 className="text-xl font-bold text-slate-900">{subject}</h3>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {topics.map((t) => (
                     <span
                       key={t}
-                      className={`${chip} text-xs font-bold px-3 py-1 rounded-full`}
+                      className={`${chip} text-xs font-bold px-4 py-2 rounded-full`}
                     >
                       {t}
                     </span>
@@ -253,8 +254,8 @@ export default function MarketingPage() {
 
       {/* Progress Metrics — Pastel Flood Backgrounds */}
       <section className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-center text-slate-900">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-black tracking-tighter text-center text-slate-900">
             Progress you can see.
           </h2>
           <p className="text-slate-500 font-medium text-center mt-2">
@@ -264,7 +265,7 @@ export default function MarketingPage() {
             {metrics.map((metric) => (
               <div
                 key={metric.title}
-                className={`${metric.containerClass} border rounded-3xl p-8 shadow-sm`}
+                className={`${metric.containerClass} rounded-[32px] p-8`}
               >
                 <div
                   className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-5 ${metric.iconBg}`}
@@ -294,14 +295,14 @@ export default function MarketingPage() {
               Join Waya today and start learning every subject through the things
               you already love.
             </p>
-            <a
+            <Link
               href="/auth?view=get-started"
-              className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-bold rounded-xl min-h-12 py-4 px-6 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all flex items-center justify-center mt-8"
+              className="bg-[#03a696] hover:bg-[#028b7e] text-white font-bold rounded-xl h-12 px-8 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all w-fit mt-8 flex items-center justify-center"
             >
               Get Started Free
-            </a>
+            </Link>
           </div>
-          <div className="rounded-3xl overflow-hidden shadow-lg">
+          <div className="rounded-[32px] overflow-hidden">
             <Image
               src="/images/ready-to-learn-image.webp"
               alt="Ready to learn"
@@ -316,7 +317,7 @@ export default function MarketingPage() {
       {/* Final CTA Section */}
       <section className="bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="rounded-3xl overflow-hidden shadow-md">
+          <div className="rounded-[32px] overflow-hidden">
             <Image
               src="/images/hero-section-image.webp"
               alt="Learn with Waya"
@@ -325,27 +326,27 @@ export default function MarketingPage() {
               className="w-full h-auto object-cover"
             />
           </div>
-          <div>
+          <div className="md:pl-8">
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
               Start learning today.
             </h2>
             <p className="text-lg text-slate-600 font-medium mt-4 max-w-lg leading-relaxed">
               Join thousands of students who learn through what they love.
             </p>
-            <a
+            <Link
               href="/auth?view=get-started"
-              className="bg-[#03a696] hover:bg-[#028b7e] text-white text-base font-bold rounded-xl min-h-12 py-4 px-6 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all flex items-center justify-center mt-8"
+              className="bg-[#03a696] hover:bg-[#028b7e] text-white font-bold rounded-xl h-12 px-8 border-b-4 border-[#016f64] active:translate-y-[2px] active:border-b-2 transition-all w-fit mt-8 flex items-center justify-center"
             >
               Start Learning for Free
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
-        <span className="text-xs font-semibold text-slate-400">waya</span>
-        <span className="text-xs text-slate-400">
+      <footer className="max-w-6xl mx-auto px-6 flex items-center justify-between h-20">
+        <span className="font-nunito font-bold text-slate-400 text-xl tracking-tighter">waya</span>
+        <span className="text-sm font-medium text-slate-400">
           &copy; 2026 Waya. All rights reserved.
         </span>
       </footer>
