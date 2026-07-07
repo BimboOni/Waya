@@ -98,7 +98,7 @@ function SubjectDetailView({
       >
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-body-md text-text-muted hover:text-text-primary transition-colors mb-8 w-fit outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 rounded-lg"
+          className="flex items-center gap-1.5 text-body-md text-text-muted hover:text-text-primary transition-colors mt-8 mb-8 w-fit outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 rounded-lg"
         >
           <IconArrowLeft size={16} /> Back
         </button>

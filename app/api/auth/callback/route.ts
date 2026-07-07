@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
   const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error || !user) {
-    return NextResponse.redirect(`${origin}/auth?view=login&error=${encodeURIComponent(error?.message ?? 'exchange_failed')}`);
+    return NextResponse.redirect(`${origin}/auth?view=login`);
   }
 
   // Read onboarding data from cookie (set by the client before OAuth redirect)

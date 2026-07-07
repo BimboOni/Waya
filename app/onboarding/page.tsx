@@ -275,7 +275,7 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
         });
         if (authError) {
           if (authError.message.toLowerCase().includes('already')) { setMode('sign-in'); setError(null); setIsSaving(false); return; }
-          setError(authError.message); setIsSaving(false); return;
+          setError('Invalid login credentials.'); setIsSaving(false); return;
         }
         if (!data.user) { setError('Something went wrong.'); setIsSaving(false); return; }
 
@@ -314,7 +314,7 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
         router.push('/dashboard');
       } else {
         const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-        if (authError) { setError(authError.message); setIsSaving(false); return; }
+        if (authError) { setError('Invalid login credentials.'); setIsSaving(false); return; }
         if (!data.user) { setError('Something went wrong.'); setIsSaving(false); return; }
 
         // Ensure Prisma profile exists (handles partial signups that created Auth but not DB)

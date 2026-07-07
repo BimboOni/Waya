@@ -439,6 +439,29 @@ function AuthContent() {
                 </div>
               )}
 
+              {/* ═══ VERIFY EMAIL ═══ */}
+              {view === 'verify-email' && (
+                <div className="flex flex-col gap-6">
+                  <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center text-center py-8">
+                    <div className="w-16 h-16 rounded-full bg-brand-primary/10 flex items-center justify-center mb-4">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-10 7L2 7" /></svg>
+                    </div>
+                    <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary mb-3">
+                      Check your email
+                    </h1>
+                    <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm mb-8">
+                      We sent a confirmation link to <span className="font-medium text-text-primary">{email}</span>. Please verify your account to unlock your interactive study companion.
+                    </p>
+                    <Link href="/auth?view=login" className="w-full bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-4 px-12 text-[16px]">
+                      Back to Sign In
+                    </Link>
+                    <p className="text-label-sm text-text-muted mt-6">
+                      Didn&apos;t receive it? Check your spam folder or try signing in again to resend.
+                    </p>
+                  </motion.div>
+                </div>
+              )}
+
             </motion.div>
           </AnimatePresence>
 
