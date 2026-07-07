@@ -213,3 +213,12 @@ select:-webkit-autofill:focus {
 }
 
 /* Prevent autofill background override on any input type */
+
+/* Typography reset utilities for markdown rendering */
+.clear-both {
+  clear: both;
+}
+.reset-edge {
+  margin: 0;
+  padding: 0;
+}

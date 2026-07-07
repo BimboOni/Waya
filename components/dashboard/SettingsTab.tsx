@@ -138,7 +138,7 @@ export function SettingsTab() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-12">
-      <div className="mb-8">
+      <div className="mb-8 animate-fade-in-up opacity-0">
         <h1 className="text-3xl font-medium text-text-primary tracking-tight">Settings</h1>
         <p className="text-body-lg text-text-muted mt-1">Manage your preferences and account.</p>
       </div>
@@ -146,7 +146,7 @@ export function SettingsTab() {
       <div className="space-y-8">
 
         {/* ── Appearance ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '50ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Appearance</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             <div className="flex items-center justify-between">
@@ -173,7 +173,7 @@ export function SettingsTab() {
         </section>
 
         {/* ── Audio ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '100ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Audio</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             <div className="flex items-center justify-between">
@@ -192,7 +192,7 @@ export function SettingsTab() {
         </section>
 
         {/* ── Notifications ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '150ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Notifications</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             <div className="space-y-5">
@@ -225,7 +225,7 @@ export function SettingsTab() {
         </section>
 
         {/* ── Email ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '200ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Email</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             <p className="text-body-lg text-text-primary font-medium">{user?.email ?? 'No email registered'}</p>
@@ -234,7 +234,7 @@ export function SettingsTab() {
         </section>
 
         {/* ── Password ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '250ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Password</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             {!showPasswordForm ? (
@@ -296,7 +296,7 @@ export function SettingsTab() {
         </section>
 
         {/* ── Sign Out ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '300ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Sign Out</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             <div className="flex flex-row justify-between items-center w-full">
@@ -310,7 +310,7 @@ export function SettingsTab() {
         </section>
 
         {/* ── Danger Zone ── */}
-        <section>
+        <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '350ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Danger Zone</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             <div className="flex flex-row justify-between items-center w-full">

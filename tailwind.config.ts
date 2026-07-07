@@ -109,7 +109,7 @@ const config: Config = {
       },
       animation: {
         shimmer: 'shimmer 1.5s ease-in-out infinite',
-        'fade-in-up': 'fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
+        'fade-in-up': 'fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) both',
         'float-slow': 'float-slow 5s ease-in-out infinite',
       },
     },

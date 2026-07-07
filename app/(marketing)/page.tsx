@@ -147,7 +147,12 @@ export default function MarketingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Floating Sticky Navigation */}
-      <div className="fixed top-4 sm:top-6 left-0 right-0 z-50 w-full max-w-[1280px] mx-auto px-4 sm:px-8 animate-fade-in-up">
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-4 sm:top-6 left-0 right-0 z-50 w-full max-w-[1280px] mx-auto px-4 sm:px-8"
+      >
         <nav className="w-full bg-white rounded-full border-[3px] border-border-default py-3 sm:py-4 px-5 sm:px-8 flex flex-row justify-between items-center">
           <Link href="/" className="font-logo font-black text-[28px] leading-none text-brand-primary">waya</Link>
           <button
@@ -191,7 +196,7 @@ export default function MarketingPage() {
             </Link>
           </div>
         </nav>
-      </div>
+      </motion.div>
 
       {/* Mobile overlay menu */}
       {menuOpen && (
@@ -230,7 +235,12 @@ export default function MarketingPage() {
 
       {/* Hero Section */}
       <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-8 pt-40 pb-16 sm:pb-20 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 sm:gap-16 items-center">
-        <div className="flex flex-col justify-center animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col justify-center"
+        >
           <h1 className="font-poppins font-black tracking-tighter text-[clamp(2.5rem,1.5rem+4vw,4.5rem)] leading-[1.1] text-text-primary">
             Learn any subject<br />
             through <span className="text-streak">what you<br />love.</span>
@@ -245,9 +255,15 @@ export default function MarketingPage() {
           >
             Start Learning for Free
           </Link>
-        </div>
-        <div className="w-full flex justify-center lg:justify-end animate-fade-in-up group" style={{ animationDelay: '300ms' }}>
-          <div className="relative w-full max-w-[400px] sm:max-w-[540px] aspect-[5/6] overflow-hidden rounded-[24px] animate-float-slow transition-transform duration-500 group-hover:scale-[1.04] group-hover:[animation-play-state:paused]">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          whileHover={{ scale: 1.02 }}
+          className="w-full flex justify-center lg:justify-end"
+        >
+          <div className="relative w-full max-w-[400px] sm:max-w-[540px] aspect-[5/6] overflow-hidden rounded-[24px]">
             <Image
               src="/images/hero-section-image.webp"
               alt="Student learning with Waya"
@@ -257,7 +273,7 @@ export default function MarketingPage() {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 540px"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 3-Step Flow Section */}
@@ -343,7 +359,7 @@ export default function MarketingPage() {
               hobbies, music, and sports you love.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
             {subjects.map(({ subject, description, icon, iconBg, chips, chipClass }, i) => (
               <motion.div
                 key={subject}

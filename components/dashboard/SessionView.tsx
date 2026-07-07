@@ -36,12 +36,41 @@ function cleanMarkdown(text: string): string {
   return text
     .replace(/---/g, '—')
     .replace(/--/g, '–')
+    .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
 function stripChallengeHeader(text: string): string {
   return text.replace(/###\s*Synthesis Challenge\s*\n?/gi, '').trim();
 }
+
+function getTopicEmoji(topic: string, subject: string): string {
+  const t = topic.toLowerCase();
+  if (/\b(music|song|guitar|piano|rap|melody|rhythm|dj|beat|instrument)\b/i.test(t)) return '🎵';
+  if (/\b(painting|drawing|sculpture|canvas|gallery|art|illustration)\b/i.test(t)) return '🎨';
+  if (/\b(timeline|empire|war|revolution|century|ancient|medieval|dynasty|kingdom)\b/i.test(t)) return '📜';
+  if (/\b(sport|game|player|score|tournament|championship|athlete|goal)\b/i.test(t)) return '🏀';
+  if (/\b(code|programming|algorithm|data|computer|software|app|digital)\b/i.test(t)) return '💻';
+  if (/\b(planet|star|space|gravity|atom|cell|dna|physics|chemistry|biology)\b/i.test(t)) return '🔬';
+  if (/\b(math|algebra|calculus|geometry|equation|number|graph)\b/i.test(t)) return '📐';
+  const subjectMap: Record<string, string> = {
+    Mathematics: '📐', ScienceTech: '🔬', HistoryCulture: '📜', CreativeArts: '🎨',
+  };
+  return subjectMap[subject] || '📚';
+}
+
+const markdownComponents = {
+  h1: ({ children, ...props }: any) => <h1 className="mt-4 mb-2 text-lg font-bold block clear-both reset-edge text-text-primary" {...props}>{children}</h1>,
+  h2: ({ children, ...props }: any) => <h2 className="mt-4 mb-2 text-lg font-bold block clear-both reset-edge text-text-primary" {...props}>{children}</h2>,
+  h3: ({ children, ...props }: any) => <h3 className="mt-4 mb-2 text-lg font-bold block clear-both reset-edge text-text-primary" {...props}>{children}</h3>,
+  p: ({ children, ...props }: any) => <p className="mb-4 text-base leading-relaxed text-text-secondary" {...props}>{children}</p>,
+  ul: ({ children, ...props }: any) => <ul className="list-disc pl-6 space-y-2.5 mt-2 mb-4 block text-text-primary" {...props}>{children}</ul>,
+  ol: ({ children, ...props }: any) => <ol className="list-decimal pl-6 space-y-2.5 mt-2 mb-4 block text-text-primary" {...props}>{children}</ol>,
+  li: ({ children, ...props }: any) => <li className="py-0.5 leading-relaxed text-text-primary" {...props}>{children}</li>,
+  strong: ({ children, ...props }: any) => <strong className="font-semibold text-text-primary" {...props}>{children}</strong>,
+  blockquote: ({ children, ...props }: any) => <blockquote className="border-l-4 border-brand-primary/30 pl-4 italic text-text-secondary my-2" {...props}>{children}</blockquote>,
+  code: ({ children, ...props }: any) => <code className="bg-bg-secondary px-1.5 py-0.5 rounded text-sm font-mono" {...props}>{children}</code>,
+};
 
 const SUBJECT_LABELS: Record<string, string> = {
   Mathematics: 'MATHEMATICS',
@@ -464,12 +493,12 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
 
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-6">
-            <div className="max-w-3xl mx-auto space-y-6">
+            <div className="max-w-3xl mx-auto space-y-4">
               {/* User's original topic — right-aligned */}
               <div className="flex justify-end">
                 <div>
                   <div className="w-fit max-w-[92%] ml-auto bg-slate-100 dark:bg-[#2A2A2A] rounded-2xl rounded-br-md p-4">
-                    <p className="text-body-lg text-text-primary max-w-prose">{topic}</p>
+                    <p className="text-body-lg text-text-primary max-w-prose">{getTopicEmoji(topic, subject)} {topic}</p>
                   </div>
                   <div className="flex items-center justify-end gap-2 mt-2 text-text-muted">
                     <div className="relative group">
@@ -518,22 +547,11 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
               {explanation && (
                 <div className="flex justify-start">
                   <div className="max-w-[90%]">
-                    <div className="text-body-lg text-text-primary font-body leading-relaxed whitespace-pre-wrap">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-                        h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mt-6 mb-2">{children}</h1>,
-                        h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mt-6 mb-2">{children}</h2>,
-                        h3: ({ children }) => <h3 className="text-base font-semibold text-text-primary mt-6 mb-2">{children}</h3>,
-                        ul: ({ children }) => <ul className="list-disc pl-5 mb-2 space-y-3">{children}</ul>,
-                        ol: ({ children }) => <ol className="list-decimal pl-5 mb-2 space-y-3">{children}</ol>,
-                        li: ({ children }) => <li className="text-body-lg text-text-primary py-1.5">{children}</li>,
-                        p: ({ children }) => <p className="text-body-lg text-text-primary mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                        strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
-                        blockquote: ({ children }) => <blockquote className="border-l-4 border-brand-primary/30 pl-4 italic text-text-secondary my-2">{children}</blockquote>,
-                        code: ({ children }) => <code className="bg-bg-secondary px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>,
-                      }}>{cleanMarkdown(explanation)}</ReactMarkdown>
+                      <div className="text-body-lg text-text-primary font-body leading-relaxed">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{cleanMarkdown(explanation)}</ReactMarkdown>
                     </div>
                     {stage !== 'streaming' && (
-                      <div className="flex flex-row items-center gap-3 w-full flex-wrap text-text-muted mt-5">
+                      <div className="flex flex-row items-center gap-3 w-full flex-wrap text-text-muted mt-3">
                         <div className="relative group">
                           <button
                             onClick={() => { navigator.clipboard.writeText(explanation); showTooltipFeedback('copy-exp', 'Copied!'); }}
@@ -592,7 +610,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border-none w-full">
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border-none w-full mb-8">
                     <p className="text-label-sm font-bold text-brand-primary uppercase tracking-wider mb-2">Synthesis Challenge</p>
                     <p className="text-body-lg text-text-primary font-body leading-relaxed">
                       {synthQuestion}
@@ -603,7 +621,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
 
               {/* Complete stage */}
               {stage === 'complete' && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                   {/* User's answer — right-aligned */}
                   <div className="flex justify-end">
                     <div>
@@ -628,17 +646,9 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   <div className="flex justify-start">
                     <div className="max-w-[90%]">
                       <div className="text-body-lg text-text-primary font-body leading-relaxed">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-                          h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mt-6 mb-2">{children}</h1>,
-                          h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mt-6 mb-2">{children}</h2>,
-                        ul: ({ children }) => <ul className="list-disc pl-5 mb-2 space-y-3">{children}</ul>,
-                        ol: ({ children }) => <ol className="list-decimal pl-5 mb-2 space-y-3">{children}</ol>,
-                        li: ({ children }) => <li className="text-body-md text-text-primary py-1.5">{children}</li>,
-                          p: ({ children }) => <p className="text-body-md text-text-primary mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                          strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
-                        }}>{cleanMarkdown(feedback)}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{cleanMarkdown(feedback)}</ReactMarkdown>
                       </div>
-                      <div className="flex flex-row items-center gap-3 w-full flex-wrap text-text-muted mt-5">
+                      <div className="flex flex-row items-center gap-3 w-full flex-wrap text-text-muted mt-3">
                         <div className="relative group">
                           <button
                             onClick={() => { navigator.clipboard.writeText(feedback); showTooltipFeedback('copy-fb', 'Copied!'); }}
@@ -805,35 +815,36 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
           <AnimatePresence>
             {isExpanded && (
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 12 }}
-                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                className="fixed inset-0 z-50 bg-bg-primary flex flex-col"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4"
               >
-                <div className="flex items-center justify-end px-6 sm:px-10 pt-6 sm:pt-8 pb-4">
-                  <div className="relative group">
+                <motion.div
+                  initial={{ opacity: 0, y: 12, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 12, scale: 0.97 }}
+                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                  className="w-full max-w-2xl max-h-[85vh] overflow-y-auto flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-slate-900 border-none"
+                >
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-headline-md text-text-primary font-heading">Type your answer</h2>
                     <button
                       onClick={() => setIsExpanded(false)}
-                      className="w-9 h-9 flex items-center justify-center rounded-xl text-text-muted hover:text-text-primary hover:bg-bg-secondary transition-colors"
+                      className="w-9 h-9 flex items-center justify-center rounded-xl text-text-muted hover:text-text-primary hover:bg-bg-secondary transition-colors shrink-0"
                       aria-label="Close"
                     >
                       <IconX size={20} />
                     </button>
-                    <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-top scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">
-                      Close
-                    </span>
                   </div>
-                </div>
-                <div className="flex-1 flex flex-col px-6 sm:px-10 pb-6 sm:pb-10 max-w-4xl mx-auto w-full">
-                  <h2 className="text-headline-md text-text-primary font-heading mb-8">Type your answer</h2>
                   <textarea
                     value={answer}
                     onChange={(e) => setAnswer(e.target.value)}
                     onInput={(e) => autoResize(e.currentTarget)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your answer here..."
-                    className="w-full flex-1 min-h-[240px] bg-bg-card border-2 border-border-default rounded-2xl p-6 text-body-lg text-text-primary font-body placeholder:text-text-muted resize-none outline-none focus:outline-none focus:border-slate-200 dark:focus:border-slate-800 transition-colors"
+                    className="w-full min-h-[200px] bg-bg-card border-2 border-border-default rounded-2xl p-6 text-body-lg text-text-primary font-body placeholder:text-text-muted resize-none outline-none focus:outline-none focus:border-slate-200 dark:focus:border-slate-800 transition-colors"
                     autoFocus
                   />
                   <div className="flex justify-center mt-6">
@@ -850,7 +861,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                       )}
                     </Button>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>

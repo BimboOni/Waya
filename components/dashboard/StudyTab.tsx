@@ -285,7 +285,7 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
                   </span>
                 </div>
               </div>
-              <div className="flex-1 flex flex-col px-6 sm:px-10 pb-6 sm:pb-10 max-w-4xl mx-auto w-full">
+              <div className="flex-1 flex flex-col px-6 sm:px-10 pb-6 sm:pb-10 max-w-4xl mx-auto w-full overflow-y-auto">
                 <div className="max-w-xl mx-auto text-center mb-8">
                   <h2 className="text-headline-md text-text-primary font-heading mb-2">What do you want to learn?</h2>
                   <p className="text-body-md text-text-muted font-normal">
@@ -330,7 +330,7 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
         </div>
       </motion.div>
 
-      {recentSessions.length > 0 && (
+      {recentSessions.length > 0 && !isExpanded && (
         <div className="fixed bottom-0 left-0 right-0 w-full bg-slate-50 dark:bg-[#121212] border-t border-slate-200 dark:border-slate-800 z-50">
           {showLeftBlur && <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-slate-50 via-slate-50/80 to-transparent dark:from-[#121212] dark:via-[#121212]/80 z-20 pointer-events-none" />}
           {showRightBlur && <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent dark:from-[#121212] dark:via-[#121212]/80 z-20 pointer-events-none" />}
