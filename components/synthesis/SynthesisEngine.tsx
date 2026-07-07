@@ -95,7 +95,7 @@ export function SynthesisEngine() {
       if (sessionId) {
         setCurrentSessionId(sessionId);
         const [expPart, qPart] = streamedText.split(/\[synthesis_question\]/i);
-        setExplanation(expPart.replace('[EXPLANATION]\n', '').trim());
+        setExplanation(expPart.replace('[EXPLANATION]\n', '').replace(/###\s*Synthesis Challenge\s*\n?/gi, '').trim());
         setSynthesisQuestion(qPart?.trim() ?? '');
         setStage('answering');
       } else {

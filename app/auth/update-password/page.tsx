@@ -75,7 +75,7 @@ export default function UpdatePasswordPage() {
             placeholder="Confirm password" autoComplete="new-password" required
             className="w-full min-h-[52px] px-4 rounded-xl border-2 border-border-default bg-bg-primary text-text-primary font-body text-body-lg placeholder:text-text-muted outline-none focus:border-brand-primary transition-all" />
           <button type="submit" disabled={isLoading || !password || !confirmPassword}
-            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-4 border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center mt-2">
+            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-4 border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center mt-2">
             {isLoading ? 'Updating...' : 'Update password'}
           </button>
         </form>

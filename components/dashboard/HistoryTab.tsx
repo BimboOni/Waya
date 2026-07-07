@@ -87,11 +87,12 @@ export function HistoryTab({ sessions, onCta, onResumeSession }: HistoryTabProps
                     className="overflow-hidden"
                   >
             <div className="border-t border-border-default">
-              {items.slice(0, showAll[subj] ? items.length : 5).map((s) => (
+              {items.slice(0, showAll[subj] ? items.length : 5).map((s, idx) => (
                 <div
                   key={s.id}
-                          onClick={() => onResumeSession?.(s)}
-                  className="flex items-center gap-4 px-5 py-4 hover:bg-bg-secondary/30 transition-colors cursor-pointer border-b border-border-default last:border-b-0"
+                  onClick={() => onResumeSession?.(s)}
+                  className={`flex items-center gap-4 px-5 py-4 hover:bg-bg-secondary/30 transition-colors cursor-pointer border-b border-border-default last:border-b-0 animate-fade-in-up opacity-0`}
+                  style={{ animationDelay: `${idx * 50}ms` }}
                 >
                   <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: SUBJECT_COLORS[s.subject] }} />
                   <div className="flex-1 min-w-0">

@@ -36,8 +36,11 @@ function cleanMarkdown(text: string): string {
   return text
     .replace(/---/g, '—')
     .replace(/--/g, '–')
-    .replace(/\*\*(.*?)\*\*/g, '**$1**')
     .trim();
+}
+
+function stripChallengeHeader(text: string): string {
+  return text.replace(/###\s*Synthesis Challenge\s*\n?/gi, '').trim();
 }
 
 const SUBJECT_LABELS: Record<string, string> = {
@@ -289,7 +292,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
               if (parsed.delta) {
                 fullText += parsed.delta;
                 const parts = fullText.split(/\[synthesis_question\]/i);
-                setExplanation(parts[0]);
+                setExplanation(stripChallengeHeader(parts[0]));
                 if (parts[1]) setSynthQuestion(parts[1].trim());
               }
               if (parsed.sessionId) setSessionId(parsed.sessionId);
@@ -363,15 +366,29 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
       } else {
         setFeedback(data.feedback ?? 'Not quite — give it another shot!');
       }
+      setAnswer('');
+      if (textareaRef.current) {
+        textareaRef.current.style.removeProperty('height');
+        setIsCompact(true);
+      }
     } catch (err) {
       console.error('[session] validate error:', err);
       setFeedback('Something went wrong. Try again.');
+      setAnswer('');
+      if (textareaRef.current) {
+        textareaRef.current.style.removeProperty('height');
+        setIsCompact(true);
+      }
     }
     setIsSubmitting(false);
   };
 
   const handleClose = () => {
     abortRef.current?.abort();
+    setAnswer('');
+    setIsExpanded(false);
+    if (textareaRef.current) textareaRef.current.style.removeProperty('height');
+    setIsCompact(true);
     onClose();
   };
 
@@ -503,15 +520,15 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   <div className="max-w-[90%]">
                     <div className="text-body-lg text-text-primary font-body leading-relaxed whitespace-pre-wrap">
                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-                        h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mb-3 mt-4">{children}</h1>,
-                        h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mb-2 mt-3">{children}</h2>,
-                        h3: ({ children }) => <h3 className="text-base font-semibold text-text-primary mb-2 mt-3">{children}</h3>,
-                        ul: ({ children }) => <ul className="list-disc pl-5 mb-3 space-y-1">{children}</ul>,
-                        ol: ({ children }) => <ol className="list-decimal pl-5 mb-3 space-y-1">{children}</ol>,
-                        li: ({ children }) => <li className="text-body-lg text-text-primary">{children}</li>,
-                        p: ({ children }) => <p className="text-body-lg text-text-primary mb-3 last:mb-0 leading-relaxed">{children}</p>,
+                        h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mt-6 mb-2">{children}</h1>,
+                        h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mt-6 mb-2">{children}</h2>,
+                        h3: ({ children }) => <h3 className="text-base font-semibold text-text-primary mt-6 mb-2">{children}</h3>,
+                        ul: ({ children }) => <ul className="list-disc pl-5 mb-2 space-y-3">{children}</ul>,
+                        ol: ({ children }) => <ol className="list-decimal pl-5 mb-2 space-y-3">{children}</ol>,
+                        li: ({ children }) => <li className="text-body-lg text-text-primary py-1.5">{children}</li>,
+                        p: ({ children }) => <p className="text-body-lg text-text-primary mb-2 last:mb-0 leading-relaxed">{children}</p>,
                         strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
-                        blockquote: ({ children }) => <blockquote className="border-l-4 border-brand-primary/30 pl-4 italic text-text-secondary my-3">{children}</blockquote>,
+                        blockquote: ({ children }) => <blockquote className="border-l-4 border-brand-primary/30 pl-4 italic text-text-secondary my-2">{children}</blockquote>,
                         code: ({ children }) => <code className="bg-bg-secondary px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>,
                       }}>{cleanMarkdown(explanation)}</ReactMarkdown>
                     </div>
@@ -568,119 +585,21 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                 </div>
               )}
 
-              {/* Synthesis question — challenge card with left brand accent */}
+              {/* Synthesis Challenge — at the bottom of the flow */}
               {synthQuestion && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="rounded-2xl p-5 w-full bg-bg-card border-l-4" style={{ borderColor: 'var(--color-brand-primary)' }}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <p className="text-label-sm font-bold text-brand-primary uppercase tracking-wider">Synthesis Challenge</p>
-                    </div>
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border-none w-full">
+                    <p className="text-label-sm font-bold text-brand-primary uppercase tracking-wider mb-2">Synthesis Challenge</p>
                     <p className="text-body-lg text-text-primary font-body leading-relaxed">
                       {synthQuestion}
                     </p>
                   </div>
                 </motion.div>
               )}
-
-              {/* Keep exploring — new user message + AI response */}
-              {keepExploringMessages.map((msg, i) => (
-                <div key={`ke-${i}`} id={`ke-msg-${i}`}>
-                  <div className="flex justify-end">
-                    <div>
-                      <div className="w-fit max-w-[92%] ml-auto bg-bg-card rounded-2xl rounded-br-md p-4">
-                        <p className="text-body-lg text-text-primary max-w-prose">{msg}</p>
-                      </div>
-                      <div className="flex items-center justify-end gap-2 mt-2 text-text-muted">
-                        <div className="relative group">
-                          <button onClick={() => { navigator.clipboard.writeText(msg); showTooltipFeedback('copy-ke', 'Copied!'); }}
-                            className="p-1.5 rounded-full hover:text-text-primary hover:bg-bg-secondary transition-colors" aria-label="Copy text">
-                            <IconCopy size={18} />
-                          </button>
-                          <span className="absolute bottom-full right-0 mb-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-bottom scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">
-                            {tooltipFeedback['copy-ke'] || 'Copy text'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {!keepExploringDone && !keepExploringResponse && (
-                    <div className="flex justify-start mt-6">
-                      <div className="flex items-center gap-2 px-1 py-5">
-                        <div className="flex items-center gap-1">
-                          <motion.span className="w-1.5 h-1.5 rounded-full bg-text-muted" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0 }} />
-                          <motion.span className="w-1.5 h-1.5 rounded-full bg-text-muted" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }} />
-                          <motion.span className="w-1.5 h-1.5 rounded-full bg-text-muted" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }} />
-                        </div>
-                        <span className="text-body-md text-text-muted font-body">Thinking</span>
-                      </div>
-                    </div>
-                  )}
-                  {keepExploringResponse && (
-                    <div className="flex justify-start mt-6">
-                      <div className="max-w-[90%]">
-                        <div className="text-body-lg text-text-primary font-body leading-relaxed whitespace-pre-wrap">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-                            h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mb-3 mt-4">{children}</h1>,
-                            h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mb-2 mt-3">{children}</h2>,
-                            h3: ({ children }) => <h3 className="text-base font-semibold text-text-primary mb-2 mt-3">{children}</h3>,
-                            ul: ({ children }) => <ul className="list-disc pl-5 mb-3 space-y-1">{children}</ul>,
-                            ol: ({ children }) => <ol className="list-decimal pl-5 mb-3 space-y-1">{children}</ol>,
-                            li: ({ children }) => <li className="text-body-lg text-text-primary">{children}</li>,
-                            p: ({ children }) => <p className="text-body-lg text-text-primary mb-3 last:mb-0 leading-relaxed">{children}</p>,
-                            strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
-                           }}>{cleanMarkdown(keepExploringResponse)}</ReactMarkdown>
-                        </div>
-                        {keepExploringDone && (
-                          <div className="flex flex-row items-center gap-3 w-full flex-wrap text-text-muted mt-5">
-                            <div className="relative group">
-                              <button onClick={() => { navigator.clipboard.writeText(keepExploringResponse); showTooltipFeedback('copy-ke-resp', 'Copied!'); }}
-                                className="p-1.5 rounded-full hover:text-text-primary hover:bg-bg-secondary transition-colors" aria-label="Copy text">
-                                <IconCopy size={18} />
-                              </button>
-                              <span className="absolute bottom-full left-0 mb-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-bottom scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">
-                                {tooltipFeedback['copy-ke-resp'] || 'Copy text'}
-                              </span>
-                            </div>
-                            <div className="relative group">
-                              <button onClick={() => handleActionClick('good-ke')}
-                                className={`p-1.5 rounded-full transition-colors ${clickedActions['good-ke'] ? 'bg-brand-primary/10 text-brand-primary' : 'hover:text-text-primary hover:bg-bg-secondary'}`}
-                                aria-label="Good response">
-                                <IconThumbUp size={18} />
-                              </button>
-                              <span className="absolute bottom-full left-0 mb-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-bottom scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">
-                                {tooltipFeedback['good-ke'] || 'Good response'}
-                              </span>
-                            </div>
-                            <div className="relative group">
-                              <button onClick={() => handleActionClick('bad-ke')}
-                                className={`p-1.5 rounded-full transition-colors ${clickedActions['bad-ke'] ? 'text-red-500 hover:text-red-600' : 'hover:text-text-primary hover:bg-bg-secondary'}`}
-                                aria-label="Bad response">
-                                <IconThumbDown size={18} />
-                              </button>
-                              <span className="absolute bottom-full left-0 mb-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-bottom scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">
-                                {tooltipFeedback['bad-ke'] || 'Bad response'}
-                              </span>
-                          </div>
-                          {clickedActions['bad-ke'] && !chipSubmitted['bad-ke'] && FEEDBACK_CHIPS.map((chip) => (
-                            <button key={chip} onClick={() => handleChipClick('bad-ke', chip)}
-                              className="text-xs px-3 py-1 rounded-full border border-slate-200 hover:border-slate-400 text-slate-600 cursor-pointer transition-colors">
-                              {chip}
-                            </button>
-                          ))}
-                          {chipSubmitted['bad-ke'] && (
-                            <span className="text-xs text-green-600">✓ Thanks for the feedback</span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    </div>
-                  )}
-                </div>
-              ))}
 
               {/* Complete stage */}
               {stage === 'complete' && (
@@ -710,12 +629,12 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                     <div className="max-w-[90%]">
                       <div className="text-body-lg text-text-primary font-body leading-relaxed">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-                          h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mb-3 mt-4">{children}</h1>,
-                          h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mb-2 mt-3">{children}</h2>,
-                          ul: ({ children }) => <ul className="list-disc pl-5 mb-3 space-y-1">{children}</ul>,
-                          ol: ({ children }) => <ol className="list-decimal pl-5 mb-3 space-y-1">{children}</ol>,
-                          li: ({ children }) => <li className="text-body-md text-text-primary">{children}</li>,
-                          p: ({ children }) => <p className="text-body-md text-text-primary mb-3 last:mb-0 leading-relaxed">{children}</p>,
+                          h1: ({ children }) => <h1 className="text-xl font-bold text-text-primary mt-6 mb-2">{children}</h1>,
+                          h2: ({ children }) => <h2 className="text-lg font-bold text-text-primary mt-6 mb-2">{children}</h2>,
+                        ul: ({ children }) => <ul className="list-disc pl-5 mb-2 space-y-3">{children}</ul>,
+                        ol: ({ children }) => <ol className="list-decimal pl-5 mb-2 space-y-3">{children}</ol>,
+                        li: ({ children }) => <li className="text-body-md text-text-primary py-1.5">{children}</li>,
+                          p: ({ children }) => <p className="text-body-md text-text-primary mb-2 last:mb-0 leading-relaxed">{children}</p>,
                           strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
                         }}>{cleanMarkdown(feedback)}</ReactMarkdown>
                       </div>
@@ -798,7 +717,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
           >
             <div className="max-w-3xl mx-auto">
               {feedback && (
-                <div className="mb-3 px-4 py-3 rounded-xl border-l-4" style={{ backgroundColor: 'var(--color-ask-card-bg)', borderColor: 'var(--color-warning)' }}>
+                <div className="mb-3 px-4 py-3 rounded-2xl border-l-4" style={{ backgroundColor: 'var(--color-ask-card-bg)', borderColor: 'var(--color-warning)' }}>
                   <p className="text-body-md text-text-primary">{feedback}</p>
                 </div>
               )}
@@ -807,7 +726,10 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   <span className="text-body-md text-text-muted font-body">Waya is crafting your lesson...</span>
                 </div>
               ) : (
-                <div className={`w-full bg-bg-card border-2 border-border-default transition-all ${isCompact ? 'flex flex-row items-center h-[60px] rounded-full px-4' : 'flex flex-col rounded-2xl'}`}>
+                <form
+                  onSubmit={(e) => { e.preventDefault(); handleSubmitAnswer(); }}
+                  className={`w-full bg-bg-card border-2 border-border-default transition-all ${isCompact ? 'flex flex-row items-center h-[60px] rounded-full px-4' : 'flex flex-col rounded-2xl'}`}
+                >
                   <textarea
                     ref={textareaRef}
                     value={answer}
@@ -836,9 +758,10 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                     )}
                     <div className="relative group ml-auto">
                       <button
+                        type="submit"
                         onClick={handleSubmitAnswer}
                         disabled={!answer.trim() || isSubmitting}
-                        className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center"
                         aria-label="Submit answer"
                       >
                         {isSubmitting ? (
@@ -856,9 +779,10 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   {isCompact && (
                   <div className="relative group shrink-0">
                     <button
+                      type="submit"
                       onClick={handleSubmitAnswer}
                       disabled={!answer.trim() || isSubmitting}
-                      className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
                       aria-label="Submit answer"
                     >
                       {isSubmitting ? (
@@ -872,7 +796,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                     </span>
                   </div>
                   )}
-                </div>
+                </form>
               )}
             </div>
           </motion.div>

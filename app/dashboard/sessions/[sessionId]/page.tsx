@@ -96,7 +96,7 @@ export default function SessionDetailPage() {
                 </div>
 
                 <div className="self-start max-w-[90%]">
-                  <div className="rounded-2xl p-5 bg-white dark:bg-[#1A1A1A] dark:border dark:border-slate-800">
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 mt-8 border-none">
                     <p className="text-label-sm font-bold text-brand-primary uppercase tracking-wider mb-2">Synthesis Challenge</p>
                     <p className="text-body-md text-text-primary">{synthQuestion || 'No challenge question recorded for this session.'}</p>
                   </div>
@@ -130,7 +130,7 @@ export default function SessionDetailPage() {
           <p className="text-label-lg font-bold mb-4" style={{ color: 'var(--color-success)' }}>XP earned: +{session.xpEarned} XP</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="px-8 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-dark transition-all duration-100 hover:brightness-105 active:translate-y-1 active:border-b-0"
+            className="px-8 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-dark transition-all duration-100 hover:brightness-105 active:translate-y-1 active:border-b-0 active:scale-[0.98]"
           >
             Study this topic again →
           </button>

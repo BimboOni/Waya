@@ -114,7 +114,7 @@ export function SessionsHistory({ sessions, onResumeSession }: SessionsHistoryPr
                                         <>
                                           {explanation && <p className="text-[0.6rem] text-slate-500 leading-relaxed">{explanation.slice(0, 200)}</p>}
                                           {question && (
-                                            <div className="bg-white rounded-2xl p-4 dark:bg-[#1A1A1A] dark:border dark:border-slate-800">
+                                            <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border-none">
                                               <p className="text-label-sm font-bold text-brand-primary uppercase tracking-wider mb-1">Synthesis Challenge</p>
                                               <p className="text-body-md text-text-primary">{question}</p>
                                             </div>

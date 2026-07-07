@@ -127,7 +127,7 @@ function SubjectDetailView({
               <div className="flex justify-end w-full px-3 pb-3">
                 <div className="relative group">
                   <button onClick={handleSubmit} disabled={topic.trim().length < 3}
-                    className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2" aria-label="Ask Waya">
+                    className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 flex items-center justify-center" aria-label="Ask Waya">
                     <IconArrowUp size={18} />
                   </button>
                   <span className="absolute bottom-full right-0 mb-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-bottom scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">Ask Waya</span>
@@ -137,7 +137,7 @@ function SubjectDetailView({
             {isCompact && (
               <div className="relative group shrink-0">
                 <button onClick={handleSubmit} disabled={topic.trim().length < 3}
-                  className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2" aria-label="Ask Waya">
+                  className="bg-brand-primary text-white p-2.5 rounded-full hover:scale-105 active:scale-95 transition-transform disabled:opacity-30 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 flex items-center justify-center" aria-label="Ask Waya">
                   <IconArrowUp size={18} />
                 </button>
                 <span className="absolute bottom-full right-0 mb-2 px-4 py-2 rounded-md text-label-sm font-body font-medium whitespace-nowrap bg-bg-card border border-border-default text-text-secondary transition-all duration-200 origin-bottom scale-95 group-hover:scale-100 opacity-0 group-hover:opacity-100 delay-0 group-hover:delay-[6000ms] pointer-events-none shadow-sm">Ask Waya</span>
@@ -220,14 +220,11 @@ export function SubjectsTab({ sessions, onStartSession, onResumeSession }: Subje
           const totalXp = sessions.filter((s) => s.subject === subj.id).reduce((sum, s) => sum + s.xpEarned, 0);
 
           return (
-            <motion.div
+            <div
               key={subj.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
               onClick={() => setSelectedSubject(subj.id)}
-              className="relative rounded-xl p-8 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:brightness-95 active:translate-y-[2px] active:scale-[0.98] outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
-              style={{ backgroundColor: SUBJECT_CONTAINER_COLORS[subj.id] }}
+              className={`relative rounded-xl p-8 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:brightness-95 active:translate-y-[2px] active:scale-[0.98] outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 animate-fade-in-up opacity-0`}
+              style={{ backgroundColor: SUBJECT_CONTAINER_COLORS[subj.id], animationDelay: `${i * 75}ms` }}
             >
               <h3 className="text-headline-sm font-heading" style={{ color: SUBJECT_TEXT_COLORS[subj.id] }}>
                 {subj.label}
@@ -252,7 +249,7 @@ export function SubjectsTab({ sessions, onStartSession, onResumeSession }: Subje
               >
                 {count === 0 ? 'Start Exploring' : 'Continue Exploring'}
               </button>
-            </motion.div>
+            </div>
           );
         })}
       </div>

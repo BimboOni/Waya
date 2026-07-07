@@ -64,7 +64,7 @@ export function ExplanationStream({
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1], delay: 0.1 }}
-          className="rounded-2xl p-5 bg-white dark:bg-[#1A1A1A] dark:border dark:border-slate-800"
+          className="bg-white dark:bg-slate-900 rounded-2xl p-6 mt-8 border-none"
         >
           <p className="text-label-sm font-bold text-brand-primary uppercase tracking-wider mb-2">
             Synthesis Challenge
