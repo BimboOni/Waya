@@ -55,7 +55,12 @@ export function SynthesisEngine() {
         throw new Error(err.error ?? `API error ${response.status}`);
       }
 
-      const reader = response.body!.getReader();
+      if (!response.body) {
+        console.error('[synthesis] Response body is null');
+        throw new Error('Empty response from server');
+      }
+
+      const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let streamedText = '';
       let sessionId: string | null = null;

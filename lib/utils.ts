@@ -1,8 +1,4 @@
-import { XP_PER_LEVEL, SUBJECT_COLORS } from './constants';
-
-export function getXPProgress(xp: number): number {
-  return (xp % XP_PER_LEVEL) / XP_PER_LEVEL;
-}
+import { SUBJECT_COLORS } from './constants';
 
 export function getSubjectColor(subject: string): string {
   return SUBJECT_COLORS[subject] ?? 'var(--color-brand-primary)';
@@ -40,9 +36,6 @@ export function getLocalDateString(date?: Date): string {
   return d.toLocaleDateString('en-CA');
 }
 
-export function isSameLocalDay(a: Date | string, b: Date | string): boolean {
-  return getLocalDateString(new Date(a)) === getLocalDateString(new Date(b));
-}
 
 export function formatInterests(interests: string[]): string {
   if (!interests || interests.length === 0) return '';

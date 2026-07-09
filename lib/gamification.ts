@@ -6,11 +6,11 @@ export const LEVELS = [
   { name: 'Polymath',  minXP: 1500, maxXP: Infinity },
 ] as const;
 
-export function getLevelForXP(xp: number) {
+function getLevelForXP(xp: number) {
   return LEVELS.findLast(l => xp >= l.minXP) ?? LEVELS[0];
 }
 
-export function getProgressToNextLevel(xp: number) {
+function getProgressToNextLevel(xp: number) {
   const current = getLevelForXP(xp);
   const next = LEVELS[LEVELS.indexOf(current) + 1];
   if (!next) return 100;
@@ -43,7 +43,7 @@ export function getLevelName(level: number): string {
   return LEVELS[level - 1]?.name ?? `Level ${level}`;
 }
 
-export function getXPToNextLevel(xp: number): number {
+function getXPToNextLevel(xp: number): number {
   const current = getLevelForXP(xp);
   const next = LEVELS[LEVELS.indexOf(current) + 1];
   return next ? next.minXP - current.minXP : 0;

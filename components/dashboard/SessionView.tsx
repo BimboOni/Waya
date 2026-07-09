@@ -347,12 +347,13 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
   // Save draft session when streaming completes
   useEffect(() => {
     if (stage === 'answering' && sessionId && subject && explanation && !draftSaved) {
-      setDraftSaved(true);
       fetch('/api/session/draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, topic, subject, aiResponse: synthQuestion ? `${explanation}\n[SYNTHESIS_QUESTION]\n${synthQuestion}` : explanation }),
-      }).catch(() => {});
+      })
+        .then((res) => { if (res.ok) setDraftSaved(true); })
+        .catch(() => {});
     }
   }, [stage, sessionId, subject, explanation, synthQuestion, topic, draftSaved]);
 
@@ -373,6 +374,13 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
           synthQuestion,
         }),
       });
+      if (!res.ok) {
+        console.error('[session] validate-answer API error:', res.status);
+        setFeedback('Something went wrong. Try again.');
+        setIsSubmitting(false);
+        if (textareaRef.current) { textareaRef.current.style.removeProperty('height'); setIsCompact(true); }
+        return;
+      }
       const data = await res.json();
       const isCorrect = data.valid === true;
 

@@ -1,0 +1,42 @@
+# Waya Engineering Architecture & Code Bloat Audit
+
+Following a strict review of the Next.js App Router structural layout and Prisma integration layer, here are the findings covering the requested criteria.
+
+## 1. Domain Boundaries & Acyclic Dependencies
+
+> [!SUCCESS]
+> **Status: Excellent**
+> The repository maintains strict domain boundaries in alignment with modern Next.js 14 architecture rules.
+
+*   **Database Isolation:** The Prisma singleton (`lib/prisma.ts`) is cleanly isolated. A recursive repository scan confirms that `prisma` is **exclusively** imported and executed within the `app/api/` server route handlers. No client components or UI files contain raw database connection references.
+*   **Supabase Client Bifurcation:** 
+    *   Server operations exclusively utilize `createServerSupabaseClient` (via `lib/supabase/server.ts`).
+    *   Client UI states appropriately rely on `createClientSupabaseClient` (via `lib/supabase/client.ts`) for browser-safe session interactions (e.g., in `TopNav.tsx` or `SettingsTab.tsx`).
+*   **Zero Leakage:** No instances were found where UI elements directly execute deep mutations. All client actions correctly wrap network calls pointing to REST endpoints under `/api`.
+
+## 2. Code Bloat & Refactor Opportunities
+
+> [!WARNING]
+> **Status: Action Required (Component Monoliths)**
+> While the business logic is clean, the UI presentation layer has several monolithic files exceeding reasonable bounds. These should be split into smaller, composable components.
+
+**Primary Bloat Targets:**
+1.  **`components/dashboard/SessionView.tsx` (872 lines):** Contains only one exported function. The internal view layout handles too many responsibilities (chat stream, synthesis challenge modal, knowledge graph plotting logic) and needs to be fragmented.
+2.  **`app/auth/page.tsx` (551 lines):** Auth logic is deeply coupled with complex visual UI definitions. The underlying input forms and layout blocks should be exported as `<AuthForm />` or `<OAuthProviders />`.
+3.  **`app/onboarding/page.tsx` (515 lines) & `components/onboarding/OnboardingWizard.tsx` (509 lines):** These handle complex multi-step wizards internally. Moving individual steps (e.g., `InterestSelectionStep.tsx`, `WelcomeStep.tsx`) into separate files under `components/onboarding/steps/` would vastly improve readability.
+4.  **`components/dashboard/StudyTab.tsx` (375 lines):** Ripe for abstraction, specifically extracting the list mapping layers into a dedicated `<TopicList />` component.
+
+## 3. Data Hygiene & Rate Guard Audit
+
+> [!TIP]
+> **Status: Robust & Consistent**
+> The backend endpoints gracefully intercept third-party AI timeouts and data execution faults.
+
+*   **Global Exception Trapping:** All 14 core API endpoints wrap their execution blocks in standard `try/catch` handlers mapping downstream to `NextResponse` payloads. 
+*   **LLM Rate Guards & Token Tracking:** Nested network exceptions (e.g., `try { ... } catch (streamErr)`) are structurally active in the streaming endpoints (`api/study`, `api/synthesis`, `api/chat`, and `api/validate-answer`). 
+*   **Fire-and-Forget Analytics:** Token metrics utilizing promises are accurately terminated with `.catch(() => {})` blocks, ensuring that localized logging faults do not crash the primary server response stream (e.g., line 63 in `api/validate-answer/route.ts`).
+*   **Zod Safety Layer:** The handlers actively filter edge inputs before hitting the Prisma layers, confirming robust compliance with the Waya Data Scoping Rules.
+
+---
+**Next Steps:**
+If you would like to proceed with addressing the code bloat in Section 2, we can generate a plan to systematically decompose `SessionView.tsx` and the `OnboardingWizard` into maintainable sub-components without breaking the UI.

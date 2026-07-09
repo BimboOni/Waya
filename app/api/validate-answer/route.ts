@@ -3,12 +3,12 @@ import { z } from 'zod';
 import { deepseek, buildValidationSystemPrompt } from '@/lib/deepseek';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
-import { XP_SUBMIT_ANSWER, XP_CORRECT_BONUS, XP_FIRST_SESSION_BONUS } from '@/lib/constants';
-import { createKnowledgeNode } from '@/lib/knowledge-map';
+import { XP_SUBMIT_ANSWER, XP_CORRECT_BONUS } from '@/lib/constants';
 import { checkTokenLimit, trackTokenUsage } from '@/lib/tokens';
+import { awardSession } from '@/lib/answer';
 
 const RequestSchema = z.object({
-  sessionId: z.string(),
+  sessionId: z.string().uuid(),
   userAnswer: z.string().min(3).max(500),
   localDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   topic: z.string().optional(),
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     const totalTokens = (completion as any).usage?.total_tokens ?? 0;
     if (totalTokens > 0) {
-      trackTokenUsage(user.id, totalTokens).catch(() => {});
+      try { await trackTokenUsage(user.id, totalTokens); } catch (e) { console.error('[validate-answer] Token tracking failed:', e); }
     }
 
     const raw = completion.choices[0]?.message?.content ?? '{}';
@@ -84,79 +84,17 @@ export async function POST(req: NextRequest) {
       completed = true;
     }
 
-    const dbUser = await prisma.user.findUnique({ where: { id: user.id } });
-    if (!dbUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    const today = localDate;
-    const lastDate = dbUser.lastLocalDate;
-    const yesterdayDate = new Date(localDate);
-    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-    const yesterday = yesterdayDate.toISOString().split('T')[0];
-
-    let newStreak = dbUser.streak;
-    let isFirstSessionToday = false;
-    if (lastDate === today) {
-      // already studied today
-    } else if (lastDate === yesterday) {
-      newStreak += 1;
-    } else {
-      newStreak = 1;
-    }
-    if (lastDate !== today) isFirstSessionToday = true;
-    if (isFirstSessionToday) xpAwarded += XP_FIRST_SESSION_BONUS;
-
-    const newXP = dbUser.xp + xpAwarded;
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { xp: newXP, lastLocalDate: today, streak: newStreak },
+    const { newXP, newLevel, didLevelUp, newStreak, isFirstSessionToday, newNodeData } = await awardSession({
+      userId: user.id,
+      sessionId,
+      sessionTopic,
+      subject: subject ?? 'Other',
+      sessionAiResponse,
+      userAnswer,
+      xpAwarded,
+      completed,
+      localDate,
     });
-
-    if (sessionId) {
-      const existing = await prisma.session.findUnique({ where: { id: sessionId } });
-      if (existing) {
-        await prisma.session.update({
-          where: { id: sessionId },
-          data: { userAnswer, xpEarned: xpAwarded, completed },
-        });
-      } else {
-        await prisma.session.create({
-          data: {
-            id: sessionId,
-            userId: user.id,
-            topic: sessionTopic,
-            subject: subject ?? 'Other',
-            aiResponse: sessionAiResponse,
-            userAnswer,
-            xpEarned: xpAwarded,
-            completed,
-          },
-        });
-      }
-    }
-
-    const { calculateLevel } = await import('@/lib/gamification');
-    const newLevel = calculateLevel(newXP);
-    const leveledUp = newLevel > (dbUser.level ?? 1);
-    if (leveledUp) {
-      await prisma.user.update({ where: { id: user.id }, data: { level: newLevel } });
-    }
-
-    let newNodeData: { nodeId: string; position: { x: number; y: number }; edgeId: string | null; sourceNodeId: string | null } | null = null;
-    if (completed && sessionId) {
-      try {
-        newNodeData = await createKnowledgeNode({
-          userId: user.id,
-          sessionId,
-          topic: sessionTopic,
-          subject: subject ?? 'Other',
-        });
-      } catch (nodeErr) {
-        console.error('[validate-answer] Failed to create knowledge node:', nodeErr);
-      }
-    }
 
     return NextResponse.json({
       valid: isCorrect,
@@ -165,7 +103,7 @@ export async function POST(req: NextRequest) {
       xpAwarded,
       newXP,
       newLevel,
-      didLevelUp: leveledUp,
+      didLevelUp,
       newStreak,
       isFirstSessionToday,
       milestone: null,

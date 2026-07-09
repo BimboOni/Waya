@@ -7,6 +7,7 @@ import ReactFlow, { Handle, Position, useNodesState, useReactFlow, ReactFlowProv
 import 'reactflow/dist/style.css';
 import dagre from 'dagre';
 import { PremiumEmptyState } from '@/components/ui/PremiumEmptyState';
+import type { MockSession } from '@/types';
 
 const SUBJECT_COLORS: Record<string, string> = {
   ScienceTech: '#07B6D5', Mathematics: '#895AF6', HistoryCulture: '#D97959', CreativeArts: '#EC4699',
@@ -28,11 +29,20 @@ interface MapNode {
   createdAt: string;
 }
 
+type SessionContract = MockSession;
+
 interface KnowledgeMapProps {
-  sessions: any[];
+  sessions: SessionContract[];
   onCta?: () => void;
   onStartSession?: (topic: string, subject?: string) => void;
-  onResumeSession?: (session: any, keepExploringTopic?: string) => void;
+  onResumeSession?: (session: SessionContract, keepExploringTopic?: string) => void;
+}
+
+interface KnowledgeMapProps {
+  sessions: SessionContract[];
+  onCta?: () => void;
+  onStartSession?: (topic: string, subject?: string) => void;
+  onResumeSession?: (session: SessionContract, keepExploringTopic?: string) => void;
 }
 
 function generateSuggestions(): string[] {
@@ -148,12 +158,15 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
   const [drawerNode, setDrawerNode] = useState<MapNode | null>(null);
 
   const mapNodes: MapNode[] = useMemo(() =>
-    sessions.slice(0, 30).map((s) => ({
-      id: s.id, topic: s.topic || 'Untitled', subject: s.subject || 'Other',
-      color: SUBJECT_COLORS[s.subject] || '#0EA4A4',
-      aiResponse: s.aiResponse, question: (s as any).synthesisQuestion || (s as any).question, userAnswer: s.userAnswer,
-      completed: s.completed, createdAt: s.createdAt,
-    })),
+    sessions.slice(0, 30).map((s) => {
+      const question = s.synthesisQuestion || (s as any).question;
+      return {
+        id: s.id, topic: s.topic || 'Untitled', subject: s.subject || 'Other',
+        color: SUBJECT_COLORS[s.subject] || '#0EA4A4',
+        aiResponse: s.aiResponse, question, userAnswer: s.userAnswer,
+        completed: s.completed, createdAt: s.createdAt,
+      };
+    }),
   [sessions]);
 
   const { nodes: layoutedNodes, edges } = useMemo(() => {

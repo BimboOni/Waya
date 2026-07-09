@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Input } from '@/components/ui/Input';
+import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
 import { MAX_ANSWER_LENGTH } from '@/lib/constants';
 
@@ -34,12 +34,11 @@ export function AnswerInput({ onSubmit, isLoading }: AnswerInputProps) {
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       className="flex flex-col gap-4"
     >
-      <Input
+      <Textarea
         value={answer}
         onChange={(v) => { setAnswer(v); if (error) setError(null); }}
         label="Your synthesis answer"
         placeholder="Connect the concept to a completely different subject or your personal hobby…"
-        multiline
         rows={3}
         maxLength={MAX_ANSWER_LENGTH}
         disabled={isLoading}

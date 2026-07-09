@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       update: { interests: parsed.data.interests },
       create: {
         id: user.id,
-        email: user.email!,
+        email: user.email ?? `user-${user.id}@placeholder.waya`,
         name: user.user_metadata?.full_name ?? null,
         interests: parsed.data.interests,
       },
