@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 const CACHE_TTL = 60;
@@ -9,70 +10,81 @@ const USER_SELECT = {
   xp: true, level: true, streak: true, lastActive: true, lastLocalDate: true, createdAt: true,
 } as const;
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
-    // Log the cookies available in the request for debugging
-    const allCookies = request.cookies.getAll();
-    console.error('[user/me] Request cookies count:', allCookies.length, 'Names:', allCookies.map((c) => c.name).join(', '));
+    const cookieStore = await cookies();
 
-    const supabase = createServerSupabaseClient(request);
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options),
+              );
+            } catch {
+              // Safe catch for server component middleware context limits
+            }
+          },
+        },
+      },
+    );
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
     if (sessionError || !session) {
-      console.error('[user/me] getSession failed. Error:', sessionError?.message, 'Has session:', !!session);
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized session' }, { status: 401 });
     }
 
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
-      console.error('[user/me] getUser failed. Error:', userError?.message, 'User ID:', user?.id);
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'User verification failed' }, { status: 401 });
     }
 
-    let dbUser;
-    try {
-      dbUser = await prisma.user.findUnique({
-        where: { id: user.id },
-        select: USER_SELECT,
-      });
-    } catch (dbErr) {
-      console.error('[user/me] Database query failed:', dbErr);
-      return NextResponse.json(
-        { error: 'Service unavailable', detail: 'Database query failed' },
-        { status: 503 },
-      );
-    }
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: USER_SELECT,
+    });
 
     if (!dbUser) {
-      console.error('[user/me] Profile not found in DB for user:', user.id, 'Email:', user.email);
-      return NextResponse.json(
-        { error: 'Profile not found' },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: 'Profile not found' }, { status: 401 });
     }
 
     return NextResponse.json(
       { user: dbUser },
       {
         status: 200,
-        headers: {
-          'Cache-Control': `private, max-age=${CACHE_TTL}`,
-        },
+        headers: { 'Cache-Control': `private, max-age=${CACHE_TTL}` },
       },
     );
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('[user/me] Unhandled error:', message);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+  } catch (globalError: any) {
+    console.error('[API USER ME CRASH]:', globalError?.message ?? globalError);
+    return NextResponse.json({ error: 'Internal server execution failure' }, { status: 500 });
   }
 }
 
-export async function PATCH(request: NextRequest) {
+export async function PATCH(request: Request) {
   try {
-    const supabase = createServerSupabaseClient(request);
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options),
+              );
+            } catch {}
+          },
+        },
+      },
+    );
+
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -97,16 +109,32 @@ export async function PATCH(request: NextRequest) {
     });
 
     return NextResponse.json({ user: updated });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('[user/me] PATCH error:', message);
+  } catch (globalError: any) {
+    console.error('[API USER ME PATCH CRASH]:', globalError?.message ?? globalError);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request: Request) {
   try {
-    const supabase = createServerSupabaseClient(request);
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options),
+              );
+            } catch {}
+          },
+        },
+      },
+    );
+
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -115,9 +143,8 @@ export async function DELETE(request: NextRequest) {
     await prisma.user.delete({ where: { id: user.id } });
 
     return NextResponse.json({ success: true });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('[user/me] DELETE error:', message);
+  } catch (globalError: any) {
+    console.error('[API USER ME DELETE CRASH]:', globalError?.message ?? globalError);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
