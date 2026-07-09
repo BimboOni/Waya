@@ -58,9 +58,13 @@ function DashboardContent() {
         if (data.user) {
           setUser(data.user as MockUser);
           setDataReady(true);
+          if (redirectTimer.current) { clearTimeout(redirectTimer.current); redirectTimer.current = null; }
         }
-      } catch {
-        redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
+      } catch (err) {
+        console.error('[dashboard] User fetch failed:', err);
+        if (!redirectTimer.current) {
+          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
+        }
       }
     })();
     return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
