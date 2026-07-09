@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
     const message = err instanceof Error ? err.message : String(err);
     console.error('[user/create] Error:', message);
     return NextResponse.json(
-      { error: 'Database error', detail: message },
+      { error: 'Failed to create profile.' },
       { status: 500 },
     );
   }

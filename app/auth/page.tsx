@@ -161,14 +161,9 @@ function AuthContent() {
       } catch (e) {
         console.error('[auth] Onboarding API fallback failed:', e);
       }
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData.session) {
-        setIsEmailSent(true);
-        setIsLoading(false);
-        return;
-      }
-      try { localStorage.removeItem('waya_tips_completed'); localStorage.removeItem('waya_local_date'); } catch {}
-      router.push('/dashboard');
+      setIsEmailSent(true);
+      setIsLoading(false);
+      return;
     } catch (err) {
       console.error('[auth] SignUp error:', err);
       setError('Something went wrong.'); setIsLoading(false);

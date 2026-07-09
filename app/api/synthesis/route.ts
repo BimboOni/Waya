@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { deepseek, buildExplanationSystemPrompt } from '@/lib/deepseek';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
+import { checkTokenLimit, trackTokenUsage } from '@/lib/tokens';
 
 const RequestSchema = z.object({
   topic: z.string().min(3).max(200),
@@ -56,6 +57,14 @@ export async function POST(req: NextRequest) {
       }
     } catch {
       // Auth failed — continue as anonymous
+    }
+
+    // Token limit check for authenticated users
+    if (userId !== 'anonymous') {
+      const { allowed, remaining } = await checkTokenLimit(userId);
+      if (!allowed) {
+        return NextResponse.json({ error: 'Daily token limit reached. Try again tomorrow.' }, { status: 429 });
+      }
     }
 
     const parsed = RequestSchema.safeParse(await req.json());

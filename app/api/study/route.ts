@@ -108,6 +108,6 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error('[study] Handler error:', err instanceof Error ? err.message : err);
     console.error('[study] Stack:', err instanceof Error ? err.stack : '');
-    return NextResponse.json({ error: err instanceof Error ? err.message : 'AI_TIMEOUT' }, { status: 503 });
+    return NextResponse.json({ error: 'AI_TIMEOUT' }, { status: 503 });
   }
 }

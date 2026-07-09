@@ -5,6 +5,7 @@ import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
 import { XP_SUBMIT_ANSWER, XP_CORRECT_BONUS, XP_FIRST_SESSION_BONUS } from '@/lib/constants';
 import { createKnowledgeNode } from '@/lib/knowledge-map';
+import { checkTokenLimit, trackTokenUsage } from '@/lib/tokens';
 
 const RequestSchema = z.object({
   sessionId: z.string(),
@@ -29,6 +30,12 @@ export async function POST(req: NextRequest) {
     }
     const { userAnswer, topic, explanation, synthQuestion, localDate, sessionId } = parsed.data;
 
+    // Token limit check
+    const { allowed } = await checkTokenLimit(user.id);
+    if (!allowed) {
+      return NextResponse.json({ error: 'Daily token limit reached. Try again tomorrow.' }, { status: 429 });
+    }
+
     const sessionTopic = topic ?? 'Unknown topic';
     const sessionAiResponse = synthQuestion ? `${explanation}\n[SYNTHESIS_QUESTION]\n${synthQuestion}` : (explanation ?? '');
 
@@ -51,9 +58,24 @@ export async function POST(req: NextRequest) {
       response_format: { type: 'json_object' },
     }, { timeout: 15000 });
 
+    const totalTokens = (completion as any).usage?.total_tokens ?? 0;
+    if (totalTokens > 0) {
+      trackTokenUsage(user.id, totalTokens).catch(() => {});
+    }
+
     const raw = completion.choices[0]?.message?.content ?? '{}';
-    const { valid, feedback, subject } = JSON.parse(raw);
-    const isCorrect = valid === true;
+    let valid: boolean, feedback: string, subject: string;
+    try {
+      const parsed = JSON.parse(raw);
+      valid = parsed.valid === true;
+      feedback = parsed.feedback ?? 'Great effort!';
+      subject = parsed.subject ?? 'ScienceTech';
+    } catch {
+      valid = false;
+      feedback = 'Great effort — keep thinking!';
+      subject = 'ScienceTech';
+    }
+    const isCorrect = valid;
 
     let xpAwarded = 0;
     let completed = false;
