@@ -743,7 +743,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   <textarea
                     ref={textareaRef}
                     value={answer}
-                    onChange={(e) => setAnswer(e.target.value)}
+                    onChange={(e) => setAnswer(e.target.value.slice(0, 2000))}
                     onInput={(e) => autoResize(e.currentTarget)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your answer..."
@@ -840,7 +840,7 @@ export function SessionView({ isOpen, onClose, topic, userInterests, resumeSessi
                   </div>
                   <textarea
                     value={answer}
-                    onChange={(e) => setAnswer(e.target.value)}
+                    onChange={(e) => setAnswer(e.target.value.slice(0, 2000))}
                     onInput={(e) => autoResize(e.currentTarget)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your answer here..."

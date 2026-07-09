@@ -424,7 +424,7 @@ function AuthContent() {
                   <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary">Welcome back!</h1>
                   <Input
                     value={email}
-                    onChange={setEmail}
+                    onChange={(v: string) => setEmail(v.slice(0, 254))}
                     onFocus={() => setError(null)}
                     type="email"
                     placeholder="Email address"
@@ -471,7 +471,7 @@ function AuthContent() {
                       <p className="text-body-md text-text-secondary font-body leading-relaxed">Enter your email and we&apos;ll send you a reset link.</p>
                       <Input
                         value={email}
-                        onChange={setEmail}
+                    onChange={(v: string) => setEmail(v.slice(0, 254))}
                         type="email"
                         placeholder="Email address"
                         autoComplete="email"

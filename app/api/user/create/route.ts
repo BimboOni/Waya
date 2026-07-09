@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
+
+const CreateUserSchema = z.object({
+  id: z.string().min(1),
+  email: z.string().email().optional().or(z.literal('')),
+  first_name: z.string().min(1).max(100),
+  selected_subject: z.string().optional(),
+  interests: z.array(z.string()).optional().default([]),
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,21 +19,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { id, email, first_name, selected_subject, interests } = body as {
-      id: string;
-      email?: string;
-      first_name: string;
-      selected_subject?: string;
-      interests: string[];
-    };
-
-    if (!id || !first_name) {
-      return NextResponse.json(
-        { error: 'Missing required fields', detail: 'id and first_name are required' },
-        { status: 400 },
-      );
+    const parsed = CreateUserSchema.safeParse(await req.json());
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
     }
+
+    const { id, email, first_name, selected_subject, interests } = parsed.data;
 
     const safeEmail = email && email.length > 0 ? email : `user-${id}@placeholder.waya`;
     const safeName = first_name.slice(0, 100);

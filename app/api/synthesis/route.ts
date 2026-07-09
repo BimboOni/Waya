@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
         { role: 'user', content: `Explain this topic to me: ${topic}` },
       ],
       stream: true,
-      max_tokens: 600,
+      max_tokens: 1500,
       temperature: 0.7,
     }, { timeout: 30000 });
 

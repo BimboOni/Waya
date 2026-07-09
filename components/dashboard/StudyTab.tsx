@@ -214,7 +214,7 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
           <textarea
             ref={textareaRef}
             value={topic}
-            onChange={(e) => setTopic(e.target.value)}
+            onChange={(e) => setTopic(e.target.value.slice(0, 500))}
             onInput={(e) => autoResize(e.currentTarget)}
             onKeyDown={handleKeyDown}
             placeholder=""
@@ -302,7 +302,7 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
                 <textarea
                   ref={expandedRef}
                   value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
+                  onChange={(e) => setTopic(e.target.value.slice(0, 500))}
                   onInput={(e) => autoResize(e.currentTarget)}
                   onKeyDown={handleKeyDown}
                   placeholder="Type your topic here..."

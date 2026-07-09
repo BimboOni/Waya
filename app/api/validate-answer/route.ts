@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
         },
       ],
       stream: false,
-      max_tokens: 200,
+      max_tokens: 500,
       temperature: 0.3,
       response_format: { type: 'json_object' },
     }, { timeout: 15000 });

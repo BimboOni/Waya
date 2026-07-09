@@ -57,7 +57,7 @@ model Badge {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@index([userId, badgeType])
+  @@unique([userId, badgeType])
 }
 
 model AIFeedback {
