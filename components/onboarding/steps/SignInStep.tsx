@@ -25,28 +25,6 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
-  const handleCodeChange = (value: string, index: number) => {
-    if (!/^\d*$/.test(value)) return;
-    const last = value.slice(-1);
-    const newCode = [...code];
-    newCode[index] = last;
-    setCode(newCode);
-    if (last && index < 5) {
-      setTimeout(() => inputRefs.current[index + 1]?.focus(), 0);
-    }
-  };
-
-  const handleCodeKeyDown = (e: React.KeyboardEvent, index: number) => {
-    if (e.key === 'Backspace') {
-      if (!code[index] && index > 0) {
-        const newCode = [...code];
-        newCode[index - 1] = '';
-        setCode(newCode);
-        setTimeout(() => inputRefs.current[index - 1]?.focus(), 0);
-      }
-    }
-  };
-
   const handleCodePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
     const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
