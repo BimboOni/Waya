@@ -229,7 +229,7 @@ function SubjectStep({ selected, onSelect }: { selected: string | null; onSelect
                 'active:scale-[0.98]',
                 selected === subj.id
                   ? 'border-brand-primary border-b-4 bg-bg-card shadow-inner translate-y-0.5'
-                  : 'border-border-default bg-bg-card hover:border-b-4 hover:border-border-default hover:translate-y-0.5',
+                  : 'border-border-default bg-bg-card sm:hover:border-b-4 sm:hover:border-border-default sm:hover:translate-y-0.5',
               )}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-1.5">

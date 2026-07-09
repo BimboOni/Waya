@@ -40,7 +40,7 @@ export function InterestCard({ id, label, isSelected, onToggle }: InterestCardPr
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2',
         isSelected
           ? 'border-brand-primary bg-brand-primary/5'
-          : 'border-border-default bg-bg-card hover:border-brand-primary/40',
+          : 'border-border-default bg-bg-card sm:hover:border-brand-primary/40',
       )}
       aria-pressed={isSelected}
       aria-label={`${isSelected ? 'Deselect' : 'Select'} ${label}`}
