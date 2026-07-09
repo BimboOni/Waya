@@ -69,15 +69,20 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const supabase = createServerSupabaseClient(req);
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  try {
+    const supabase = createServerSupabaseClient(req);
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-  return NextResponse.json({
-    scenes: Object.keys(SCENE_DESCRIPTIONS),
-    modifier: WAYA_VECTOR_STYLE_MODIFIER.slice(0, 80) + '...',
-    usage: 'POST with { subject: "History & Culture" } or { scene: "hero" } or { prompt: "your text" }',
-  });
+    return NextResponse.json({
+      scenes: Object.keys(SCENE_DESCRIPTIONS),
+      modifier: WAYA_VECTOR_STYLE_MODIFIER.slice(0, 80) + '...',
+      usage: 'POST with { subject: "History & Culture" } or { scene: "hero" } or { prompt: "your text" }',
+    });
+  } catch (err) {
+    console.error('[generate-image] GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
 }

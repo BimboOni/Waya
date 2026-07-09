@@ -126,11 +126,14 @@ export function SettingsTab() {
   };
 
   const handleDeleteAccount = async () => {
-    await fetch('/api/user/me', { method: 'DELETE', credentials: 'include' });
-    await createClientSupabaseClient().auth.signOut();
-    useWayaStore.setState({ user: null, xp: 0, level: 1, streak: 0, badges: [] });
-    localStorage.clear();
-    window.location.href = '/';
+    try {
+      const res = await fetch('/api/user/me', { method: 'DELETE', credentials: 'include' });
+      if (!res.ok) { console.error('[Settings] Account deletion failed:', res.status); return; }
+      await createClientSupabaseClient().auth.signOut();
+      useWayaStore.setState({ user: null, xp: 0, level: 1, streak: 0, badges: [] });
+      localStorage.clear();
+      window.location.href = '/';
+    } catch (err) { console.error('[Settings] Account deletion error:', err); }
   };
 
   const sectionCard = 'rounded-2xl bg-bg-card p-6';

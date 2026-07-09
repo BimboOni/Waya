@@ -43,7 +43,14 @@ export async function GET(request: NextRequest) {
     },
   );
 
-  const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
+  let exchangeResult;
+  try {
+    exchangeResult = await supabase.auth.exchangeCodeForSession(code);
+  } catch (exchangeError) {
+    console.error('[auth/callback] exchangeCodeForSession threw:', exchangeError);
+    return NextResponse.redirect(`${origin}/auth?view=login`);
+  }
+  const { data: { user }, error } = exchangeResult;
 
   if (error || !user) {
     return NextResponse.redirect(`${origin}/auth?view=login`);

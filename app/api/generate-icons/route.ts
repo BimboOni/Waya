@@ -66,15 +66,20 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const supabase = createServerSupabaseClient(req);
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  try {
+    const supabase = createServerSupabaseClient(req);
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-  return NextResponse.json({
-    available: Object.keys(SCENE_DESCRIPTIONS),
-    modifier: WAYA_VECTOR_STYLE_MODIFIER.slice(0, 80) + '...',
-    usage: 'POST with { type, id, label } — one icon at a time.',
-  });
+    return NextResponse.json({
+      available: Object.keys(SCENE_DESCRIPTIONS),
+      modifier: WAYA_VECTOR_STYLE_MODIFIER.slice(0, 80) + '...',
+      usage: 'POST with { type, id, label } — one icon at a time.',
+    });
+  } catch (err) {
+    console.error('[generate-icons] GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
 }
