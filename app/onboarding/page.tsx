@@ -479,7 +479,7 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
             className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
             {isSaving ? (
               <div className="w-5 h-5 mx-auto rounded-full border-2 border-brand-on-primary/30 border-t-brand-on-primary animate-spin" style={{ animationDuration: '0.65s' }} aria-label="Processing…" />
-            ) : mode === 'create' ? 'Create free account' : 'Sign in'}
+            ) : mode === 'create' ? 'Create Free Account' : 'Sign In'}
           </button>
         </form>
         )}

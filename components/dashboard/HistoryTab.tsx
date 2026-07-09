@@ -36,13 +36,11 @@ export function HistoryTab({ sessions, onCta, onResumeSession }: HistoryTabProps
 
   if (sessions.length === 0) {
     return (
-<div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-12">
-        <h1 className="text-3xl font-medium text-text-primary tracking-tight">Your Learning Journey</h1>
-          <p className="text-body-md text-text-muted mt-1 mb-8">Every session is saved. Review past topics, track your progress, and pick up where you left off.</p>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-12 h-full flex items-center justify-center">
         <PremiumEmptyState
           headline="No Sessions Yet"
           body="Your learning history will appear here after you complete a synthesis in the Study Hub."
-          ctaLabel="Start your first lesson"
+          ctaLabel="Start Your First Lesson"
           onCta={onCta}
         />
       </div>

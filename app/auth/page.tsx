@@ -467,7 +467,7 @@ function AuthContent() {
                         If an account exists for <span className="font-medium text-text-primary">{email}</span>, you&apos;ll receive a password reset link shortly.
                       </p>
                       <Link href="/auth?view=login" className="text-label-md text-brand-primary font-body font-semibold hover:text-brand-hover transition-colors mt-2">
-                        Back to sign in
+                        Back to Sign In
                       </Link>
                     </motion.div>
                   ) : (

@@ -224,7 +224,7 @@ export function OnboardingWizard() {
             {isSaving ? (
               <div className="w-5 h-5 rounded-full border-2 border-brand-on-primary/30 border-t-brand-on-primary animate-spin" style={{ animationDuration: '0.65s' }} />
             ) : stepIndex === STEPS.length - 1 ? (
-              <>Start learning ✦</>
+              <>Start Learning ✦</>
             ) : (
               <>Continue →</>
             )}
