@@ -10,26 +10,20 @@ const USER_SELECT = {
 } as const;
 
 export async function GET(request: NextRequest) {
-  // Health-check fallback for fresh sessions
   try {
     const supabase = createServerSupabaseClient(request);
 
-    const { data: claimsResponse, error: claimsError } = await supabase.auth.getClaims();
-    if (claimsError || !claimsResponse?.claims?.sub) {
-      console.warn('[user/me] JWT validation failed:', claimsError?.message ?? 'no sub claim');
-      return NextResponse.json(
-        { error: 'Unauthorized', detail: 'Invalid or expired token' },
-        { status: 401 },
-      );
+    // Use getSession() to read cookies — more reliable on Edge Runtime than getClaims()
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session) {
+      console.warn('[user/me] No session found:', sessionError?.message ?? 'no session');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
-      console.warn('[user/me] getUser() failed after getClaims() passed:', userError?.message);
-      return NextResponse.json(
-        { error: 'Unauthorized', detail: 'Session invalid' },
-        { status: 401 },
-      );
+      console.warn('[user/me] getUser() failed after getSession() passed:', userError?.message);
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     let dbUser;

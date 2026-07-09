@@ -15,6 +15,7 @@ import { WelcomeModal } from '@/components/dashboard/WelcomeModal';
 import { FirstTimeTips, hasSeenTips, markTipsSeen } from '@/components/onboarding/FirstTimeTips';
 import type { DashboardTab } from '@/components/layout/TopNav';
 import type { MockUser, MockSession } from '@/types';
+import { createClientSupabaseClient } from '@/lib/supabase/client';
 
 function DashboardContent() {
   const router = useRouter();
@@ -38,7 +39,24 @@ function DashboardContent() {
     (async () => {
       try {
         const res = await fetch('/api/user/me', { credentials: 'include' });
-        if (res.status === 401) { router.push('/auth?view=login'); return; }
+        if (res.status === 401) {
+          // Check if a local Supabase session exists before assuming we're logged out
+          const supabase = createClientSupabaseClient();
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) {
+            // Session exists locally but cookie hasn't propagated — refresh and retry
+            await supabase.auth.refreshSession();
+            const retry = await fetch('/api/user/me', { credentials: 'include' });
+            if (retry.ok) {
+              const data = await retry.json();
+              if (data.user) { setUser(data.user as MockUser); setDataReady(true); }
+              setIsLoading(false);
+              return;
+            }
+          }
+          router.push('/auth?view=login');
+          return;
+        }
         if (!res.ok) { setIsLoading(false); return; }
         const data = await res.json();
         if (data.user) {
