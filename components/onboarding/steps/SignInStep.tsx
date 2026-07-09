@@ -173,13 +173,41 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
             <div className="flex justify-center gap-1 sm:gap-2 my-4">
               {code.map((digit, index) => (
                 <input key={index} ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
-                  value={code[index]}
                   type="text" inputMode="numeric" maxLength={1}
                   pattern="[0-9]*"
                   autoComplete="one-time-code"
                   className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
-                  onInput={(e) => handleCodeChange((e.target as HTMLInputElement).value, index)}
-                  onKeyDown={(e) => handleCodeKeyDown(e, index)} onPaste={handleCodePaste}
+                  onInput={(e) => {
+                    const val = e.currentTarget.value;
+                    if (val) {
+                      e.currentTarget.value = val.slice(-1);
+                      const newCode = [...code];
+                      newCode[index] = val.slice(-1);
+                      setCode(newCode);
+                      if (index < 5) inputRefs.current[index + 1]?.focus();
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Backspace') {
+                      if (!e.currentTarget.value && index > 0) {
+                        e.preventDefault();
+                        const prevInput = inputRefs.current[index - 1];
+                        if (prevInput) {
+                          prevInput.value = '';
+                          prevInput.focus();
+                          const newCode = [...code];
+                          newCode[index - 1] = '';
+                          setCode(newCode);
+                        }
+                      } else {
+                        e.currentTarget.value = '';
+                        const newCode = [...code];
+                        newCode[index] = '';
+                        setCode(newCode);
+                      }
+                    }
+                  }}
+                  onPaste={handleCodePaste}
               />
               ))}
             </div>

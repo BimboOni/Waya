@@ -39,7 +39,7 @@ function DashboardContent() {
       try {
         const res = await fetch('/api/user/me', { credentials: 'include' });
         if (!res.ok) {
-          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 1500);
+          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
           return;
         }
         const data = await res.json();
@@ -48,7 +48,7 @@ function DashboardContent() {
           setDataReady(true);
         }
       } catch {
-        redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 1500);
+        redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
       }
     })();
     return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
