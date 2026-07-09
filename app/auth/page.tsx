@@ -61,7 +61,7 @@ function AuthContent() {
     newCode[index] = value;
     setCode(newCode);
     if (value && index < 5) {
-      setTimeout(() => inputRefs.current[index + 1]?.focus(), 10);
+      setTimeout(() => inputRefs.current[index + 1]?.focus(), 1);
     }
   };
 
@@ -71,7 +71,7 @@ function AuthContent() {
         const newCode = [...code];
         newCode[index - 1] = '';
         setCode(newCode);
-        setTimeout(() => inputRefs.current[index - 1]?.focus(), 10);
+        setTimeout(() => inputRefs.current[index - 1]?.focus(), 1);
       }
     }
   };
@@ -186,15 +186,33 @@ function AuthContent() {
   };
 
   const handleResetPassword = async () => {
+    if (!email.trim()) { setError('Enter your email address.'); return; }
     setIsLoading(true); setError(null);
     try {
       const supabase = createClientSupabaseClient();
       const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/update-password`,
       });
-      if (authError) { setError(authError.message); } else { setResetSent(true); }
+      if (authError) { setError('Invalid login credentials.'); } else { setResetSent(true); }
     } catch { setError('Something went wrong.'); }
     setIsLoading(false);
+  };
+
+  const handleResetVerifyCode = async () => {
+    const otp = code.join('');
+    if (otp.length !== 6) { setError('Enter all 6 digits from your email.'); return; }
+    setIsLoading(true); setError(null);
+    try {
+      const supabase = createClientSupabaseClient();
+      const { data, error: verifyError } = await supabase.auth.verifyOtp({
+        email: email.trim(),
+        token: otp,
+        type: 'email',
+      });
+      if (verifyError) { setError('Invalid or expired code. Try again.'); setIsLoading(false); return; }
+      if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
+      router.push('/auth/update-password');
+    } catch { setError('Something went wrong.'); setIsLoading(false); }
   };
 
 
@@ -454,18 +472,30 @@ function AuthContent() {
               {view === 'forgot-password' && (
                 <div className="flex flex-col gap-6">
                   {resetSent ? (
-                    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center text-center gap-4 py-8">
-                      <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10L8 14L16 6" stroke="var(--color-brand-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                      </div>
-                      <h2 className="text-headline-sm text-text-primary font-heading">Check your email</h2>
-                      <p className="text-body-md text-text-secondary font-body max-w-xs leading-relaxed">
-                        If an account exists for <span className="font-medium text-text-primary">{email}</span>, you&apos;ll receive a password reset link shortly.
+                    <div className="flex flex-col items-center text-center py-8">
+                      <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary mb-3">Check your email</h1>
+                      <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm mb-6">
+                        We sent a 6-digit reset code to <span className="font-medium text-text-primary">{email}</span>.
                       </p>
-                      <Link href="/auth?view=login" className="text-label-md text-brand-primary font-body font-semibold hover:text-brand-hover transition-colors mt-2">
-                        Back to Sign In
-                      </Link>
-                    </motion.div>
+                      <div className="flex justify-center gap-1 sm:gap-2 my-6">
+                        {code.map((digit, index) => (
+                          <input key={index} ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
+                            type="text" inputMode="numeric" maxLength={1} value={digit}
+                            className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
+                            onChange={(e) => handleCodeChange(e.target.value, index)}
+                            onKeyDown={(e) => handleCodeKeyDown(e, index)} onPaste={handleCodePaste} />
+                        ))}
+                      </div>
+                      <button type="button" onClick={handleResetVerifyCode} disabled={code.join('').length !== 6 || isLoading}
+                        className="w-full mt-2 min-h-[52px] px-6 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+                        {isLoading ? (
+                          <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
+                        ) : 'Verify Code'}
+                      </button>
+                      <p className="text-label-sm text-text-muted mt-6">
+                        Didn&apos;t receive it? Check your spam folder or try again.
+                      </p>
+                    </div>
                   ) : (
                     <form onSubmit={(e) => { e.preventDefault(); if (!isLoading && email.trim()) handleResetPassword(); }} className="flex flex-col gap-6">
                       <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary">Reset your password</h1>

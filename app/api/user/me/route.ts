@@ -10,6 +10,7 @@ const USER_SELECT = {
 } as const;
 
 export async function GET(request: NextRequest) {
+  // Health-check fallback for fresh sessions
   try {
     const supabase = createServerSupabaseClient(request);
 
@@ -135,6 +136,24 @@ export async function PATCH(request: NextRequest) {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error('[user/me] PATCH error:', message);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const supabase = createServerSupabaseClient(request);
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    await prisma.user.delete({ where: { id: user.id } });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('[user/me] DELETE error:', message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

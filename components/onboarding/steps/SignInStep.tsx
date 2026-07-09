@@ -32,7 +32,7 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
     newCode[index] = value;
     setCode(newCode);
     if (value && index < 5) {
-      setTimeout(() => inputRefs.current[index + 1]?.focus(), 10);
+      setTimeout(() => inputRefs.current[index + 1]?.focus(), 1);
     }
   };
 
@@ -42,7 +42,7 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
         const newCode = [...code];
         newCode[index - 1] = '';
         setCode(newCode);
-        setTimeout(() => inputRefs.current[index - 1]?.focus(), 10);
+        setTimeout(() => inputRefs.current[index - 1]?.focus(), 1);
       }
     }
   };
@@ -56,7 +56,7 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
     setTimeout(() => {
       if (pasted.length < 6) inputRefs.current[pasted.length]?.focus();
       else inputRefs.current[5]?.blur();
-    }, 10);
+    }, 1);
   };
 
   const handleVerifyCode = async () => {
