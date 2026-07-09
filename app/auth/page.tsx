@@ -85,9 +85,13 @@ function AuthContent() {
     for (let i = 0; i < pasted.length; i++) newCode[i] = pasted[i];
     setCode(newCode);
     setTimeout(() => {
-      if (pasted.length < 6) inputRefs.current[pasted.length]?.focus();
-      else inputRefs.current[5]?.blur();
-    }, 10);
+      if (pasted.length < 6) {
+        const nextInput = inputRefs.current[pasted.length];
+        if (nextInput) { nextInput.focus(); setTimeout(() => nextInput.select(), 1); }
+      } else {
+        inputRefs.current[5]?.blur();
+      }
+    }, 1);
   };
 
   const handleVerifyCode = async () => {
