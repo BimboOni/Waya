@@ -131,7 +131,10 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
         await new Promise((r) => setTimeout(r, 500));
         router.push('/dashboard');
       }
-    } catch { setError('Something went wrong.'); setIsSaving(false); }
+    } catch (err) {
+      console.error('[SignInStep] Sign-up error trace:', err);
+      setError('Something went wrong.'); setIsSaving(false);
+    }
   };
 
   return (
