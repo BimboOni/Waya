@@ -47,42 +47,11 @@ export async function GET(request: NextRequest) {
     }
 
     if (!dbUser) {
-      const metadataName = user.user_metadata?.full_name as string | undefined;
-      const metadataInterests = user.user_metadata?.interests as string | undefined;
-      const metadataSubject = user.user_metadata?.preferred_subject as string | undefined;
-
-      console.warn('[user/me] Profile not found for', user.id, '— attempting upsert');
-      try {
-        const safeEmail = user.email && user.email.length > 0 ? user.email : `${user.id}@placeholder.waya`;
-        dbUser = await prisma.user.upsert({
-          where: { email: safeEmail },
-          create: {
-            id: user.id,
-            email: safeEmail,
-            name: metadataName ?? user.email?.split('@')[0] ?? 'Learner',
-            interests: metadataInterests ? (() => { try { return JSON.parse(metadataInterests); } catch { return [metadataInterests]; } })() : [],
-            preferredSubject: metadataSubject ?? null,
-            xp: 0,
-            level: 1,
-            streak: 0,
-          },
-          update: {
-            id: user.id,
-            name: metadataName ?? user.email?.split('@')[0] ?? 'Learner',
-            interests: metadataInterests ? (() => { try { return JSON.parse(metadataInterests); } catch { return [metadataInterests]; } })() : [],
-            preferredSubject: metadataSubject ?? null,
-          },
-          select: USER_SELECT,
-        });
-        console.log('[user/me] Upserted user profile for', user.id);
-      } catch (createErr) {
-        const msg = createErr instanceof Error ? createErr.message : String(createErr);
-        console.error('[user/me] Upsert failed:', msg);
-        return NextResponse.json(
-          { error: 'Profile not found', detail: 'User profile does not exist in database' },
-          { status: 404 },
-        );
-      }
+      console.warn('[user/me] Profile not found for', user.id, '— onboarding not complete');
+      return NextResponse.json(
+        { error: 'Profile not found' },
+        { status: 401 },
+      );
     }
 
     return NextResponse.json(

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
 import { prisma } from '@/lib/prisma';
 
 const RequestSchema = z.object({
@@ -13,20 +13,21 @@ const RequestSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createServerSupabaseClient(req);
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const parsed = RequestSchema.safeParse(await req.json());
     if (!parsed.success) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
     const { userId, email, name, interests, preferredSubject } = parsed.data;
 
-    if (userId !== user.id) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    // Verify the user exists in Supabase Auth using the service role key
+    const sbAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { auth: { autoRefreshToken: false, persistSession: false } },
+    );
+    const { data: { user }, error: userError } = await sbAdmin.auth.admin.getUserById(userId);
+    if (userError || !user) {
+      return NextResponse.json({ error: 'User not found in auth system' }, { status: 400 });
     }
 
     const safeEmail = email && email.length > 0 ? email : `user-${userId}@placeholder.waya`;
