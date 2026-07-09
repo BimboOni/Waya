@@ -44,7 +44,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           onFocus={onFocus}
           onKeyDown={onKeyDown}
           className={cn(
-            'w-full min-h-[52px] px-4 rounded-xl border-2 border-border-default bg-bg-primary text-text-primary font-body text-body-lg placeholder:text-text-muted transition-all duration-default ease-waya focus:outline-none focus:border-slate-200 dark:focus:border-slate-800',
+            'w-full min-h-[52px] px-4 rounded-xl border-2 border-border-default bg-bg-primary text-text-primary font-body text-body-lg placeholder:text-text-muted transition-all duration-default ease-waya focus:outline-none focus:border-brand-primary',
             error && 'border-error',
             disabled && 'opacity-40 cursor-not-allowed',
             className,

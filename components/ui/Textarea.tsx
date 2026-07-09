@@ -42,7 +42,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           onFocus={onFocus}
           onBlur={onBlur}
           className={cn(
-            'w-full min-h-[100px] px-4 py-3 rounded-xl border-2 border-border-default bg-bg-primary text-text-primary font-body text-body-lg placeholder:text-text-muted resize-none transition-all duration-default ease-waya focus:outline-none focus:border-slate-200 dark:focus:border-slate-800',
+            'w-full min-h-[100px] px-4 py-3 rounded-xl border-2 border-border-default bg-bg-primary text-text-primary font-body text-body-lg placeholder:text-text-muted resize-none transition-all duration-default ease-waya focus:outline-none focus:border-brand-primary',
             error && 'border-error',
             disabled && 'opacity-40 cursor-not-allowed',
             className,
