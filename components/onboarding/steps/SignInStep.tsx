@@ -3,8 +3,8 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff } from 'lucide-react';
 import { WayaMascot } from '@/components/ui/WayaMascot';
+import { Input } from '@/components/ui/Input';
 import { createClientSupabaseClient } from '@/lib/supabase/client';
 
 interface SignInStepProps {
@@ -12,7 +12,6 @@ interface SignInStepProps {
   preferredSubject: string | null;
 }
 
-const inputClass = 'w-full min-h-[52px] px-4 rounded-xl border-2 border-border-default bg-bg-primary text-text-primary font-body text-body-lg placeholder:text-text-muted transition-all duration-default ease-waya focus:outline-none focus:border-slate-200 dark:focus:border-slate-800';
 
 export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
   const router = useRouter();
@@ -20,9 +19,8 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -187,22 +185,14 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
         ) : (
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 text-left" noValidate>
           {mode === 'create' && (
-            <input type="text" value={name} onChange={(e) => { setName(e.target.value); if (error) setError(null); }}
-              placeholder="Your name" autoComplete="name" autoFocus disabled={isSaving} className={inputClass} />
+            <Input type="text" value={name} onChange={(v) => { setName(v); if (error) setError(null); }}
+              placeholder="Your name" autoComplete="name" autoFocus disabled={isSaving} />
           )}
-          <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
-            placeholder="Email address" autoComplete="email" autoFocus={mode === 'sign-in'} disabled={isSaving} className={inputClass} />
-          <div className="relative">
-            <input type={showPassword ? 'text' : 'password'} value={password}
-              onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
-              placeholder="Password" autoComplete={mode === 'create' ? 'new-password' : 'current-password'} disabled={isSaving}
-              className={`${inputClass} pr-12`} />
-            <button type="button" onClick={() => setShowPassword((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-text-muted hover:text-text-secondary transition-colors"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}>
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
+          <Input type="email" value={email} onChange={(v) => { setEmail(v); if (error) setError(null); }}
+            placeholder="Email address" autoComplete="email" autoFocus={mode === 'sign-in'} disabled={isSaving} />
+          <Input type="password" value={password} showPasswordToggle
+            onChange={(v) => { setPassword(v); if (error) setError(null); }}
+            placeholder="Password" autoComplete={mode === 'create' ? 'new-password' : 'current-password'} disabled={isSaving} />
           <button type="submit" disabled={isSaving || !email.trim() || password.length < 8}
             className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
             {isSaving ? (

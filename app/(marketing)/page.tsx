@@ -241,7 +241,7 @@ export default function MarketingPage() {
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col justify-center"
         >
-          <h1 className="font-poppins font-black text-[clamp(2.5rem,1.5rem+4vw,4.5rem)] leading-[1.1] text-text-primary">
+          <h1 className="font-poppins font-black tracking-tighter text-[clamp(2.5rem,1.5rem+4vw,4.5rem)] leading-[1.1] text-text-primary">
             Learn any subject<br />
             through <span className="text-streak">what you<br />love.</span>
           </h1>
