@@ -92,11 +92,9 @@ export async function middleware(request: NextRequest) {
     // Session exists but getUser() failed — allow through (data will resolve client-side)
   }
 
-  if (isProtected && !authenticated) {
-    // Avoid double-redirect loops: if we're already on an auth page, don't redirect
-    if (pathname.startsWith('/auth')) return supabaseResponse;
-    return NextResponse.redirect(new URL('/auth?view=login', request.url));
-  }
+  // Do NOT redirect to /auth from middleware. The client-side dashboard handles
+  // the final auth check once the browser session cookies have fully propagated.
+  // This prevents redirect loops when cookies take time to reach the Edge Runtime.
 
   // Allow verify-email view even when unauthenticated
   if (isVerifyView) {

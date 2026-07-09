@@ -15,6 +15,7 @@ import { WelcomeModal } from '@/components/dashboard/WelcomeModal';
 import { FirstTimeTips, hasSeenTips, markTipsSeen } from '@/components/onboarding/FirstTimeTips';
 import type { DashboardTab } from '@/components/layout/TopNav';
 import type { MockUser, MockSession } from '@/types';
+import { createClientSupabaseClient } from '@/lib/supabase/client';
 
 function DashboardContent() {
   const router = useRouter();
@@ -33,6 +34,17 @@ function DashboardContent() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showTips, setShowTips] = useState(false);
   const redirectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Client-side auth guard — checks Supabase session directly after cookies propagate
+  useEffect(() => {
+    const supabase = createClientSupabaseClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
+      }
+    });
+    return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
+  }, []);
 
   useEffect(() => {
     (async () => {

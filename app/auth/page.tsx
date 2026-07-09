@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, CheckCircle2 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { OtpInput } from '@/components/ui/OtpInput';
 import { createClientSupabaseClient } from '@/lib/supabase/client';
 
 const INTERESTS = [
@@ -53,6 +54,9 @@ function AuthContent() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+  const [resendKey, setResendKey] = useState(0);
+  const resendInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
 
@@ -72,8 +76,7 @@ function AuthContent() {
     }, 1);
   };
 
-  const handleVerifyCode = async () => {
-    const otp = code.join('');
+  const handleVerifyCode = async (otp: string) => {
     if (otp.length !== 6) { setError('Enter all 6 digits from your email.'); return; }
     setIsLoading(true); setError(null);
     try {
@@ -192,6 +195,22 @@ function AuthContent() {
       if (updateError) { setError('Failed to update password. Try again.'); setIsLoading(false); return; }
       router.push('/auth?view=login');
     } catch { setError('Something went wrong.'); setIsLoading(false); }
+  };
+
+  const handleResendCode = async () => {
+    setResendKey((k) => k + 1);
+    setResendTimer(60);
+    if (resendInterval.current) clearInterval(resendInterval.current);
+    resendInterval.current = setInterval(() => {
+      setResendTimer((prev) => {
+        if (prev <= 1) { if (resendInterval.current) clearInterval(resendInterval.current); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+    try {
+      const supabase = createClientSupabaseClient();
+      await supabase.auth.resend({ type: 'signup', email: email.trim() });
+    } catch {}
   };
 
   const handleResetVerifyCode = async () => {
@@ -550,68 +569,12 @@ function AuthContent() {
 
               {/* ═══ VERIFY EMAIL ═══ */}
               {(view === 'verify-email' || isEmailSent) && (
-                <div className="flex flex-col items-center text-center py-8">
-                  <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary mb-3">
-                    Check your email
-                  </h1>
-                  <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm mb-6">
+                <div className="flex flex-col items-center text-center py-8 gap-4">
+                  <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary">Check your email</h1>
+                  <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm">
                     We sent a 6-digit code to <span className="font-medium text-text-primary">{email}</span>.
                   </p>
-                  <div className="flex justify-center gap-1 sm:gap-2 my-6">
-                    {code.map((digit, index) => (
-                      <input
-                        key={index}
-                        ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        pattern="[0-9]*"
-                        autoComplete="one-time-code"
-                        className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
-                        onInput={(e) => {
-                          const val = e.currentTarget.value;
-                          if (val) {
-                            e.currentTarget.value = val.slice(-1);
-                            const newCode = [...code];
-                            newCode[index] = val.slice(-1);
-                            setCode(newCode);
-                            if (index < 5) inputRefs.current[index + 1]?.focus();
-                          }
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Backspace') {
-                            if (!e.currentTarget.value && index > 0) {
-                              e.preventDefault();
-                              const prevInput = inputRefs.current[index - 1];
-                              if (prevInput) {
-                                prevInput.value = '';
-                                prevInput.focus();
-                                const newCode = [...code];
-                                newCode[index - 1] = '';
-                                setCode(newCode);
-                              }
-                            } else {
-                              e.currentTarget.value = '';
-                              const newCode = [...code];
-                              newCode[index] = '';
-                              setCode(newCode);
-                            }
-                          }
-                        }}
-                        onPaste={handleCodePaste}
-                      />
-                    ))}
-                  </div>
-                  <button type="button" onClick={handleVerifyCode} disabled={code.join('').length !== 6 || isLoading}
-                    className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
-                  >
-                    {isLoading ? (
-                      <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
-                    ) : 'Verify Code'}
-                  </button>
-                  <p className="text-label-sm text-text-muted mt-6">
-                    Didn&apos;t receive it? Check your spam folder or try signing up again.
-                  </p>
+                  <OtpInput key={resendKey} onComplete={(otp) => handleVerifyCode(otp)} onResend={handleResendCode} resendTimer={resendTimer} isLoading={isLoading} />
                 </div>
               )}
 
