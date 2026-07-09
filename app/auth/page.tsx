@@ -51,6 +51,7 @@ function AuthContent() {
   const [passwordReqs, setPasswordReqs] = useState({ len: false, upper: false, lower: false, num: false, special: false });
   const [showLoginLink, setShowLoginLink] = useState(false);
   const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [isEmailSent, setIsEmailSent] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleCodeChange = (value: string, index: number) => {
@@ -162,7 +163,7 @@ function AuthContent() {
       }
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session) {
-        setError('Account created! Check your email to confirm your account, then sign in.');
+        setIsEmailSent(true);
         setIsLoading(false);
         return;
       }
@@ -244,7 +245,7 @@ function AuthContent() {
             <motion.div key={view} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.4, ease: [0.45, 0, 0.1, 1] }}>
 
               {/* ═══ GET STARTED FLOW ═══ */}
-              {view === 'get-started' && (
+              {view === 'get-started' && !isEmailSent && (
                 <div className="flex flex-col gap-6">
                   {error && (
                     <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
@@ -495,7 +496,7 @@ function AuthContent() {
               )}
 
               {/* ═══ VERIFY EMAIL ═══ */}
-              {view === 'verify-email' && (
+              {(view === 'verify-email' || isEmailSent) && (
                 <div className="flex flex-col items-center text-center py-8">
                   <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary mb-3">
                     Check your email
