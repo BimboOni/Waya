@@ -50,6 +50,7 @@ function AuthContent() {
   const [emailRegexValid, setEmailRegexValid] = useState(false);
   const [passwordReqs, setPasswordReqs] = useState({ len: false, upper: false, lower: false, num: false, special: false });
   const [showLoginLink, setShowLoginLink] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -197,11 +198,23 @@ function AuthContent() {
     try {
       const supabase = createClientSupabaseClient();
       const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/update-password`,
+        redirectTo: `${window.location.origin}/auth?view=update-password`,
       });
       if (authError) { setError('Invalid login credentials.'); } else { setResetSent(true); }
     } catch { setError('Something went wrong.'); }
     setIsLoading(false);
+  };
+
+  const handleUpdatePassword = async () => {
+    if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    if (password !== confirmPassword) { setError('Passwords do not match.'); return; }
+    setIsLoading(true); setError(null);
+    try {
+      const supabase = createClientSupabaseClient();
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) { setError('Failed to update password. Try again.'); setIsLoading(false); return; }
+      router.push('/auth?view=login');
+    } catch { setError('Something went wrong.'); setIsLoading(false); }
   };
 
   const handleResetVerifyCode = async () => {
@@ -217,7 +230,7 @@ function AuthContent() {
       });
       if (verifyError) { setError('Invalid or expired code. Try again.'); setIsLoading(false); return; }
       if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
-      router.push('/auth/update-password');
+      router.push('/auth?view=update-password');
     } catch { setError('Something went wrong.'); setIsLoading(false); }
   };
 
@@ -562,6 +575,23 @@ function AuthContent() {
                   <p className="text-label-sm text-text-muted mt-6">
                     Didn&apos;t receive it? Check your spam folder or try signing up again.
                   </p>
+                </div>
+              )}
+
+              {/* ═══ UPDATE PASSWORD ═══ */}
+              {view === 'update-password' && (
+                <div className="flex flex-col gap-6 py-4">
+                  <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary">Set new password</h1>
+                  <p className="text-body-md text-text-secondary font-body">Enter your new password below.</p>
+                  <Input type="password" value={password} onChange={setPassword}
+                    placeholder="New password" autoComplete="new-password" autoFocus showPasswordToggle />
+                  <Input type="password" value={confirmPassword} onChange={setConfirmPassword}
+                    placeholder="Confirm password" autoComplete="new-password" showPasswordToggle />
+                  <button type="button" onClick={handleUpdatePassword} disabled={isLoading || !password || !confirmPassword}
+                    className="w-full h-12 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+                    {isLoading ? 'Updating...' : 'Update Password'}
+                  </button>
+                  <Link href="/auth?view=login" className="text-sm text-text-muted font-body hover:text-text-primary transition-colors text-center">&larr; Back to Sign In</Link>
                 </div>
               )}
 
