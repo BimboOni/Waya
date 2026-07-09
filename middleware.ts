@@ -69,20 +69,28 @@ export async function middleware(request: NextRequest) {
   // Allow onboarding even without email confirmation
   const isProtected = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
   const isOnboarding = pathname.startsWith('/onboarding');
+  const isVerifyView = pathname.startsWith('/auth') && request.nextUrl.searchParams.get('view') === 'verify-email';
   if (authenticated && isProtected && !isOnboarding) {
-    const { data: userData } = await supabase.auth.getUser();
-    const emailConfirmed = !!userData?.user?.email_confirmed_at;
-    if (!emailConfirmed) {
-      return NextResponse.redirect(new URL('/auth?view=verify-email', request.url));
+    // On the auth callback redirect, the session cookie may not be fully propagated.
+    // If this is a fresh redirect, allow it through and let the client-side handle it.
+    const freshRedirect = request.headers.get('referer')?.includes('/auth/callback') ?? false;
+    if (!freshRedirect) {
+      const { data: userData } = await supabase.auth.getUser();
+      const emailConfirmed = !!userData?.user?.email_confirmed_at;
+      if (!emailConfirmed && !isVerifyView) {
+        return NextResponse.redirect(new URL('/auth?view=verify-email', request.url));
+      }
     }
   }
 
   if (isProtected && !authenticated) {
+    // Avoid double-redirect loops: if we're already on an auth page, don't redirect
+    if (pathname.startsWith('/auth')) return supabaseResponse;
     return NextResponse.redirect(new URL('/auth?view=login', request.url));
   }
 
   // Allow verify-email view even when unauthenticated
-  if (pathname === '/auth' && request.nextUrl.searchParams.get('view') === 'verify-email') {
+  if (isVerifyView) {
     return supabaseResponse;
   }
 
