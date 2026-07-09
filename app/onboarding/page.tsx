@@ -129,7 +129,7 @@ export default function OnboardingPage() {
         <div className="sticky bottom-0 bg-bg-primary border-t border-border-default px-5 sm:px-8 py-4">
           <div className="max-w-3xl mx-auto flex justify-center">
             <button type="button" onClick={goNext} disabled={!isStepComplete()}
-              className="w-full sm:w-64 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+              className="w-full sm:w-64 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
               Continue
             </button>
           </div>
@@ -226,7 +226,7 @@ function SubjectStep({ selected, onSelect }: { selected: string | null; onSelect
               className={cn(
                 'w-full rounded-2xl border-2 p-5 sm:p-6 flex flex-col gap-3 text-left transition-all duration-200',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2',
-                'active:scale-[0.98]',
+                'active:translate-y-[2px] active:border-b-[1px] transition-all duration-100',
                 selected === subj.id
                   ? 'border-brand-primary border-b-4 bg-bg-card shadow-inner translate-y-0.5'
                   : 'border-border-default bg-bg-card sm:hover:border-b-4 sm:hover:border-border-default sm:hover:translate-y-0.5',

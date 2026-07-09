@@ -223,7 +223,7 @@ export function SubjectsTab({ sessions, onStartSession, onResumeSession }: Subje
             <div
               key={subj.id}
               onClick={() => setSelectedSubject(subj.id)}
-              className={`relative rounded-xl p-8 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:brightness-95 active:translate-y-[2px] active:scale-[0.98] outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 animate-fade-in-up opacity-0`}
+              className={`relative rounded-xl p-8 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:brightness-95 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 animate-fade-in-up opacity-0`}
               style={{ backgroundColor: SUBJECT_CONTAINER_COLORS[subj.id], animationDelay: `${i * 75}ms` }}
             >
               <h3 className="text-headline-sm font-heading" style={{ color: SUBJECT_TEXT_COLORS[subj.id] }}>

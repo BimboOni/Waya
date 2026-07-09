@@ -24,7 +24,7 @@ export function PremiumEmptyState({
       {ctaLabel && onCta && (
         <button
           onClick={onCta}
-          className="inline-flex items-center justify-center h-14 px-10 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-dark transition-all duration-100 hover:brightness-105 active:translate-y-[3px] active:border-b-0 active:shadow-none active:scale-[0.98]"
+          className="inline-flex items-center justify-center h-14 px-10 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-dark transition-all duration-100 hover:brightness-105 active:translate-y-[3px] active:border-b-0 active:shadow-none active:translate-y-[2px] active:border-b-[1px] transition-all duration-100"
         >
           {ctaLabel}
         </button>

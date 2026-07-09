@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect, useCallback, useRef } from 'react';
+import { Suspense, useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useWayaStore } from '@/store/useWayaStore';
 import { AppShell } from '@/components/layout/AppShell';
@@ -15,7 +15,6 @@ import { WelcomeModal } from '@/components/dashboard/WelcomeModal';
 import { FirstTimeTips, hasSeenTips, markTipsSeen } from '@/components/onboarding/FirstTimeTips';
 import type { DashboardTab } from '@/components/layout/TopNav';
 import type { MockUser, MockSession } from '@/types';
-import { createClientSupabaseClient } from '@/lib/supabase/client';
 
 function DashboardContent() {
   const router = useRouter();
@@ -33,41 +32,25 @@ function DashboardContent() {
   const [resumeSession, setResumeSession] = useState<ResumeSessionData | null>(null);
   const [showWelcome, setShowWelcome] = useState(false);
   const [showTips, setShowTips] = useState(false);
-  const redirectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Client-side auth guard — checks Supabase session directly after cookies propagate
-  useEffect(() => {
-    const supabase = createClientSupabaseClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
-      }
-    });
-    return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
-  }, []);
-
+  // Single auth guard — only redirects on explicit 401 from /api/user/me
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch('/api/user/me', { credentials: 'include' });
-        if (!res.ok) {
-          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
-          return;
-        }
+        if (res.status === 401) { router.push('/auth?view=login'); return; }
+        if (!res.ok) { setIsLoading(false); return; }
         const data = await res.json();
         if (data.user) {
           setUser(data.user as MockUser);
           setDataReady(true);
-          if (redirectTimer.current) { clearTimeout(redirectTimer.current); redirectTimer.current = null; }
         }
+        setIsLoading(false);
       } catch (err) {
         console.error('[dashboard] User fetch failed:', err);
-        if (!redirectTimer.current) {
-          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
-        }
+        setIsLoading(false);
       }
     })();
-    return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
   }, [setUser, router]);
 
   const fetchSessions = useCallback(async () => {

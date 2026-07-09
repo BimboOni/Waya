@@ -14,9 +14,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-brand-primary',
+    'bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 focus-visible:outline-2 focus-visible:outline-brand-primary',
   secondary:
-    'bg-bg-card text-text-primary border-2 border-border-default border-b-[5px] transition-all duration-100 hover:bg-bg-secondary/60 active:translate-y-0.5 active:border-b-2 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-brand-primary',
+    'bg-bg-card text-text-primary border-2 border-border-default border-b-[5px] transition-all duration-100 hover:bg-bg-secondary/60 active:translate-y-0.5 active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 focus-visible:outline-2 focus-visible:outline-brand-primary',
   ghost:
     'bg-transparent text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-all duration-100 focus-visible:outline-2 focus-visible:outline-brand-primary',
 };

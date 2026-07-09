@@ -67,7 +67,7 @@ export function TopNav({ activeTab, onTabChange }: TopNavProps) {
     await createClientSupabaseClient().auth.signOut();
     useWayaStore.setState({ user: null, xp: 0, level: 1, streak: 0, badges: [] });
     localStorage.clear();
-    router.push('/');
+    window.location.href = '/auth?view=login';
   };
 
   const handleThemeToggle = () => {
