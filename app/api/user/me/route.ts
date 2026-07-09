@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 
 const CACHE_TTL = 60;
@@ -11,18 +13,29 @@ const USER_SELECT = {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createServerSupabaseClient(request);
+    const cookieStore = cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+          },
+        },
+      },
+    );
 
-    // Use getSession() to read cookies — more reliable on Edge Runtime than getClaims()
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
     if (sessionError || !session) {
-      console.warn('[user/me] No session found:', sessionError?.message ?? 'no session');
+      console.error('[user/me] No session. Error:', sessionError?.message, 'Session:', session);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
-      console.warn('[user/me] getUser() failed after getSession() passed:', userError?.message);
+      console.error('[user/me] getUser() failed. Error:', userError?.message, 'User:', user);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -41,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (!dbUser) {
-      console.warn('[user/me] Profile not found for', user.id, '— onboarding not complete');
+      console.error('[user/me] Profile not found for user id:', user.id);
       return NextResponse.json(
         { error: 'Profile not found' },
         { status: 401 },
@@ -59,11 +72,9 @@ export async function GET(request: NextRequest) {
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    const stack = err instanceof Error ? err.stack : '';
     console.error('[user/me] Unhandled error:', message);
-    console.error('[user/me] Stack:', stack);
     return NextResponse.json(
-      { error: 'Internal server error', detail: message },
+      { error: 'Internal server error' },
       { status: 500 },
     );
   }
