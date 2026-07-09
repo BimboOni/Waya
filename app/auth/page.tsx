@@ -71,8 +71,10 @@ function AuthContent() {
         const newCode = [...code];
         newCode[index - 1] = '';
         setCode(newCode);
-        setTimeout(() => inputRefs.current[index - 1]?.focus(), 1);
       }
+      const prev = !code[index] ? index - 1 : index;
+      if (prev >= 0) setTimeout(() => inputRefs.current[prev]?.focus(), 1);
+      e.preventDefault();
     }
   };
 
@@ -482,7 +484,7 @@ function AuthContent() {
                           <input key={index} ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
                             type="text" inputMode="numeric" maxLength={1} value={digit}
                             className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
-                            onChange={(e) => handleCodeChange(e.target.value, index)}
+                            onInput={(e) => handleCodeChange((e.target as HTMLInputElement).value, index)}
                             onKeyDown={(e) => handleCodeKeyDown(e, index)} onPaste={handleCodePaste} />
                         ))}
                       </div>
@@ -540,7 +542,7 @@ function AuthContent() {
                         maxLength={1}
                         value={digit}
                         className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
-                        onChange={(e) => handleCodeChange(e.target.value, index)}
+                        onInput={(e) => handleCodeChange((e.target as HTMLInputElement).value, index)}
                         onKeyDown={(e) => handleCodeKeyDown(e, index)}
                         onPaste={handleCodePaste}
                       />
