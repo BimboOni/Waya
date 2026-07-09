@@ -490,7 +490,7 @@ function AuthContent() {
                     </form>
                   )}
                   {!resetSent && (
-                    <Link href="/auth?view=login" className="text-sm text-text-muted font-body hover:text-text-primary transition-colors text-center">&larr; Back To Sign In</Link>
+                    <Link href="/auth?view=login" className="text-sm text-text-muted font-body hover:text-text-primary transition-colors text-center">&larr; Back to Sign In</Link>
                   )}
                 </div>
               )}
@@ -504,7 +504,7 @@ function AuthContent() {
                   <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm mb-6">
                     We sent a 6-digit code to <span className="font-medium text-text-primary">{email}</span>.
                   </p>
-                  <div className="flex justify-center gap-2 sm:gap-3 my-6">
+                  <div className="flex justify-center gap-1 sm:gap-2 my-6">
                     {code.map((digit, index) => (
                       <input
                         key={index}
@@ -513,7 +513,7 @@ function AuthContent() {
                         inputMode="numeric"
                         maxLength={1}
                         value={digit}
-                        className="w-12 h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
+                        className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
                         onChange={(e) => handleCodeChange(e.target.value, index)}
                         onKeyDown={(e) => handleCodeKeyDown(e, index)}
                         onPaste={handleCodePaste}

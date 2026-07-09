@@ -402,7 +402,7 @@ export default function MarketingPage() {
               Every synthesis moves you forward. Streaks, levels, badges, and more.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-6 lg:gap-8">
             {metrics.map((metric, i) => (
               <motion.div
                 key={metric.title}

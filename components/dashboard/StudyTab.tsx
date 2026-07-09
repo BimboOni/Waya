@@ -177,7 +177,7 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
         className="flex-1 flex flex-col justify-center gap-8 items-center text-center overflow-y-auto pb-24"
       >
         <div>
-          <h1 className="text-3xl font-medium text-text-primary tracking-tight">
+          <h1 className="text-[clamp(1.5rem,1rem+1.5vw,1.875rem)] font-medium text-text-primary tracking-tight">
             {getGreeting()}, {user?.name ?? 'Learner'}!
           </h1>
           <p className="text-body-md text-text-muted font-normal mt-2 max-w-lg mx-auto">

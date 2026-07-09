@@ -428,11 +428,11 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
         )}
         {isEmailSent ? (
           <div className="flex flex-col items-center text-center py-6">
-            <h1 className="text-2xl font-bold font-poppins text-text-primary mb-2">Check your email</h1>
+            <h1 className="text-[clamp(1.25rem,0.75rem+2vw,1.5rem)] font-bold font-poppins text-text-primary mb-2">Check your email</h1>
             <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-xs mb-4">
               We sent a 6-digit code to <strong className="text-text-primary">{email}</strong>.
             </p>
-            <div className="flex justify-center gap-2 sm:gap-3 my-4">
+            <div className="flex justify-center gap-1 sm:gap-2 my-4">
               {code.map((digit, index) => (
                 <input
                   key={index}
@@ -441,7 +441,7 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
                   inputMode="numeric"
                   maxLength={1}
                   value={digit}
-                  className="w-12 h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
+                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
                   onChange={(e) => handleCodeChange(e.target.value, index)}
                   onKeyDown={(e) => handleCodeKeyDown(e, index)}
                   onPaste={handleCodePaste}

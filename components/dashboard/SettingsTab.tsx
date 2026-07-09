@@ -238,10 +238,10 @@ export function SettingsTab() {
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Password</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
             {!showPasswordForm ? (
-              <div className="flex flex-row justify-between items-center w-full">
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center w-full">
                 <p className="text-body-md text-text-muted">Update your account password.</p>
                 <button onClick={() => setShowPasswordForm(true)}
-                  className="bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:scale-[0.98] transition-all w-fit hover:brightness-95">
+                  className="bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:scale-[0.98] transition-all w-full sm:w-auto hover:brightness-95">
                   Change Password
                 </button>
               </div>
@@ -299,10 +299,10 @@ export function SettingsTab() {
         <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '300ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Sign Out</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
-            <div className="flex flex-row justify-between items-center w-full">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center w-full">
               <p className="text-body-md text-text-muted">Your data and progress will be saved.</p>
               <button onClick={() => setShowSignOutModal(true)}
-                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:scale-[0.98] transition-all w-fit hover:bg-error-container/50 hover:brightness-95">
+                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:scale-[0.98] transition-all w-full sm:w-auto hover:bg-error-container/50 hover:brightness-95">
                   Sign Out
               </button>
             </div>
@@ -313,10 +313,10 @@ export function SettingsTab() {
         <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '350ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Danger Zone</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
-            <div className="flex flex-row justify-between items-center w-full">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center w-full">
               <p className="text-body-md text-text-muted">All data, sessions, and XP will be lost permanently.</p>
               <button onClick={() => setShowDeleteModal(true)}
-                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:scale-[0.98] transition-all w-fit hover:bg-error-container/50 hover:brightness-95">
+                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:scale-[0.98] transition-all w-full sm:w-auto hover:bg-error-container/50 hover:brightness-95">
                 Delete Account
               </button>
             </div>

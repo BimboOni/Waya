@@ -45,9 +45,9 @@ export function WelcomeModal({ isOpen, onClose, onStartTooltips }: WelcomeModalP
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.88, opacity: 0, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-            className="bg-white rounded-2xl max-w-2xl w-full p-12 flex flex-col items-center text-center shadow-xl"
+            className="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-12 flex flex-col items-center text-center shadow-xl"
           >
-            <h2 className="text-display-sm text-text-primary font-heading font-bold mb-3">
+            <h2 className="text-[clamp(1.25rem,0.75rem+2vw,1.5rem)] font-bold font-heading text-text-primary mb-3">
               Welcome to Waya, {user?.name ?? 'Learner'}!
             </h2>
             <p className="text-body-lg text-text-secondary font-body mb-10 leading-relaxed max-w-md">

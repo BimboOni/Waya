@@ -195,7 +195,7 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
 
   if (mapNodes.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center">
+      <div className="min-h-[calc(100vh-140px)] flex flex-col items-center justify-center overflow-hidden">
         <PremiumEmptyState
           headline="Your Map is Waiting"
           body="Every time you complete a synthesis in the Study Hub"
@@ -211,7 +211,7 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
     <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-12">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-3xl font-medium text-text-primary tracking-tight">Knowledge Map</h2>
+          <h2 className="text-[clamp(1.25rem,0.75rem+2vw,1.5rem)] font-medium text-text-primary tracking-tight">Knowledge Map</h2>
           <p className="text-body-md text-text-muted mt-1">Explore your knowledge journey. Click a topic to review your lessons.</p>
         </div>
         <span className="flex items-center gap-1.5 text-label-sm text-text-muted">
@@ -235,7 +235,7 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
         {drawerNode && (
           <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 40 }}
             transition={{ duration: 0.25 }}
-            className="fixed right-0 top-0 bottom-0 w-[560px] bg-bg-card z-[51] overflow-y-auto">
+            className="fixed right-0 top-0 bottom-0 w-full sm:w-[560px] sm:max-w-[560px] bg-bg-card z-[51] overflow-y-auto">
             <div className="p-8 flex flex-col min-h-full">
               {/* Header */}
               <div className="flex items-start justify-between mb-6">
