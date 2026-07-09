@@ -60,7 +60,9 @@ function AuthContent() {
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
-    if (value && index < 5) inputRefs.current[index + 1]?.focus();
+    if (value && index < 5) {
+      setTimeout(() => inputRefs.current[index + 1]?.focus(), 10);
+    }
   };
 
   const handleCodeKeyDown = (e: React.KeyboardEvent, index: number) => {
@@ -69,7 +71,7 @@ function AuthContent() {
         const newCode = [...code];
         newCode[index - 1] = '';
         setCode(newCode);
-        inputRefs.current[index - 1]?.focus();
+        setTimeout(() => inputRefs.current[index - 1]?.focus(), 10);
       }
     }
   };
@@ -78,15 +80,12 @@ function AuthContent() {
     e.preventDefault();
     const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
     const newCode = [...code];
-    for (let i = 0; i < pasted.length; i++) {
-      newCode[i] = pasted[i];
-    }
+    for (let i = 0; i < pasted.length; i++) newCode[i] = pasted[i];
     setCode(newCode);
-    if (pasted.length < 6) {
-      inputRefs.current[pasted.length]?.focus();
-    } else {
-      inputRefs.current[5]?.blur();
-    }
+    setTimeout(() => {
+      if (pasted.length < 6) inputRefs.current[pasted.length]?.focus();
+      else inputRefs.current[5]?.blur();
+    }, 10);
   };
 
   const handleVerifyCode = async () => {
@@ -518,7 +517,7 @@ function AuthContent() {
                     ))}
                   </div>
                   <button type="button" onClick={handleVerifyCode} disabled={code.join('').length !== 6 || isLoading}
-                    className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
+                    className="w-full mt-2 min-h-[52px] px-6 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
                   >
                     {isLoading ? (
                       <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />

@@ -7,6 +7,7 @@ type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
 const PROTECTED_PATHS = ['/dashboard', '/profile', '/study', '/onboarding'];
 const AUTH_PATHS = ['/auth', '/api/auth'];
+const PUBLIC_API_PATHS = ['/api/onboarding', '/api/user/me', '/api/user/create', '/api/user/interests', '/api/synthesis', '/api/validate-answer', '/api/session', '/api/feedback', '/api/user/exists'];
 const AUTH_RATE_LIMIT = 5;
 const AUTH_RATE_WINDOW_MS = 10 * 60 * 1000;
 
@@ -50,6 +51,11 @@ export async function middleware(request: NextRequest) {
   const authenticated = !error && !!data?.claims?.sub;
 
   const pathname = request.nextUrl.pathname;
+
+  // Skip middleware for public API routes — they handle their own auth
+  if (PUBLIC_API_PATHS.some((path) => pathname.startsWith(path))) {
+    return supabaseResponse;
+  }
 
   // Rate limiting for unauthenticated auth requests
   const isAuth = AUTH_PATHS.some((path) => pathname.startsWith(path)) || pathname === '/api/user/create';
