@@ -499,6 +499,8 @@ function AuthContent() {
                           <input key={index} ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
                             value={code[index]}
                             type="text" inputMode="numeric" maxLength={1}
+                            pattern="[0-9]*"
+                            autoComplete="one-time-code"
                             className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
                             onInput={(e) => handleCodeChange((e.target as HTMLInputElement).value, index)}
                             onKeyDown={(e) => handleCodeKeyDown(e, index)} onPaste={handleCodePaste} />

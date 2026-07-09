@@ -77,8 +77,11 @@ export async function middleware(request: NextRequest) {
   const isOnboarding = pathname.startsWith('/onboarding');
   const isVerifyView = pathname.startsWith('/auth') && request.nextUrl.searchParams.get('view') === 'verify-email';
   if (authenticated && isProtected && !isOnboarding) {
-    // On slow networks, the session cookie may not have propagated to the Edge Runtime yet.
-    // If getUser() fails, allow the request through — the client will re-fetch on render.
+    // Check if session cookie exists but user data hasn't propagated yet
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      return NextResponse.redirect(new URL('/auth?view=login', request.url));
+    }
     const { data: userData } = await supabase.auth.getUser();
     if (userData?.user) {
       const emailConfirmed = !!userData.user.email_confirmed_at;
@@ -86,6 +89,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/auth?view=verify-email', request.url));
       }
     }
+    // Session exists but getUser() failed — allow through (data will resolve client-side)
   }
 
   if (isProtected && !authenticated) {

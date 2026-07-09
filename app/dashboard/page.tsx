@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect, useCallback } from 'react';
+import { Suspense, useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useWayaStore } from '@/store/useWayaStore';
 import { AppShell } from '@/components/layout/AppShell';
@@ -32,21 +32,26 @@ function DashboardContent() {
   const [resumeSession, setResumeSession] = useState<ResumeSessionData | null>(null);
   const [showWelcome, setShowWelcome] = useState(false);
   const [showTips, setShowTips] = useState(false);
+  const redirectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch('/api/user/me', { credentials: 'include' });
-        if (!res.ok) { router.push('/auth?view=login'); return; }
+        if (!res.ok) {
+          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 1500);
+          return;
+        }
         const data = await res.json();
         if (data.user) {
           setUser(data.user as MockUser);
           setDataReady(true);
         }
       } catch {
-        router.push('/auth?view=login');
+        redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 1500);
       }
     })();
+    return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
   }, [setUser, router]);
 
   const fetchSessions = useCallback(async () => {
