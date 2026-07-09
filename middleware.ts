@@ -77,12 +77,11 @@ export async function middleware(request: NextRequest) {
   const isOnboarding = pathname.startsWith('/onboarding');
   const isVerifyView = pathname.startsWith('/auth') && request.nextUrl.searchParams.get('view') === 'verify-email';
   if (authenticated && isProtected && !isOnboarding) {
-    // On the auth callback redirect, the session cookie may not be fully propagated.
-    // If this is a fresh redirect, allow it through and let the client-side handle it.
-    const freshRedirect = request.headers.get('referer')?.includes('/auth/callback') ?? false;
-    if (!freshRedirect) {
-      const { data: userData } = await supabase.auth.getUser();
-      const emailConfirmed = !!userData?.user?.email_confirmed_at;
+    // On slow networks, the session cookie may not have propagated to the Edge Runtime yet.
+    // If getUser() fails, allow the request through — the client will re-fetch on render.
+    const { data: userData } = await supabase.auth.getUser();
+    if (userData?.user) {
+      const emailConfirmed = !!userData.user.email_confirmed_at;
       if (!emailConfirmed && !isVerifyView) {
         return NextResponse.redirect(new URL('/auth?view=verify-email', request.url));
       }

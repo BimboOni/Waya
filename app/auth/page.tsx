@@ -56,13 +56,13 @@ function AuthContent() {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleCodeChange = (value: string, index: number) => {
-    if (value.length > 1) return;
     if (!/^\d*$/.test(value)) return;
+    const last = value.slice(-1);
     const newCode = [...code];
-    newCode[index] = value;
+    newCode[index] = last;
     setCode(newCode);
-    if (value && index < 5) {
-      setTimeout(() => inputRefs.current[index + 1]?.focus(), 1);
+    if (last && index < 5) {
+      setTimeout(() => inputRefs.current[index + 1]?.focus(), 0);
     }
   };
 
@@ -72,10 +72,8 @@ function AuthContent() {
         const newCode = [...code];
         newCode[index - 1] = '';
         setCode(newCode);
+        setTimeout(() => inputRefs.current[index - 1]?.focus(), 0);
       }
-      const prev = !code[index] ? index - 1 : index;
-      if (prev >= 0) setTimeout(() => inputRefs.current[prev]?.focus(), 1);
-      e.preventDefault();
     }
   };
 
@@ -499,7 +497,8 @@ function AuthContent() {
                       <div className="flex justify-center gap-1 sm:gap-2 my-6">
                         {code.map((digit, index) => (
                           <input key={index} ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
-                            type="text" inputMode="numeric" maxLength={1} value={digit}
+                            value={code[index]}
+                            type="text" inputMode="numeric" maxLength={1}
                             className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
                             onInput={(e) => handleCodeChange((e.target as HTMLInputElement).value, index)}
                             onKeyDown={(e) => handleCodeKeyDown(e, index)} onPaste={handleCodePaste} />
@@ -557,7 +556,6 @@ function AuthContent() {
                         type="text"
                         inputMode="numeric"
                         maxLength={1}
-                        value={digit}
                         className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
                         onInput={(e) => handleCodeChange((e.target as HTMLInputElement).value, index)}
                         onKeyDown={(e) => handleCodeKeyDown(e, index)}
