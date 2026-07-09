@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { Check, CheckCircle2 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { createClientSupabaseClient } from '@/lib/supabase/client';
@@ -41,7 +41,6 @@ function AuthContent() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resetSent, setResetSent] = useState(false);
@@ -379,15 +378,11 @@ function AuthContent() {
                           <Input
                             value={password}
                             onChange={handlePasswordChange}
-                            type={showPassword ? 'text' : 'password'}
+                            type="password"
+                            showPasswordToggle
                             placeholder="Password"
                             autoComplete="new-password"
                           />
-                          <button type="button" onClick={() => setShowPassword((p) => !p)}
-                            className="absolute right-3 top-[42px] -translate-y-1/2 p-1.5 text-text-muted hover:text-text-secondary transition-colors"
-                            aria-label={showPassword ? 'Hide password' : 'Show password'}>
-                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                          </button>
                           {password.length > 0 && !(passwordReqs.len && passwordReqs.upper && passwordReqs.lower && passwordReqs.num && passwordReqs.special) && (
                             <div className="flex flex-col gap-1.5 -mt-3">
                               {[
@@ -437,21 +432,15 @@ function AuthContent() {
                     autoComplete="email"
                     autoFocus
                   />
-                  <div className="relative">
                   <Input
                     value={password}
                     onChange={setPassword}
                     onFocus={() => setError(null)}
-                    type={showPassword ? 'text' : 'password'}
+                    type="password"
+                    showPasswordToggle
                     placeholder="Password"
                     autoComplete="current-password"
                   />
-                  <button type="button" onClick={() => setShowPassword((p) => !p)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-text-muted hover:text-text-secondary transition-colors"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}>
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                  </div>
                   <Link href="/auth?view=forgot-password" className="text-sm text-text-secondary hover:text-brand-primary transition-colors text-right -mt-2">Forgot Password?</Link>
                   <div className="mt-4 flex flex-col gap-4">
                     <Button type="submit" disabled={isLoading || !email.trim() || !password} isLoading={isLoading} size="lg" className="w-full rounded-full py-4 text-lg">
