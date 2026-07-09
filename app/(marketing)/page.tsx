@@ -277,7 +277,7 @@ export default function MarketingPage() {
       </section>
 
       {/* 3-Step Flow Section */}
-      <motion.section {...slideUp} className="py-16 sm:py-20 bg-white border-t border-slate-100">
+      <motion.section {...slideUp} className="py-16 sm:py-20 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
           <motion.div {...slideUpChildren} className="text-center mb-16 sm:mb-20">
             <h2 className="text-[clamp(1.75rem,1rem+3vw,3rem)] font-poppins font-bold text-text-primary tracking-tight">
