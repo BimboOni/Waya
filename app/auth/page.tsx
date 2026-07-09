@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
@@ -50,6 +50,61 @@ function AuthContent() {
   const [emailRegexValid, setEmailRegexValid] = useState(false);
   const [passwordReqs, setPasswordReqs] = useState({ len: false, upper: false, lower: false, num: false, special: false });
   const [showLoginLink, setShowLoginLink] = useState(false);
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+
+  const handleCodeChange = (value: string, index: number) => {
+    if (value.length > 1) return;
+    if (!/^\d*$/.test(value)) return;
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
+    if (value && index < 5) inputRefs.current[index + 1]?.focus();
+  };
+
+  const handleCodeKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'Backspace') {
+      if (!code[index] && index > 0) {
+        const newCode = [...code];
+        newCode[index - 1] = '';
+        setCode(newCode);
+        inputRefs.current[index - 1]?.focus();
+      }
+    }
+  };
+
+  const handleCodePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    const newCode = [...code];
+    for (let i = 0; i < pasted.length; i++) {
+      newCode[i] = pasted[i];
+    }
+    setCode(newCode);
+    if (pasted.length < 6) {
+      inputRefs.current[pasted.length]?.focus();
+    } else {
+      inputRefs.current[5]?.blur();
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    const otp = code.join('');
+    if (otp.length !== 6) { setError('Enter all 6 digits from your email.'); return; }
+    setIsLoading(true); setError(null);
+    try {
+      const supabase = createClientSupabaseClient();
+      const { data, error: verifyError } = await supabase.auth.verifyOtp({
+        email: email.trim(),
+        token: otp,
+        type: 'signup',
+      });
+      if (verifyError) { setError('Invalid or expired code. Try signing up again.'); setIsLoading(false); return; }
+      if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
+      try { localStorage.removeItem('waya_tips_completed'); localStorage.removeItem('waya_local_date'); } catch {}
+      router.push('/dashboard');
+    } catch { setError('Something went wrong.'); setIsLoading(false); }
+  };
 
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
@@ -124,7 +179,7 @@ function AuthContent() {
     try {
       const supabase = createClientSupabaseClient();
       const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-      if (authError) { setError(authError.message); setIsLoading(false); return; }
+      if (authError) { setError('Invalid login credentials.'); setIsLoading(false); return; }
       if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session) {
@@ -193,8 +248,8 @@ function AuthContent() {
                 <div className="flex flex-col gap-6">
                   {error && (
                     <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
-                      className="px-4 py-4 rounded-2xl bg-error/[0.06] text-center">
-                      <p className="text-sm text-error font-body font-medium">{error}</p>
+                      className={`px-4 py-4 rounded-2xl text-center ${error.includes('Check your email') ? 'bg-teal-50 border border-[#11B4B4]' : 'bg-error/[0.06]'}`}>
+                      <p className={`text-sm font-body font-medium ${error.includes('Check your email') ? 'text-slate-800' : 'text-error'}`}>{error}</p>
                     </motion.div>
                   )}
                   {/* Progress bar */}
@@ -441,24 +496,39 @@ function AuthContent() {
 
               {/* ═══ VERIFY EMAIL ═══ */}
               {view === 'verify-email' && (
-                <div className="flex flex-col gap-6">
-                  <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center text-center py-8">
-                    <div className="w-16 h-16 rounded-full bg-brand-primary/10 flex items-center justify-center mb-4">
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-10 7L2 7" /></svg>
-                    </div>
-                    <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary mb-3">
-                      Check your email
-                    </h1>
-                    <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm mb-8">
-                      We sent a confirmation link to <span className="font-medium text-text-primary">{email}</span>. Please verify your account to unlock your interactive study companion.
-                    </p>
-                    <Link href="/auth?view=login" className="w-full bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-4 px-12 text-[16px]">
-                      Back to Sign In
-                    </Link>
-                    <p className="text-label-sm text-text-muted mt-6">
-                      Didn&apos;t receive it? Check your spam folder or try signing in again to resend.
-                    </p>
-                  </motion.div>
+                <div className="flex flex-col items-center text-center py-8">
+                  <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-tight leading-tight text-text-primary mb-3">
+                    Check your email
+                  </h1>
+                  <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-sm mb-6">
+                    We sent a 6-digit code to <span className="font-medium text-text-primary">{email}</span>.
+                  </p>
+                  <div className="flex justify-center gap-2 sm:gap-3 my-6">
+                    {code.map((digit, index) => (
+                      <input
+                        key={index}
+                        ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        className="w-12 h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
+                        onChange={(e) => handleCodeChange(e.target.value, index)}
+                        onKeyDown={(e) => handleCodeKeyDown(e, index)}
+                        onPaste={handleCodePaste}
+                      />
+                    ))}
+                  </div>
+                  <button type="button" onClick={handleVerifyCode} disabled={code.join('').length !== 6 || isLoading}
+                    className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
+                  >
+                    {isLoading ? (
+                      <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
+                    ) : 'Verify Code'}
+                  </button>
+                  <p className="text-label-sm text-text-muted mt-6">
+                    Didn&apos;t receive it? Check your spam folder or try signing up again.
+                  </p>
                 </div>
               )}
 

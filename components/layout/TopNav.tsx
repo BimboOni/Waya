@@ -42,7 +42,9 @@ export function TopNav({ activeTab, onTabChange }: TopNavProps) {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === 'undefined') return false;
     const t = localStorage.getItem('waya_theme');
-    return t === 'dark' || (t !== 'light' && t !== 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (!t) return false;
+    if (t === 'system') return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return t === 'dark';
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
 

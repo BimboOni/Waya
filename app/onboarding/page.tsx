@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, Eye, EyeOff } from 'lucide-react';
@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { HOBBIES } from '@/lib/constants';
 import { WayaMascot } from '@/components/ui/WayaMascot';
 import { InterestCard } from '@/components/onboarding/InterestCard';
+import { useWayaStore } from '@/store/useWayaStore';
 import { createClientSupabaseClient } from '@/lib/supabase/client';
 
 type StepId = 'intro' | 'interests' | 'subject' | 'signin';
@@ -127,7 +128,7 @@ export default function OnboardingPage() {
         <div className="sticky bottom-0 bg-bg-primary border-t border-border-default px-5 sm:px-8 py-4">
           <div className="max-w-3xl mx-auto flex justify-center">
             <button type="button" onClick={goNext} disabled={!isStepComplete()}
-              className="w-full sm:w-64 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+              className="w-full sm:w-64 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
               Continue
             </button>
           </div>
@@ -259,6 +260,63 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
   const [showPassword, setShowPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+
+  const handleCodeChange = (value: string, index: number) => {
+    if (value.length > 1) return;
+    if (!/^\d*$/.test(value)) return;
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
+    if (value && index < 5) inputRefs.current[index + 1]?.focus();
+  };
+
+  const handleCodeKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'Backspace') {
+      if (!code[index] && index > 0) {
+        const newCode = [...code];
+        newCode[index - 1] = '';
+        setCode(newCode);
+        inputRefs.current[index - 1]?.focus();
+      }
+    }
+  };
+
+  const handleCodePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    const newCode = [...code];
+    for (let i = 0; i < pasted.length; i++) {
+      newCode[i] = pasted[i];
+    }
+    setCode(newCode);
+    if (pasted.length < 6) {
+      inputRefs.current[pasted.length]?.focus();
+    } else {
+      inputRefs.current[5]?.blur();
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    const otp = code.join('');
+    if (otp.length !== 6) { setError('Enter all 6 digits from your email.'); return; }
+    setIsSaving(true); setError(null);
+    try {
+      const supabase = createClientSupabaseClient();
+      const { data, error: verifyError } = await supabase.auth.verifyOtp({
+        email: email.trim(),
+        token: otp,
+        type: 'signup',
+      });
+      if (verifyError) { setError('Invalid or expired code. Try signing up again.'); setIsSaving(false); return; }
+      if (!data.user) { setError('Something went wrong.'); setIsSaving(false); return; }
+      localStorage.removeItem('waya_tips_completed');
+      localStorage.removeItem('waya_local_date');
+      window.location.href = '/dashboard';
+    } catch { setError('Something went wrong.'); setIsSaving(false); }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -303,15 +361,10 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
           return;
         }
 
-        // 2. Force-sync the auth session into client store + cookies before navigating
-        const sessionRes = await supabase.auth.getSession();
-        if (!sessionRes.data.session) {
-          await new Promise((r) => setTimeout(r, 1000));
-        }
-        await new Promise((r) => setTimeout(r, 500));
-
-        // 3. Navigate — dashboard will find the Prisma row + session
-        router.push('/dashboard');
+        // 2. Show verification notice instead of navigating
+        // Session won't exist until email is confirmed
+        setIsEmailSent(true);
+        setIsSaving(false);
       } else {
         const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
         if (authError) { setError('Invalid login credentials.'); setIsSaving(false); return; }
@@ -373,6 +426,37 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
             <p className="text-label-md text-error font-body">{error}</p>
           </div>
         )}
+        {isEmailSent ? (
+          <div className="flex flex-col items-center text-center py-6">
+            <h1 className="text-2xl font-bold font-poppins text-text-primary mb-2">Check your email</h1>
+            <p className="text-body-md text-text-secondary font-body leading-relaxed max-w-xs mb-4">
+              We sent a 6-digit code to <strong className="text-text-primary">{email}</strong>.
+            </p>
+            <div className="flex justify-center gap-2 sm:gap-3 my-4">
+              {code.map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => { inputRefs.current[index] = el; if (index === 0 && el) setTimeout(() => el.focus(), 100); }}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={digit}
+                  className="w-12 h-14 text-center text-xl font-bold font-mono border-2 border-slate-200 rounded-lg bg-white focus:border-[#11B4B4] focus:ring-1 focus:ring-[#11B4B4] outline-none transition-all"
+                  onChange={(e) => handleCodeChange(e.target.value, index)}
+                  onKeyDown={(e) => handleCodeKeyDown(e, index)}
+                  onPaste={handleCodePaste}
+                />
+              ))}
+            </div>
+            <button type="button" onClick={handleVerifyCode} disabled={code.join('').length !== 6 || isSaving}
+              className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
+            >
+              {isSaving ? (
+                <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
+              ) : 'Verify Code'}
+            </button>
+          </div>
+        ) : (
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3 text-left" noValidate>
           {mode === 'create' && (
             <input type="text" value={name} onChange={(e) => { setName(e.target.value); if (error) setError(null); }}
@@ -392,14 +476,19 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
             </button>
           </div>
           <button type="submit" disabled={isSaving || !email.trim() || password.length < 8}
-            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
             {isSaving ? (
               <div className="w-5 h-5 mx-auto rounded-full border-2 border-brand-on-primary/30 border-t-brand-on-primary animate-spin" style={{ animationDuration: '0.65s' }} aria-label="Processing…" />
             ) : mode === 'create' ? 'Create free account' : 'Sign in'}
           </button>
         </form>
+        )}
 
         <div className="flex flex-col items-center gap-2">
+          {isEmailSent ? (
+            <p className="text-label-sm text-text-muted font-body">Didn&apos;t receive it? Check your spam folder or try signing up again.</p>
+          ) : (
+          <>
           {mode === 'create' ? (
             <button type="button" onClick={() => { setMode('sign-in'); setError(null); }}
               className="text-label-md text-text-muted font-body hover:text-text-primary transition-colors">
@@ -417,7 +506,9 @@ function SignInStep({ interests, preferredSubject }: { interests: string[]; pref
               Already have an account? Sign In
             </a>
           )}
-        </div>
+          </>
+        )}
+      </div>
       </div>
     </div>
   );

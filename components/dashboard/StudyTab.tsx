@@ -76,6 +76,13 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
   const [activeSubject, setActiveSubject] = useState(user?.preferredSubject ?? 'Mathematics');
   const [showSubjectMenu, setShowSubjectMenu] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Sync active subject whenever the store's preferredSubject updates
+  useEffect(() => {
+    if (user?.preferredSubject) {
+      setActiveSubject(user.preferredSubject);
+    }
+  }, [user?.preferredSubject]);
   const expandedRef = useRef<HTMLTextAreaElement>(null);
   const subjectMenuRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);

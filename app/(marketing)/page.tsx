@@ -153,7 +153,7 @@ export default function MarketingPage() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-4 sm:top-6 left-0 right-0 z-50 w-full max-w-[1280px] mx-auto px-4 sm:px-8"
       >
-        <nav className="w-full bg-white rounded-full border-[3px] border-border-default py-3 sm:py-4 px-5 sm:px-8 flex flex-row justify-between items-center">
+        <nav className="w-full bg-white rounded-full border-[3px] border-slate-200 py-3 sm:py-4 px-5 sm:px-8 flex flex-row justify-between items-center">
           <Link href="/" className="font-logo font-black text-[28px] leading-none text-brand-primary">waya</Link>
           <button
             className="sm:hidden p-1 text-text-secondary hover:text-text-primary transition-colors relative w-7 h-7"
@@ -190,7 +190,7 @@ export default function MarketingPage() {
             <Link href="/auth?view=login" className="font-inter font-semibold text-[15px] text-text-secondary hover:text-text-primary transition-colors">Sign In</Link>
             <Link
               href="/auth?view=get-started"
-              className="bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-3 px-7 text-[15px]"
+              className="bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-3 px-7 text-[15px]"
             >
               Get Started
             </Link>
@@ -223,7 +223,7 @@ export default function MarketingPage() {
               </Link>
               <Link
                 href="/auth?view=get-started"
-                className="w-full text-center bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] font-inter font-bold rounded-full py-3.5 px-7 text-[16px]"
+                className="w-full text-center bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] font-inter font-bold rounded-full py-3.5 px-7 text-[16px]"
                 onClick={() => setMenuOpen(false)}
               >
                 Get Started
@@ -251,7 +251,7 @@ export default function MarketingPage() {
           </p>
           <Link
             href="/auth?view=get-started"
-            className="bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-4 px-10 text-[clamp(0.875rem,0.8rem+0.3vw,1rem)] w-full sm:w-fit mt-8 sm:mt-10"
+            className="bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-4 px-10 text-[clamp(0.875rem,0.8rem+0.3vw,1rem)] w-full sm:w-fit mt-8 sm:mt-10"
           >
             Start Learning for Free
           </Link>
@@ -453,7 +453,7 @@ export default function MarketingPage() {
             </p>
             <Link
               href="/auth?view=get-started"
-              className="bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:translate-y-1 active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-4 px-10 text-[clamp(0.875rem,0.8rem+0.3vw,1rem)] w-full sm:w-fit mt-8"
+              className="bg-brand-primary text-brand-on-primary border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[3px] active:scale-[0.98] inline-flex items-center justify-center font-inter font-bold rounded-full py-4 px-10 text-[clamp(0.875rem,0.8rem+0.3vw,1rem)] w-full sm:w-fit mt-8"
             >
               Start Learning for Free
             </Link>

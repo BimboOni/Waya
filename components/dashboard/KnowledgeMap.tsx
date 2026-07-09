@@ -196,10 +196,9 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
   if (mapNodes.length === 0) {
     return (
       <PremiumEmptyState
-        illustration="map"
         headline="Your Map is Waiting"
-        body="Every time you complete a synthesis in the Study Hub, a new node appears here — connecting ideas across subjects."
-        ctaLabel="Start Your First Lesson"
+        body="Every time you complete a synthesis in the Study Hub"
+        ctaLabel="Start your first lesson"
         onCta={onCta}
       />
     );
