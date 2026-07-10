@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 const USER_SELECT = {
@@ -14,25 +14,33 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll() { return request.cookies.getAll(); },
+          getAll() {
+            return request.cookies.getAll().map((cookie) => ({
+              name: cookie.name,
+              value: cookie.value,
+            }));
+          },
           setAll() {},
         },
       },
     );
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      console.error('[AUTH FAILURE]: Supabase could not find user from request cookies.', userError?.message ?? userError);
+      return NextResponse.json({ error: 'Unauthorized session token missing' }, { status: 401 });
+    }
 
     const dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: USER_SELECT });
-    if (!dbUser) return NextResponse.json({ error: 'Profile not found' }, { status: 401 });
+    if (!dbUser) {
+      console.error('[USER DB]: Profile not found for', user.id);
+      return NextResponse.json({ error: 'Profile not found' }, { status: 401 });
+    }
 
     return NextResponse.json({ user: dbUser }, { status: 200, headers: { 'Cache-Control': 'private, max-age=60' } });
-  } catch (err: any) {
-    console.error('[user/me] CRASH:', err?.message ?? err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } catch (error: any) {
+    console.error('[CRITICAL SYSTEM ERROR]:', error?.message ?? error);
+    return NextResponse.json({ error: 'Internal execution error' }, { status: 500 });
   }
 }
 
@@ -43,13 +51,18 @@ export async function PATCH(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll() { return request.cookies.getAll(); },
+          getAll() {
+            return request.cookies.getAll().map((cookie) => ({
+              name: cookie.name,
+              value: cookie.value,
+            }));
+          },
           setAll() {},
         },
       },
     );
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const updateData: Record<string, any> = {};
@@ -61,8 +74,8 @@ export async function PATCH(request: NextRequest) {
 
     const updated = await prisma.user.update({ where: { id: user.id }, data: updateData, select: USER_SELECT });
     return NextResponse.json({ user: updated });
-  } catch (err: any) {
-    console.error('[user/me] PATCH CRASH:', err?.message ?? err);
+  } catch (error: any) {
+    console.error('[user/me] PATCH CRASH:', error?.message ?? error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -74,18 +87,23 @@ export async function DELETE(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll() { return request.cookies.getAll(); },
+          getAll() {
+            return request.cookies.getAll().map((cookie) => ({
+              name: cookie.name,
+              value: cookie.value,
+            }));
+          },
           setAll() {},
         },
       },
     );
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     await prisma.user.delete({ where: { id: user.id } });
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    console.error('[user/me] DELETE CRASH:', err?.message ?? err);
+  } catch (error: any) {
+    console.error('[user/me] DELETE CRASH:', error?.message ?? error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

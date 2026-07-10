@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect, useCallback } from 'react';
+import { Suspense, useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useWayaStore } from '@/store/useWayaStore';
 import { AppShell } from '@/components/layout/AppShell';
@@ -34,7 +34,13 @@ function DashboardContent() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showTips, setShowTips] = useState(false);
 
+  const redirectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Single auth guard — only redirects on explicit 401 from /api/user/me
+  useEffect(() => {
+    return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
+  }, []);
+
   useEffect(() => {
     (async () => {
       try {
@@ -43,9 +49,12 @@ function DashboardContent() {
           // Check if a local Supabase session exists before assuming we're logged out
           const supabase = createClientSupabaseClient();
           const { data: { session } } = await supabase.auth.getSession();
-          if (session) {
-            // Session exists locally but cookie hasn't propagated — refresh and retry
-            await supabase.auth.refreshSession();
+
+          // Also check localStorage for any Supabase auth token
+          const hasLocalToken = typeof window !== 'undefined' && Array.from({ length: localStorage.length }, (_, i) => localStorage.key(i)).some((k) => k?.startsWith('sb-'));
+
+          if (session || hasLocalToken) {
+            if (session) await supabase.auth.refreshSession();
             const retry = await fetch('/api/user/me', { credentials: 'include' });
             if (retry.ok) {
               const data = await retry.json();
@@ -54,7 +63,10 @@ function DashboardContent() {
               return;
             }
           }
-          router.push('/auth?view=login');
+
+          // Give cookies 2 seconds to propagate before hard redirect
+          console.warn('[dashboard] Auth check failed — waiting 2s before redirect');
+          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
           return;
         }
         if (!res.ok) { setIsLoading(false); return; }
