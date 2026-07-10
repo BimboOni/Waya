@@ -141,10 +141,19 @@ function AuthContent() {
       });
       if (authError) { setError(authError.message); setIsLoading(false); if (authError.message.toLowerCase().includes('already')) setShowLoginLink(true); return; }
       if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
+
+      // Extract userId from session (most reliable) or fall back to signUp response
+      const { data: { session } } = await supabase.auth.getSession();
+      const userId = session?.user?.id ?? data.user.id;
+      if (!userId) { console.error('[ONBOARDING DISPATCH REJECTED]: No user ID found'); setIsLoading(false); return; }
+
+      const onboardingPayload = { userId, email: email.trim(), name: name.trim(), interests, preferredSubject: selectedSubject };
+      console.log('[ONBOARDING DISPATCH]:', JSON.stringify(onboardingPayload));
+
       try {
         await fetch('/api/onboarding', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: data.user.id, email: email.trim(), name: name.trim(), interests, preferredSubject: selectedSubject }),
+          body: JSON.stringify(onboardingPayload),
         });
       } catch (e) {
         console.error('[auth] Onboarding API fallback failed:', e);
