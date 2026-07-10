@@ -58,9 +58,9 @@ function DashboardContent() {
             const retry = await fetch('/api/user/me', { credentials: 'include' });
             if (retry.ok) {
               const data = await retry.json();
-              if (data.user) { setUser(data.user as MockUser); setDataReady(true); }
-              setIsLoading(false);
-              return;
+              console.log('[DASHBOARD RECEIVED PAYLOAD]:', data);
+              const userData = data.user || data;
+              if (userData && userData.id) { setUser(userData as MockUser); setDataReady(true); setIsLoading(false); return; }
             }
           }
 
@@ -71,9 +71,13 @@ function DashboardContent() {
         }
         if (!res.ok) { setIsLoading(false); return; }
         const data = await res.json();
-        if (data.user) {
-          setUser(data.user as MockUser);
+        console.log('[DASHBOARD RECEIVED PAYLOAD]:', data);
+        const userData = data.user || data;
+        if (userData && userData.id) {
+          setUser(userData as MockUser);
           setDataReady(true);
+          setIsLoading(false);
+          return;
         }
         setIsLoading(false);
       } catch (err) {
