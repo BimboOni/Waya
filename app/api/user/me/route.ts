@@ -33,8 +33,26 @@ export async function GET(request: NextRequest) {
 
     const dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: USER_SELECT });
     if (!dbUser) {
-      console.error('[USER DB]: Profile not found for', user.id);
-      return NextResponse.json({ error: 'Profile not found' }, { status: 401 });
+      console.warn('[USER DB]: Profile not found for', user.id, '— creating placeholder');
+      try {
+        const placeholder = await prisma.user.create({
+          data: {
+            id: user.id,
+            email: user.email ?? `user-${user.id}@placeholder.waya`,
+            name: (user.user_metadata?.full_name as string) ?? user.email?.split('@')[0] ?? 'Learner',
+            interests: [],
+            xp: 0,
+            level: 1,
+            streak: 0,
+          },
+          select: USER_SELECT,
+        });
+        console.log('[USER DB]: Placeholder profile created for', user.id);
+        return NextResponse.json({ user: placeholder }, { status: 200, headers: { 'Cache-Control': 'private, max-age=60' } });
+      } catch (createErr: any) {
+        console.error('[USER DB]: Failed to create placeholder:', createErr?.message);
+        return NextResponse.json({ error: 'Profile creation failed' }, { status: 401 });
+      }
     }
 
     return NextResponse.json({ user: dbUser }, { status: 200, headers: { 'Cache-Control': 'private, max-age=60' } });
