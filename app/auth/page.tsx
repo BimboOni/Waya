@@ -88,8 +88,8 @@ function AuthContent() {
       });
       if (verifyError) { setError('Invalid or expired code. Try signing up again.'); setIsLoading(false); return; }
       if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
-      // Verify session cookie is fully written before navigating
-      await supabase.auth.getSession();
+      // Explicitly set the session to ensure cookies are synced
+      if (data.session) await supabase.auth.setSession(data.session);
       try { localStorage.removeItem('waya_tips_completed'); localStorage.removeItem('waya_local_date'); } catch {}
       router.push('/dashboard');
     } catch { setError('Something went wrong.'); setIsLoading(false); }
@@ -163,7 +163,7 @@ function AuthContent() {
     try {
       const supabase = createClientSupabaseClient();
       const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-      if (authError) { setError('Invalid login credentials.'); setIsLoading(false); return; }
+      if (authError) { setError(`Login failed: ${authError.message}`); setIsLoading(false); return; }
       if (!data.user) { setError('Something went wrong.'); setIsLoading(false); return; }
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session) {
