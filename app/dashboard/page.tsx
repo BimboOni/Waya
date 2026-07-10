@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect, useCallback, useRef } from 'react';
+import { Suspense, useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useWayaStore } from '@/store/useWayaStore';
 import { AppShell } from '@/components/layout/AppShell';
@@ -34,58 +34,57 @@ function DashboardContent() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showTips, setShowTips] = useState(false);
 
-  const redirectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Single auth guard — only redirects on explicit 401 from /api/user/me
+  // Auth guard — check local session first, NEVER redirect if session exists
   useEffect(() => {
-    return () => { if (redirectTimer.current) clearTimeout(redirectTimer.current); };
-  }, []);
+    const supabase = createClientSupabaseClient();
 
-  useEffect(() => {
-    (async () => {
+    async function verifyIdentity() {
       try {
-        const res = await fetch('/api/user/me', { credentials: 'include' });
-        if (res.status === 401) {
-          // Check if a local Supabase session exists before assuming we're logged out
-          const supabase = createClientSupabaseClient();
-          const { data: { session } } = await supabase.auth.getSession();
+        // 1. Check local client session state first
+        const { data: { session } } = await supabase.auth.getSession();
 
-          // Also check localStorage for any Supabase auth token
-          const hasLocalToken = typeof window !== 'undefined' && Array.from({ length: localStorage.length }, (_, i) => localStorage.key(i)).some((k) => k?.startsWith('sb-'));
+        // 2. Also check localStorage for Supabase auth tokens (sb-* keys)
+        const hasLocalToken = typeof window !== 'undefined' &&
+          Array.from({ length: localStorage.length }, (_, i) => localStorage.key(i))
+            .some((k) => k?.startsWith('sb-'));
 
-          if (session || hasLocalToken) {
-            if (session) await supabase.auth.refreshSession();
-            const retry = await fetch('/api/user/me', { credentials: 'include' });
-            if (retry.ok) {
-              const data = await retry.json();
-              console.log('[DASHBOARD RECEIVED PAYLOAD]:', data);
-              const userData = data.user || data;
-              if (userData && userData.id) { setUser(userData as MockUser); setDataReady(true); setIsLoading(false); return; }
-            }
+        const hasSession = !!session || hasLocalToken;
+
+        if (!hasSession) {
+          console.log('[DASHBOARD AUTH ALERT]: No active session found. Redirecting...');
+          router.push('/auth?view=login');
+          return;
+        }
+
+        // 3. Session exists locally! Proceed with database profile sync safely
+        if (session) await supabase.auth.refreshSession();
+        const res = await fetch('/api/user/me');
+        console.log('[DASHBOARD RECEIVED PAYLOAD STATUS]:', res.status);
+
+        if (res.ok) {
+          const data = await res.json();
+          console.log('[DASHBOARD RECEIVED PAYLOAD]:', data);
+          const userData = data.user || data;
+          if (userData && userData.id) {
+            setUser(userData as MockUser);
+            setDataReady(true);
+            setIsLoading(false);
+            return;
           }
+        }
 
-          // Give cookies 2 seconds to propagate before hard redirect
-          console.warn('[dashboard] Auth check failed — waiting 2s before redirect');
-          redirectTimer.current = setTimeout(() => router.push('/auth?view=login'), 2000);
-          return;
-        }
-        if (!res.ok) { setIsLoading(false); return; }
-        const data = await res.json();
-        console.log('[DASHBOARD RECEIVED PAYLOAD]:', data);
-        const userData = data.user || data;
-        if (userData && userData.id) {
-          setUser(userData as MockUser);
-          setDataReady(true);
-          setIsLoading(false);
-          return;
-        }
+        // 4. Database profile sync failed but session is valid — don't boot them!
+        console.warn('[DASHBOARD] API sync failed but session exists — staying on dashboard');
         setIsLoading(false);
+
       } catch (err) {
-        console.error('[dashboard] User fetch failed:', err);
-        setIsLoading(false);
+        console.error('[DASHBOARD IDENTITY CRASH]:', err);
+        router.push('/auth?view=login');
       }
-    })();
-  }, [setUser, router]);
+    }
+
+    verifyIdentity();
+  }, []);
 
   const fetchSessions = useCallback(async () => {
     try {
