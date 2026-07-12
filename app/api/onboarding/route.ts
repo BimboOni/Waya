@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
         xp: 0,
         level: 1,
         streak: 0,
-      tokensUsed: 0,
       },
       update: {
         name: safeName,
