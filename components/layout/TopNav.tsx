@@ -115,8 +115,7 @@ export function TopNav({ activeTab, onTabChange }: TopNavProps) {
 
         <div className="flex items-center justify-end gap-4 sm:gap-4">
           {/* Streak pill */}
-          <div data-gamification="true" className="flex items-center gap-1.5 text-sm font-bold text-text-primary"
-            style={streak > 0 ? { boxShadow: '0 0 12px rgba(242,92,116,0.2)', borderRadius: '999px', paddingRight: '4px' } : {}}>
+          <div data-gamification="true" className="flex items-center gap-1.5 text-sm font-bold text-text-primary">
             <IconFlame className="w-5 h-5 text-[var(--color-streak)]" />
             <span>{streak}</span>
           </div>

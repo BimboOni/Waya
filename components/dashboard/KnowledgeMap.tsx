@@ -222,12 +222,12 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
   return (
     <ReactFlowProvider>
     <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-12">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
         <div>
-          <h2 className="text-[clamp(1.25rem,0.75rem+2vw,1.5rem)] font-medium text-text-primary tracking-tight">Knowledge Map</h2>
+          <h2 className="text-3xl font-medium text-text-primary tracking-tight">Knowledge Map</h2>
           <p className="text-body-md text-text-muted mt-1">Explore your knowledge journey. Click a topic to review your lessons.</p>
         </div>
-        <span className="flex items-center gap-1.5 text-label-sm text-text-muted">
+        <span className="flex items-center gap-1.5 text-label-sm text-text-muted shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
           {mapNodes.length} topics
         </span>
@@ -266,8 +266,8 @@ export function KnowledgeMap({ sessions, onCta, onStartSession, onResumeSession 
                   </div>
                 </div>
                 <button onClick={() => setDrawerNode(null)}
-                  className="p-1.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-secondary transition-colors shrink-0 mt-0.5 outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2">
-                  <X size={16} />
+                  className="p-2.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-secondary transition-colors shrink-0 mt-0.5 outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2">
+                  <X size={22} />
                 </button>
               </div>
 
