@@ -147,8 +147,14 @@ function AuthContent() {
       const userId = session?.user?.id ?? data.user.id;
       if (!userId) { console.error('[ONBOARDING DISPATCH REJECTED]: No user ID found'); setIsLoading(false); return; }
 
-      const onboardingPayload = { userId, email: email.trim(), name: name.trim(), interests, preferredSubject: selectedSubject };
-      console.log('[ONBOARDING DISPATCH]:', JSON.stringify(onboardingPayload));
+      // Normalize the subject string to ensure it matches the compact ID format used everywhere
+      let cleanSubject = selectedSubject ?? 'Mathematics';
+      if (cleanSubject === 'History & Culture') cleanSubject = 'HistoryCulture';
+      else if (cleanSubject === 'Science & Tech') cleanSubject = 'ScienceTech';
+      else if (cleanSubject === 'Creative Arts') cleanSubject = 'CreativeArts';
+
+      const onboardingPayload = { userId, email: email.trim(), name: name.trim(), interests, preferredSubject: cleanSubject };
+      console.log('[ONBOARDING MAP CHECK]:', JSON.stringify(onboardingPayload));
 
       try {
         await fetch('/api/onboarding', {
