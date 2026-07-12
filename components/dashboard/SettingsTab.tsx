@@ -152,12 +152,12 @@ export function SettingsTab() {
         <section className="animate-fade-in-up opacity-0" style={{ animationDelay: '50ms' }}>
           <h2 className="font-heading font-medium mb-4" style={{ fontSize: '1rem', color: 'var(--color-text-primary)' }}>Appearance</h2>
           <div className={sectionCard} style={{ border: sectionBorder }}>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-body-lg text-text-primary font-medium">Theme</p>
                 <p className="text-body-md text-text-muted">Choose between light, dark, or system theme.</p>
               </div>
-              <div className="flex rounded-xl border border-border-default bg-bg-secondary p-1 w-fit shrink-0" role="radiogroup" aria-label="Theme selection">
+              <div className="flex rounded-xl border border-border-default bg-bg-secondary p-1 w-full sm:w-fit justify-center shrink-0" role="radiogroup" aria-label="Theme selection">
                 {(['light', 'dark', 'system'] as ThemeMode[]).map((mode) => {
                   const selected = currentTheme === mode;
                   return (
@@ -279,17 +279,17 @@ export function SettingsTab() {
                 {passwordMsg && (
                   <p className={`text-body-sm ${passwordMsg.includes('updated') ? 'text-success' : 'text-error'}`}>{passwordMsg}</p>
                 )}
-                <div className="flex items-center gap-3 pt-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center pt-3">
                   <button onClick={handleChangePassword} disabled={saving || !oldPassword || !passwordReqs.len || !passwordReqs.upper || !passwordReqs.lower || !passwordReqs.num || !passwordReqs.special || !confirmPassword}
-                    className={`flex-1 rounded-full font-medium transition-all text-center h-12 px-6 ${
+                    className={`w-full sm:flex-1 rounded-full font-medium transition-all text-center h-12 px-6 ${
                       oldPassword && passwordReqs.len && passwordReqs.upper && passwordReqs.lower && passwordReqs.num && passwordReqs.special && confirmPassword
-                        ? 'bg-brand-primary text-white border-b-4 border-brand-hover active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100'
+                        ? 'bg-brand-primary text-white border-b-4 border-brand-hover active:translate-y-[2px] active:border-b-[1px] transition-all duration-100'
                         : 'bg-brand-primary text-white/40 border-b-4 border-brand-hover opacity-30 cursor-not-allowed'
                     }`}>
                     {saving ? 'Updating...' : 'Update Password'}
                   </button>
                   <button onClick={() => { setShowPasswordForm(false); setPasswordMsg(null); setOldPassword(''); setNewPassword(''); setConfirmPassword(''); setPasswordReqs({ len: false, upper: false, lower: false, num: false, special: false }); }}
-                    className="flex-1 bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95">
+                    className="w-full sm:flex-1 bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95">
                     Cancel
                   </button>
                 </div>
