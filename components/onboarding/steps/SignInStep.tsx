@@ -190,7 +190,7 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
               ))}
             </div>
             <button type="button" onClick={handleVerifyCode} disabled={code.join('').length !== 6 || isSaving}
-              className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+              className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
               {isSaving ? (
                 <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
               ) : 'Verify Code'}
@@ -208,7 +208,7 @@ export function SignInStep({ interests, preferredSubject }: SignInStepProps) {
             onChange={(v) => { setPassword(v); if (error) setError(null); }}
             placeholder="Password" autoComplete={mode === 'create' ? 'new-password' : 'current-password'} disabled={isSaving} />
           <button type="submit" disabled={isSaving || !email.trim() || password.length < 8}
-            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+            className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
             {isSaving ? (
               <div className="w-5 h-5 mx-auto rounded-full border-2 border-brand-on-primary/30 border-t-brand-on-primary animate-spin" style={{ animationDuration: '0.65s' }} aria-label="Processing…" />
             ) : mode === 'create' ? 'Create Free Account' : 'Sign In'}

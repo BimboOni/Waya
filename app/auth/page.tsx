@@ -544,7 +544,7 @@ function AuthContent() {
                         ))}
                       </div>
                       <button type="button" onClick={handleResetVerifyCode} disabled={code.join('').length !== 6 || isLoading}
-                        className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+                        className="w-full mt-2 min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
                         {isLoading ? (
                           <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
                         ) : 'Verify Code'}
@@ -599,7 +599,7 @@ function AuthContent() {
                   <Input type="password" value={confirmPassword} onChange={setConfirmPassword}
                     placeholder="Confirm password" autoComplete="new-password" showPasswordToggle />
                   <button type="button" onClick={handleUpdatePassword} disabled={isLoading || !password || !confirmPassword}
-                    className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:border-b-0 active:shadow-none active:translate-y-[4px] active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
+                    className="w-full min-h-[52px] rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center">
                     {isLoading ? 'Updating...' : 'Update Password'}
                   </button>
                   <Link href="/auth?view=login" className="text-sm text-text-muted font-body hover:text-text-primary transition-colors text-center">&larr; Back to Sign In</Link>

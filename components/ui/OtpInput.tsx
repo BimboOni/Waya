@@ -28,10 +28,6 @@ export function OtpInput({ onComplete, onResend, resendTimer = 0, isLoading }: O
     if (last && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
-    if (last && index === 5) {
-      const otp = [...next.slice(0, 5), last].join('');
-      onComplete(otp);
-    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
@@ -69,7 +65,6 @@ export function OtpInput({ onComplete, onResend, resendTimer = 0, isLoading }: O
       inputRefs.current[pasted.length]?.focus();
     } else {
       inputRefs.current[5]?.blur();
-      onComplete(pasted);
     }
   };
 
@@ -96,7 +91,7 @@ export function OtpInput({ onComplete, onResend, resendTimer = 0, isLoading }: O
         type="button"
         onClick={() => onComplete(digits.join(''))}
         disabled={digits.join('').length !== 6 || isLoading}
-        className="w-full mt-8 min-h-[52px] px-10 py-3 rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
+        className="w-full mt-8 min-h-[52px]  rounded-full bg-brand-primary text-brand-on-primary font-body text-label-lg font-bold border-b-[5px] border-brand-hover transition-all duration-150 hover:brightness-110 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:border-b-[5px] disabled:translate-y-0 flex items-center justify-center"
       >
         {isLoading ? (
           <div className="w-5 h-5 mx-auto rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ animationDuration: '0.65s' }} />
