@@ -338,7 +338,7 @@ export function StudyTab({ sessions, onStartSession, onResumeSession, onViewHist
       </motion.div>
 
       {recentSessions.length > 0 && !isExpanded && (
-        <div className="fixed bottom-0 left-0 right-0 w-full bg-slate-50 dark:bg-[#121212] border-t border-slate-200 dark:border-slate-800 z-20">
+        <div className="sticky md:fixed bottom-0 left-0 right-0 w-full bg-slate-50 dark:bg-[#121212] border-t border-slate-200 dark:border-slate-800 z-20">
           {showLeftBlur && <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-slate-50 via-slate-50/80 to-transparent dark:from-[#121212] dark:via-[#121212]/80 z-20 pointer-events-none" />}
           {showRightBlur && <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent dark:from-[#121212] dark:via-[#121212]/80 z-20 pointer-events-none" />}
           <div ref={scrollRef} onScroll={updateScrollBlurs} className="flex flex-row overflow-x-auto justify-start items-center px-4 sm:px-6 lg:px-8 py-6 gap-4 scrollbar-hide w-full h-full">

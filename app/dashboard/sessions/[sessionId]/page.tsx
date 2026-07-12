@@ -105,11 +105,13 @@ export default function SessionDetailPage() {
             );
           })()}
 
+          {session.userAnswer && (
           <div className="self-end max-w-[80%]">
             <div className="bg-bg-secondary rounded-2xl rounded-br-md px-5 py-4">
               <p className="text-body-lg text-text-primary">{session.userAnswer}</p>
             </div>
           </div>
+          )}
 
           <div className="self-start max-w-[90%]">
             <div className="flex items-start gap-3">
