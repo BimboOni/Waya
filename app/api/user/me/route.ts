@@ -41,6 +41,7 @@ export async function GET(request: NextRequest) {
             email: user.email ?? `user-${user.id}@placeholder.waya`,
             name: (user.user_metadata?.full_name as string) ?? user.email?.split('@')[0] ?? 'Learner',
             interests: [],
+            preferredSubject: 'Mathematics',
             xp: 0,
             level: 1,
             streak: 0,

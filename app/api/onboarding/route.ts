@@ -20,15 +20,16 @@ export async function POST(req: NextRequest) {
         email: body.email && typeof body.email === 'string' ? body.email : `user-${body.userId}@placeholder.waya`,
         name: safeName,
         interests: safeInterests,
-        preferredSubject: body.preferredSubject ?? null,
+        preferredSubject: body.preferredSubject || 'Mathematics',
         xp: 0,
         level: 1,
         streak: 0,
+      tokensUsed: 0,
       },
       update: {
         name: safeName,
         interests: safeInterests,
-        preferredSubject: body.preferredSubject ?? null,
+        preferredSubject: body.preferredSubject || 'Mathematics',
       },
     });
 
