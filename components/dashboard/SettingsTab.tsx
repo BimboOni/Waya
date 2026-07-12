@@ -59,11 +59,11 @@ function ConfirmModal({ open, onClose, onConfirm, title, description, confirmLab
           <p className="text-body-md text-text-muted">{description}</p>
           <div className="flex gap-3 w-full mt-2">
             <button onClick={onClose}
-              className="flex-1 bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all hover:brightness-95">
+              className="flex-1 bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95">
               Cancel
             </button>
             <button onClick={() => { onConfirm(); onClose(); }}
-              className={`flex-1 font-medium rounded-full h-12 px-6 border-b-4 active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all hover:brightness-110 ${confirmClass ?? 'bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 hover:bg-error-container/50 hover:brightness-95'}`}>
+              className={`flex-1 font-medium rounded-full h-12 px-6 border-b-4 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-110 ${confirmClass ?? 'bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 hover:bg-error-container/50 hover:brightness-95'}`}>
               {confirmLabel}
             </button>
           </div>
@@ -244,7 +244,7 @@ export function SettingsTab() {
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center w-full">
                 <p className="text-body-md text-text-muted">Update your account password.</p>
                 <button onClick={() => setShowPasswordForm(true)}
-                  className="bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all w-full sm:w-auto hover:brightness-95">
+                  className="bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 w-full sm:w-auto hover:brightness-95">
                   Change Password
                 </button>
               </div>
@@ -289,7 +289,7 @@ export function SettingsTab() {
                     {saving ? 'Updating...' : 'Update Password'}
                   </button>
                   <button onClick={() => { setShowPasswordForm(false); setPasswordMsg(null); setOldPassword(''); setNewPassword(''); setConfirmPassword(''); setPasswordReqs({ len: false, upper: false, lower: false, num: false, special: false }); }}
-                    className="flex-1 bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all hover:brightness-95">
+                    className="flex-1 bg-bg-card border-2 border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95">
                     Cancel
                   </button>
                 </div>
@@ -305,7 +305,7 @@ export function SettingsTab() {
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center w-full">
               <p className="text-body-md text-text-muted">Your data and progress will be saved.</p>
               <button onClick={() => setShowSignOutModal(true)}
-                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all w-full sm:w-auto hover:bg-error-container/50 hover:brightness-95">
+                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 w-full sm:w-auto hover:bg-error-container/50 hover:brightness-95">
                   Sign Out
               </button>
             </div>
@@ -319,7 +319,7 @@ export function SettingsTab() {
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center w-full">
               <p className="text-body-md text-text-muted">All data, sessions, and XP will be lost permanently.</p>
               <button onClick={() => setShowDeleteModal(true)}
-                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all w-full sm:w-auto hover:bg-error-container/50 hover:brightness-95">
+                className="bg-bg-card border-2 border-error dark:border-red-900/50 border-b-4 border-b-red-800 text-error dark:text-red-300 font-medium rounded-full h-12 px-6 min-w-[180px] text-center active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 w-full sm:w-auto hover:bg-error-container/50 hover:brightness-95">
                 Delete Account
               </button>
             </div>

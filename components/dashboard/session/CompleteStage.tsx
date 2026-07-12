@@ -76,7 +76,7 @@ export function CompleteStage({ feedback, xpEarned, showXpFloat, onClose }: Comp
       </div>
       <div className="flex justify-center pt-4">
         <button onClick={onClose}
-          className="bg-bg-card text-text-primary border-2 border-border-default border-b-4 rounded-full h-12 px-8 text-label-md font-medium transition-all duration-100 hover:bg-bg-secondary/60 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 flex items-center gap-2">
+          className="bg-bg-card text-text-primary border-2 border-border-default border-b-4 rounded-full h-12 px-8 text-label-md font-medium hover:bg-bg-secondary/60 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 flex items-center gap-2">
           <IconCheck size={18} />
           Complete Session
         </button>

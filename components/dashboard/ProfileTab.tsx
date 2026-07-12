@@ -153,11 +153,11 @@ export function ProfileTab({ synthesesCount = 0 }: { synthesesCount?: number }) 
               />
               <div className="flex flex-row gap-2">
                 <button onClick={handleSave} disabled={saving}
-                  className="flex-1 bg-brand-primary text-white font-bold rounded-full h-12 px-6 border-b-4 border-brand-hover active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-95">
+                  className="flex-1 bg-brand-primary text-white font-bold rounded-full h-12 px-6 border-b-4 border-brand-hover active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-95">
                   {saving ? 'Saving...' : 'Save Changes'}
                 </button>
                 <button onClick={() => setIsEditingName(false)}
-                  className="flex-1 bg-bg-card border border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all hover:brightness-95">
+                  className="flex-1 bg-bg-card border border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95">
                   Cancel
                 </button>
               </div>
@@ -198,7 +198,7 @@ export function ProfileTab({ synthesesCount = 0 }: { synthesesCount?: number }) 
             </div>
             {!isAddingInterest && (
                 <button onClick={openAddInterest}
-                  className="bg-bg-card border border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all hover:brightness-95 shrink-0">
+                  className="bg-bg-card border border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95 shrink-0">
                   Add Interest
                 </button>
             )}
@@ -226,11 +226,11 @@ export function ProfileTab({ synthesesCount = 0 }: { synthesesCount?: number }) 
               </div>
               <div className="flex items-center gap-3 pt-6">
                 <button onClick={handleAddInterest} disabled={interestSaving}
-                  className="flex-1 bg-brand-primary text-white font-bold rounded-full h-12 px-6 border-b-4 border-brand-hover active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-95">
+                  className="flex-1 bg-brand-primary text-white font-bold rounded-full h-12 px-6 border-b-4 border-brand-hover active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-95">
                   {interestSaving ? 'Saving...' : 'Save'}
                 </button>
                 <button onClick={closeAddInterest}
-                  className="flex-1 bg-bg-card border border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-2 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 transition-all hover:brightness-95">
+                  className="flex-1 bg-bg-card border border-border-default border-b-4 text-text-secondary font-medium rounded-full h-12 px-6 active:translate-y-[2px] active:border-b-[1px] transition-all duration-100 hover:brightness-95">
                   Cancel
                 </button>
               </div>
