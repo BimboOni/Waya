@@ -57,7 +57,18 @@ function DashboardContent() {
         }
 
         // 3. Session exists locally! Proceed with database profile sync safely
-        if (session) await supabase.auth.refreshSession();
+        if (session) {
+          await supabase.auth.refreshSession();
+        } else if (hasLocalToken) {
+          try {
+            const { data } = await supabase.auth.refreshSession();
+            if (data.session) {
+              console.log('[DASHBOARD] Restored session from local token');
+            }
+          } catch (e) {
+            console.warn('[DASHBOARD] Token refresh failed, continuing with retry', e);
+          }
+        }
         const res = await fetch('/api/user/me');
         console.log('[DASHBOARD RECEIVED PAYLOAD STATUS]:', res.status);
 

@@ -1,5 +1,5 @@
-import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
 
 const USER_SELECT = {
@@ -9,22 +9,7 @@ const USER_SELECT = {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll().map((cookie) => ({
-              name: cookie.name,
-              value: cookie.value,
-            }));
-          },
-          setAll() {},
-        },
-      },
-    );
-
+    const supabase = createServerSupabaseClient(request);
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
       console.error('[AUTH FAILURE]: Supabase could not find user from request cookies.', userError?.message ?? userError);
@@ -65,21 +50,7 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll().map((cookie) => ({
-              name: cookie.name,
-              value: cookie.value,
-            }));
-          },
-          setAll() {},
-        },
-      },
-    );
+    const supabase = createServerSupabaseClient(request);
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -101,21 +72,7 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return request.cookies.getAll().map((cookie) => ({
-              name: cookie.name,
-              value: cookie.value,
-            }));
-          },
-          setAll() {},
-        },
-      },
-    );
+    const supabase = createServerSupabaseClient(request);
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
